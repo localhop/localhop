@@ -3,6 +3,9 @@
   <component name="ClojureProjectSettings">
     <option name="coloredParentheses" value="true" />
   </component>
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
       <profile-state>
@@ -83,4 +86,3 @@
     </states>
   </component>
 </project>
-

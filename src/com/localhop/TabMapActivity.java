@@ -3,9 +3,6 @@ package com.localhop;
 import android.app.Activity;
 import android.os.Bundle;
 
-/**
- * Created by Flies on 11/10/14.
- */
 public class TabMapActivity extends Activity {
 
     @Override
