@@ -28,16 +28,16 @@ public class MainActivity extends TabActivity {
 
         // Set the Tab name and Activity
         // that will be opened when particular Tab will be selected
-        tabCreateEvent.setIndicator("Create", getResources().getDrawable(R.drawable.tab_create_event_selector));
+        tabCreateEvent.setIndicator("", getResources().getDrawable(R.drawable.tab_create_event_selector));
         tabCreateEvent.setContent(new Intent(this,TabCreateEventActivity.class));
 
-        tabEventList.setIndicator("Events", getResources().getDrawable(R.drawable.tab_event_list_selector));
+        tabEventList.setIndicator("", getResources().getDrawable(R.drawable.tab_event_list_selector));
         tabEventList.setContent(new Intent(this,TabEventListActivity.class));
 
-        tabUserManage.setIndicator("User", getResources().getDrawable(R.drawable.tab_user_selector));
+        tabUserManage.setIndicator("", getResources().getDrawable(R.drawable.tab_user_selector));
         tabUserManage.setContent(new Intent(this,TabUserManageActivity.class));
 
-        tabMap.setIndicator("Map", getResources().getDrawable(R.drawable.tab_map_selector));
+        tabMap.setIndicator("", getResources().getDrawable(R.drawable.tab_map_selector));
         tabMap.setContent(new Intent(this,TabMapActivity.class));
 
         // Add the tabs  to the TabHost to display.
