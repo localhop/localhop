@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--  create_event_map.xml
+<!--  tab_event_chat.xml
 
-UI for the details page when creating an event
+UI for a specific event's chat page
 
 -->
 
@@ -11,4 +11,3 @@ UI for the details page when creating an event
     android:layout_height="match_parent">
 
 </LinearLayout>
-
