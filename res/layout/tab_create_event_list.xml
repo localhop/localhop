@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--  create_event_invite.xml
+<!--  tab_create_event_list.xml
 
-UI for the invite page when creating an event
+UI for the Favorite/Recent events list when creating an event
 
 -->
 

@@ -11,17 +11,17 @@
             android:icon="@drawable/ic_launcher"
             android:theme="@android:style/Theme.Holo.Light">
         <activity
-                android:name="MainActivity"
+                android:name=".Activity_Main"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".TabCreateEventActivity"></activity>
-        <activity android:name=".TabEventListActivity"></activity>
-        <activity android:name=".TabUserManageActivity"></activity>
-        <activity android:name=".TabMapActivity"></activity>
+        <activity android:name=".Activity_TabCreateEvent"></activity>
+        <activity android:name=".Activity_TabEventList"></activity>
+        <activity android:name=".Activity_TabUserManage"></activity>
+        <activity android:name=".Activity_TabMap"></activity>
 
     </application>
 </manifest>

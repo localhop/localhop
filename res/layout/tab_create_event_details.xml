@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--  create_event_list.xml
+<!--  tab_create_event_map.xml
 
-UI for the Favorite/Recent events list when creating an event
+UI for the details page when creating an event
 
 -->
 
@@ -11,3 +11,4 @@ UI for the Favorite/Recent events list when creating an event
     android:layout_height="match_parent">
 
 </LinearLayout>
+
