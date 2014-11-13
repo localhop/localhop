@@ -1,13 +1,30 @@
 package com.localhop;
 
+/* Native Java lib ----------------------------------------------------------*/
+import java.util.Arrays;                              // for Arrays.asList
+
+/* Native android lib -------------------------------------------------------*/
+import android.app.Activity;
 import android.app.TabActivity;
+import android.app.Dialog;                            // for Dialog
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
+/* Google library -----------------------------------------------------------*/
+import com.google.android.gms.common.ConnectionResult;// for api conn
+import com.google.android.gms.common.api.*;           // for GoogleApiClient
+import com.google.android.gms.drive.*;                // for testing
+import com.google.android.gms.common.GooglePlayServicesUtil; // for APK check
 
-public class Activity_Main extends TabActivity {
+
+public class Activity_Main extends TabActivity
+    implements GoogleApiClient.ConnectionCallbacks,
+               GoogleApiClient.OnConnectionFailedListener {
+
+    private GoogleApiClient mGoogleApiClient;
+
     /**
      * Called when the activity is first created.
      */
@@ -47,10 +64,56 @@ public class Activity_Main extends TabActivity {
         tabHost.addTab(tabMap);
         ////////////////////////////////////////////////////////////
 
+        // set up GoogleApiClient instance
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                // !! we need to connect an api here !!
+                .addApi(Drive   .API)              // !! delete
+                .addScope(Drive.SCOPE_FILE)     // !! delete
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
 
+        /**
+         * Here we are checking to see if the google play services api is up to
+         * data on the user's device. If only certain features of our app will
+         * be utilizing google player services then we can move this set of
+         * calls to a different location so that they don't fire every time the
+         * application resumes. For now, we will just leave these checks here.
+         */
+        int[] error_state = {ConnectionResult.SERVICE_MISSING,
+                             ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED,
+                             ConnectionResult.SERVICE_DISABLED};
 
+        int state = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        // check whether or not we need to install an update
+        if (state == ConnectionResult.SUCCESS) {
+            return;
+        } else if (Arrays.asList(error_state).contains(state)) {
+            Dialog dialog =
+                    GooglePlayServicesUtil.getErrorDialog(state, this, 1); // show this dialog
+            // HOW THE FUCK DO WE DISPLAY A FUCKING DIALOG?
+        }
 
     } // end of function onCreate
 
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        // connected to google play services
+    }
+
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        // connection has been interrupted. Disable any UI components that
+        // depend on google apis until onConnected() is called.
+    }
+
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        // handle errors associated with connecting to google apis.
+    }
 
 } // end of class MainActivity
