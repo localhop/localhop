@@ -58,13 +58,13 @@ public class AdapterEventList extends ArrayAdapter<Item_Event> {
         ImageButton ibDirection = (ImageButton) rowView.findViewById(R.id.ibDirections);
 
         // Set the UI components
-        tvStartTime.setText(itemsArrayList.get(position).getsStartTime());
-        tvName.setText(eventNameSpacing + itemsArrayList.get(position).getsEventName());
-        tvAttendees.setText(itemsArrayList.get(position).getsAttendees());
-        tvDirection.setText(itemsArrayList.get(position).getsLocation());
+        tvStartTime.setText(itemsArrayList.get(position).getStartTime());
+        tvName.setText(eventNameSpacing + itemsArrayList.get(position).getEventName());
+        tvAttendees.setText(itemsArrayList.get(position).getAttendees());
+        tvDirection.setText(itemsArrayList.get(position).getLocation());
         ibDirection.setBackgroundResource(R.drawable.ic_directions_selector);
 
-        String sNotificationCount = "" + itemsArrayList.get(position).getnNotificationCount();
+        String sNotificationCount = "" + itemsArrayList.get(position).getNotificationCount();
         if ( sNotificationCount.compareTo("0") == 0 ) {
             sNotificationCount = "";
         }

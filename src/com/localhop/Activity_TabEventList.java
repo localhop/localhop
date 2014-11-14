@@ -30,6 +30,7 @@ public class Activity_TabEventList extends FragmentActivity {
         FragmentManager fm = getSupportFragmentManager();
         EventListSwipeAdapter pagerAdapter = new EventListSwipeAdapter(fm);
         pager.setAdapter(pagerAdapter);
+        pager.setCurrentItem(1);
 
     } // end of function setupSwipeView()
 

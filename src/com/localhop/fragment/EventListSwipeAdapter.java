@@ -25,11 +25,11 @@ public class EventListSwipeAdapter extends FragmentPagerAdapter{
      * Invoked when a page is requested to create
      */
     @Override
-    public Fragment getItem(int arg0) {
+    public Fragment getItem(int position) {
 
         EventListSwipe myFragment = new EventListSwipe();
         Bundle data = new Bundle();
-        data.putInt("current_page", arg0+1);
+        data.putInt("current_page", position);
         myFragment.setArguments(data);
         return myFragment;
     } // end of function getItem()

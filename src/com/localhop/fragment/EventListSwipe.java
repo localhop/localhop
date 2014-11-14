@@ -63,25 +63,26 @@ public class EventListSwipe extends Fragment {
      */
     private void setEventsPage(View v) {
 
-        // Pass context and data to the custom adapter
-        AdapterEventList adapter = new AdapterEventList(v.getContext(),
-                generateTodayEventsTestData());
-
+        // Determine which events to load based on the current page
+        ArrayList<Item_Event> events = null;
         switch (mCurrentPage) {
             case 0:
                 // Past Events
-                adapter = new AdapterEventList(v.getContext(),
-                        generatePastEventsTestData());
+                events = generatePastEventsTestData();
                 break;
             case 1:
                 // Today Events
+                events = generateTodayEventsTestData();
                 break;
             case 2:
                 // Future Events
-                adapter = new AdapterEventList(v.getContext(),
-                        generateFutureEventsTestData());
+                events = generateFutureEventsTestData();
                 break;
         }
+
+        // Pass context and data to the custom adapter
+        AdapterEventList adapter = new AdapterEventList(v.getContext(),
+                events);
 
         // Get ListView from tab_events_list.xml
         ListView lvEvents = (ListView)v.findViewById(R.id.lvEvents);

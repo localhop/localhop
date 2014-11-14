@@ -4,63 +4,71 @@ public class Item_Event {
 
     // Variables subject to change once
     // DB integration starts
-    private String sAttendees;
-    private String sEventName;
-    private String sLocation;
-    private String sStartTime;
-    private int nNotificationCount;
+    private String attendees;
+    private String eventName;
+    private String location;
+    private String startTime;
+    private int notificationCount;
 
-    public Item_Event(String sEventName, String sAttendees, String sLocation,
-                      String sStartTime, int nNotificationCount) {
+    /**
+     * Constructor
+     * @param eventName
+     * @param attendees
+     * @param location
+     * @param startTime
+     * @param notificationCount
+     */
+    public Item_Event(String eventName, String attendees, String location,
+                      String startTime, int notificationCount) {
 
         super();
-        this.sEventName = sEventName;
-        this.sAttendees = sAttendees;
-        this.sLocation = sLocation;
-        this.sStartTime = sStartTime;
-        this.nNotificationCount = nNotificationCount;
+        this.eventName = eventName;
+        this.attendees = attendees;
+        this.location = location;
+        this.startTime = startTime;
+        this.notificationCount = notificationCount;
 
     } // end of constructor
 
 
-    public String getsAttendees() {
-        return sAttendees;
+    public String getAttendees() {
+        return attendees;
     }
 
-    public void setsAttendees(String sAttendees) {
-        this.sAttendees = sAttendees;
+    public void setAttendees(String sAttendees) {
+        this.attendees = attendees;
     }
 
-    public String getsEventName() {
-        return sEventName;
+    public String getEventName() {
+        return eventName;
     }
 
-    public void setsEventName(String sEventName) {
-        this.sEventName = sEventName;
+    public void setEventName(String sEventName) {
+        this.eventName = eventName;
     }
 
-    public String getsLocation() {
-        return sLocation;
+    public String getLocation() {
+        return location;
     }
 
-    public void setsLocation(String sLocation) {
-        this.sLocation = sLocation;
+    public void setLocation(String sLocation) {
+        this.location = location;
     }
 
-    public String getsStartTime() {
-        return sStartTime;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void settStartTime(String sStartTime) {
-        this.sStartTime = sStartTime;
+    public void setStartTime(String sStartTime) {
+        this.startTime = startTime;
     }
 
-    public int getnNotificationCount() {
-        return nNotificationCount;
+    public int getNotificationCount() {
+        return notificationCount;
     }
 
-    public void setnNotificationCount(int nNotificationCount) {
-        this.nNotificationCount = nNotificationCount;
+    public void setNotificationCount(int notificationCount) {
+        this.notificationCount = notificationCount;
     }
 
 } // end of class Item_Event
