@@ -1,14 +1,10 @@
 package com.localhop;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-
 
 public class Activity_TabEventList extends Activity {
 

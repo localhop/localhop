@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-
 public class Adapter_EventList extends ArrayAdapter<Item_Event> {
 
     private final Context context;

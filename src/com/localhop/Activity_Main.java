@@ -1,22 +1,22 @@
 package com.localhop;
 
 /* Native Java libs ---------------------------------------------------------*/
-import java.util.Arrays;                              // for asList
 
-/* Native android libs ------------------------------------------------------*/
-import android.app.Activity;
+import android.app.Dialog;
 import android.app.TabActivity;
-import android.app.Dialog;                            // for Dialog
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
 
+import java.util.Arrays;
+
+/* Native android libs ------------------------------------------------------*/
 /* Google libs      ---------------------------------------------------------*/
-import com.google.android.gms.common.ConnectionResult;// for connection stats
-import com.google.android.gms.common.api.*;           // for GoogleApiClient
-import com.google.android.gms.drive.*;                // for testing. Delete
-import com.google.android.gms.common.GooglePlayServicesUtil; // for APK check
 
 
 public class Activity_Main extends TabActivity

@@ -1,8 +1,5 @@
 package com.localhop;
 
-
-import java.util.Date;
-
 public class Item_Event {
 
     // Variables subject to change once
