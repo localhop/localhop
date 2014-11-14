@@ -9,13 +9,14 @@ import android.app.TabActivity;
 import android.app.Dialog;                            // for Dialog
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;                              // for logging - delete
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
 /* Google libs      ---------------------------------------------------------*/
 import com.google.android.gms.common.ConnectionResult;// for connection stats
 import com.google.android.gms.common.api.*;           // for GoogleApiClient
-import com.google.android.gms.drive.*;                // for testing. Delete
+import com.google.android.gms.drive.*;                // for testing.Delete
 import com.google.android.gms.common.GooglePlayServicesUtil; // for APK check
 
 
@@ -78,7 +79,7 @@ public class Activity_Main extends TabActivity
         /**
          * Here we are checking to see if the google play services api is up to
          * data on the user's device. If only certain features of our app will
-         * be utilizing google player services then we can move this set of
+         * be utilizing google play services then we can move this set of
          * calls to a different location so that they don't fire every time the
          * application resumes. For now, we will just leave these checks here.
          */
@@ -90,16 +91,18 @@ public class Activity_Main extends TabActivity
          * Get the current APK status. If SUCCESS is not returned then the user
          * needs to download an updated version of the google play service.
          */
-        int state = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        int state = -1;
+        state = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        Log.v("Main Google Check", "status is:" + (state == ConnectionResult.SUCCESS));
 
         if (state == ConnectionResult.SUCCESS) {
-            return;
+            //return;
         } else if (Arrays.asList(error_state).contains(state)) {
             // for now this dialog just won't show.  We need to switch to using
             // Fragments instead of TabActivity.
             Dialog dialog = GooglePlayServicesUtil.getErrorDialog(state, this, 1);
+            this.showDialog(0);
         }
-
     }
 
 
@@ -118,7 +121,7 @@ public class Activity_Main extends TabActivity
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        // handle errors associated with connecting to google apis.
+        // handle errors associated with connecting to google APIs.
     }
 
 } // end of class MainActivity
