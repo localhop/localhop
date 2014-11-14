@@ -98,6 +98,7 @@ public class Activity_Main extends TabActivity
             // for now this dialog just won't show.  We need to switch to using
             // Fragments instead of TabActivity.
             Dialog dialog = GooglePlayServicesUtil.getErrorDialog(state, this, 1);
+            //
         }
 
     }
