@@ -33,7 +33,6 @@ public class Activity_Main extends TabActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-
         createMainNavigationTabs(); // Creates the main navigation TabHost
 
         /**

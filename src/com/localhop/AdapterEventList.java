@@ -10,21 +10,35 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-
-public class Adapter_EventList extends ArrayAdapter<Item_Event> {
+/**
+ * Adapter for displaying custom list items in the Event List tab
+ */
+public class AdapterEventList extends ArrayAdapter<Item_Event> {
 
     private final Context context;
     private final ArrayList<Item_Event> itemsArrayList;
-    private String sEventNameSpacing = "    ";
+    private String eventNameSpacing = "    "; //< Spacing for the Event Name UI Component
 
-    public Adapter_EventList(Context context, ArrayList<Item_Event> itemsArrayList) {
+    /**
+     * Constructor
+     * @param context - The context the adapter is being used in
+     * @param itemsArrayList - List of items for the Custom ListView
+     */
+    public AdapterEventList(Context context, ArrayList<Item_Event> itemsArrayList) {
 
         super(context, R.layout.item_event, itemsArrayList);
 
         this.context = context;
         this.itemsArrayList = itemsArrayList;
-    }
+    } // end of Constructor
 
+    /**
+     * Retrieves a single custom list item view for a particular event in the Events List
+     * @param position - current Event from the itemsArrayList
+     * @param convertView
+     * @param parent
+     * @return - list item view for a particular event in the Events List
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -45,7 +59,7 @@ public class Adapter_EventList extends ArrayAdapter<Item_Event> {
 
         // Set the UI components
         tvStartTime.setText(itemsArrayList.get(position).getsStartTime());
-        tvName.setText(sEventNameSpacing + itemsArrayList.get(position).getsEventName());
+        tvName.setText(eventNameSpacing + itemsArrayList.get(position).getsEventName());
         tvAttendees.setText(itemsArrayList.get(position).getsAttendees());
         tvDirection.setText(itemsArrayList.get(position).getsLocation());
         ibDirection.setBackgroundResource(R.drawable.ic_directions_selector);
@@ -56,8 +70,7 @@ public class Adapter_EventList extends ArrayAdapter<Item_Event> {
         }
         tvNotification.setText(sNotificationCount);
 
-
-        // Return the item
         return rowView;
-    }
-}
+    } // end of function getView()
+
+} // end of class Adapter_EventList.java

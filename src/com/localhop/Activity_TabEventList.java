@@ -1,24 +1,14 @@
 package com.localhop;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.Layout;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import com.localhop.fragment.EventListSwipeAdapter;
 
-import java.util.ArrayList;
-
-
+/**
+ * Activity for the Event List tab in the main navigation tabs.
+ */
 public class Activity_TabEventList extends FragmentActivity {
 
     @Override
@@ -27,18 +17,20 @@ public class Activity_TabEventList extends FragmentActivity {
 
         setContentView(R.layout.tab_events_list);
 
-        /** Getting a reference to the ViewPager defined the layout file */
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        setupSwipeView(); // Set up the custom Swipe View for Past, Today, and Future events
 
-        /** Getting fragment manager */
+    } // end of function onCreate()
+
+    /**
+     * Sets up the custom Swipe View for displaying Past, Today, and Future events
+     */
+    void setupSwipeView() {
+
+        ViewPager pager = (ViewPager) findViewById(R.id.pEventList);
         FragmentManager fm = getSupportFragmentManager();
-
-        /** Instantiating FragmentPagerAdapter */
         EventListSwipeAdapter pagerAdapter = new EventListSwipeAdapter(fm);
-
-        /** Setting the pagerAdapter to the pager object */
         pager.setAdapter(pagerAdapter);
 
-    }
+    } // end of function setupSwipeView()
 
 } // end of class TabEventListActivity
