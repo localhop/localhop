@@ -1,9 +1,9 @@
 package com.localhop;
 
-/* Native Java lib ----------------------------------------------------------*/
-import java.util.Arrays;                              // for Arrays.asList
+/* Native Java libs ---------------------------------------------------------*/
+import java.util.Arrays;                              // for asList
 
-/* Native android lib -------------------------------------------------------*/
+/* Native android libs ------------------------------------------------------*/
 import android.app.Activity;
 import android.app.TabActivity;
 import android.app.Dialog;                            // for Dialog
@@ -12,10 +12,10 @@ import android.os.Bundle;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
-/* Google library -----------------------------------------------------------*/
-import com.google.android.gms.common.ConnectionResult;// for api conn
+/* Google libs      ---------------------------------------------------------*/
+import com.google.android.gms.common.ConnectionResult;// for connection stats
 import com.google.android.gms.common.api.*;           // for GoogleApiClient
-import com.google.android.gms.drive.*;                // for testing
+import com.google.android.gms.drive.*;                // for testing. Delete
 import com.google.android.gms.common.GooglePlayServicesUtil; // for APK check
 
 
@@ -36,7 +36,7 @@ public class Activity_Main extends TabActivity
         /////////////////////////////////////////////////////////////
         // Create the main TabHost that will contain app-navigation
         ////////////////////////////////////////////////////////////
-        TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
+        TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
 
         TabSpec tabCreateEvent = tabHost.newTabSpec("tabCreateEvent");
         TabSpec tabEventList = tabHost.newTabSpec("tabEventList");
@@ -46,16 +46,16 @@ public class Activity_Main extends TabActivity
         // Set the Tab name and Activity
         // that will be opened when particular Tab will be selected
         tabCreateEvent.setIndicator("", getResources().getDrawable(R.drawable.tab_create_event_selector));
-        tabCreateEvent.setContent(new Intent(this,Activity_TabCreateEvent.class));
+        tabCreateEvent.setContent(new Intent(this, Activity_TabCreateEvent.class));
 
         tabEventList.setIndicator("", getResources().getDrawable(R.drawable.tab_event_list_selector));
-        tabEventList.setContent(new Intent(this,Activity_TabEventList.class));
+        tabEventList.setContent(new Intent(this, Activity_TabEventList.class));
 
         tabUserManage.setIndicator("", getResources().getDrawable(R.drawable.tab_user_selector));
-        tabUserManage.setContent(new Intent(this,Activity_TabUserManage.class));
+        tabUserManage.setContent(new Intent(this, Activity_TabUserManage.class));
 
         tabMap.setIndicator("", getResources().getDrawable(R.drawable.tab_map_selector));
-        tabMap.setContent(new Intent(this,Activity_TabMap.class));
+        tabMap.setContent(new Intent(this, Activity_TabMap.class));
 
         // Add the tabs  to the TabHost to display.
         tabHost.addTab(tabCreateEvent);
@@ -64,10 +64,12 @@ public class Activity_Main extends TabActivity
         tabHost.addTab(tabMap);
         ////////////////////////////////////////////////////////////
 
-        // set up GoogleApiClient instance
+        /**
+         * set up GoogleApiClient instance.  This is what we use to connect our
+         * app to google play services and access APIs.
+         */
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                // !! we need to connect an api here !!
-                .addApi(Drive   .API)              // !! delete
+                .addApi(Drive.API)              // !! delete
                 .addScope(Drive.SCOPE_FILE)     // !! delete
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -81,21 +83,24 @@ public class Activity_Main extends TabActivity
          * application resumes. For now, we will just leave these checks here.
          */
         int[] error_state = {ConnectionResult.SERVICE_MISSING,
-                             ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED,
-                             ConnectionResult.SERVICE_DISABLED};
+                ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED,
+                ConnectionResult.SERVICE_DISABLED};
 
+        /**
+         * Get the current APK status. If SUCCESS is not returned then the user
+         * needs to download an updated version of the google play service.
+         */
         int state = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
-        // check whether or not we need to install an update
         if (state == ConnectionResult.SUCCESS) {
             return;
         } else if (Arrays.asList(error_state).contains(state)) {
             Dialog dialog =
-                    GooglePlayServicesUtil.getErrorDialog(state, this, 1); // show this dialog
-            // HOW THE FUCK DO WE DISPLAY A FUCKING DIALOG?
+                    GooglePlayServicesUtil.getErrorDialog(state, this, 1);
+            // for now the dialog just won't show
         }
 
-    } // end of function onCreate
+    }
 
 
     @Override
