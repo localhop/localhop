@@ -83,8 +83,8 @@ public class Activity_Main extends TabActivity
          * application resumes. For now, we will just leave these checks here.
          */
         int[] error_state = {ConnectionResult.SERVICE_MISSING,
-                ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED,
-                ConnectionResult.SERVICE_DISABLED};
+                             ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED,
+                             ConnectionResult.SERVICE_DISABLED};
 
         /**
          * Get the current APK status. If SUCCESS is not returned then the user
@@ -95,9 +95,9 @@ public class Activity_Main extends TabActivity
         if (state == ConnectionResult.SUCCESS) {
             return;
         } else if (Arrays.asList(error_state).contains(state)) {
-            Dialog dialog =
-                    GooglePlayServicesUtil.getErrorDialog(state, this, 1);
-            // for now the dialog just won't show
+            // for now this dialog just won't show.  We need to switch to using
+            // Fragments instead of TabActivity.
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(state, this, 1);
         }
 
     }
