@@ -1,6 +1,14 @@
 package com.localhop;
 
-public class Item_Event {
+import java.util.Date;
+
+public class ListItemEvent {
+
+    public enum EventType {
+        Past,
+        Today,
+        Future
+    }
 
     // Variables subject to change once
     // DB integration starts
@@ -8,7 +16,9 @@ public class Item_Event {
     private String eventName;
     private String location;
     private String startTime;
+    private Date startDate;
     private int notificationCount;
+    private EventType type;
 
     /**
      * Constructor
@@ -16,17 +26,20 @@ public class Item_Event {
      * @param attendees
      * @param location
      * @param startTime
+     * @param startDate
      * @param notificationCount
      */
-    public Item_Event(String eventName, String attendees, String location,
-                      String startTime, int notificationCount) {
+    public ListItemEvent(String eventName, String attendees, String location,
+                         String startTime, Date startDate, int notificationCount, EventType type) {
 
         super();
         this.eventName = eventName;
         this.attendees = attendees;
         this.location = location;
         this.startTime = startTime;
+        this.startDate = startDate;
         this.notificationCount = notificationCount;
+        this.type = type;
 
     } // end of constructor
 
@@ -63,12 +76,28 @@ public class Item_Event {
         this.startTime = startTime;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
     public int getNotificationCount() {
         return notificationCount;
     }
 
     public void setNotificationCount(int notificationCount) {
         this.notificationCount = notificationCount;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
     }
 
 } // end of class Item_Event

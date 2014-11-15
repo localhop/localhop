@@ -15,7 +15,7 @@ public class Activity_TabEventList extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.tab_events_list);
+        setContentView(R.layout.tab_events_list_swipe);
 
         setupSwipeView(); // Set up the custom Swipe View for Past, Today, and Future events
 

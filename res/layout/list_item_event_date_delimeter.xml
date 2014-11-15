@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <!-- item_group.xml
+
+    Custom List Item for displaying a specific event in the
+    Events List Tab.
+
+    -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Small Text"
+        android:id="@+id/tvEventListDateDelimiter"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="#5cff0b0e" />
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Time"
+    android:textSize="18sp"
+    android:id="@+id/tvStartTime"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_marginLeft="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="25dp"/>
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Name"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    android:id="@+id/tvName"
+    android:layout_marginTop="5dp"
+    android:layout_toEndOf="@+id/tvStartTime"
+    android:layout_alignBottom="@+id/tvStartTime"
+    android:layout_toRightOf="@+id/tvStartTime"
+    android:gravity="start" />
+
+<ImageButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/ibDirections"
+    android:layout_marginLeft="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="50dp" />
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Attending:"
+    android:textStyle="italic"
+    android:textSize="15sp"
+    android:id="@+id/tvAttendees"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_marginLeft="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="85dp"/>
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Direction"
+    android:textSize="15sp"
+    android:id="@+id/tvDirection"
+    android:layout_marginLeft="45dp"
+    android:layout_marginStart="45dp"
+    android:layout_marginTop="58dp" />
+
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="1"
+    android:textSize="16sp"
+    android:id="@+id/tvNotification"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_marginRight="25dp"
+    android:layout_marginEnd="10dp"
+    android:layout_alignBottom="@+id/tvStartTime"/>
+
+</RelativeLayout>
