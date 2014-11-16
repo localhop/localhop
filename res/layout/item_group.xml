@@ -7,6 +7,34 @@ Custom List Item for displaying a specific group
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/group_list_item_checkbox"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Senior Design Group"
+            android:id="@+id/group_list_item_group_name" android:layout_alignParentTop="true" android:layout_toRightOf="@+id/group_list_item_checkbox"
+            android:layout_toEndOf="@+id/group_list_item_checkbox" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:padding="10dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Adam, Kendal, Michelle, Ryan, Zach"
+            android:id="@+id/group_list_item_group_members" android:layout_below="@+id/group_list_item_group_name" android:layout_toRightOf="@+id/group_list_item_checkbox"
+            android:layout_toEndOf="@+id/group_list_item_checkbox" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" android:paddingLeft="10dp" android:paddingBottom="10dp"
+            android:paddingRight="10dp"/>
+</RelativeLayout>

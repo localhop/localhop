@@ -1,66 +1,36 @@
 package com.localhop;
 
+
 public class Item_Group {
 
     // Variables subject to change once
     // DB integration starts
-    private String sAttendees;
-    private String sEventName;
-    private String sLocation;
-    private String sStartTime;
-    private int nNotificationCount;
+    private String sMembers;
+    private String sName;
 
-    public Item_Group(String sEventName, String sAttendees, String sLocation,
-                      String sStartTime, int nNotificationCount) {
+    public Item_Group(String sMembers, String sName) {
 
         super();
-        this.sEventName = sEventName;
-        this.sAttendees = sAttendees;
-        this.sLocation = sLocation;
-        this.sStartTime = sStartTime;
-        this.nNotificationCount = nNotificationCount;
+        this.sMembers = sMembers;
+        this.sName = sName;
 
     } // end of constructor
 
 
-    public String getsAttendees() {
-        return sAttendees;
+    public String getsName() {
+        return sName;
     }
 
-    public void setsAttendees(String sAttendees) {
-        this.sAttendees = sAttendees;
+    public void setsName(String sName) {
+        this.sName = sName;
     }
 
-    public String getsEventName() {
-        return sEventName;
+    public String getsMembers() {
+        return sMembers;
     }
 
-    public void setsEventName(String sEventName) {
-        this.sEventName = sEventName;
+    public void setsMembers(String sMembers) {
+        this.sMembers = sMembers;
     }
 
-    public String getsLocation() {
-        return sLocation;
-    }
-
-    public void setsLocation(String sLocation) {
-        this.sLocation = sLocation;
-    }
-
-    public String getsStartTime() {
-        return sStartTime;
-    }
-
-    public void settStartTime(String sStartTime) {
-        this.sStartTime = sStartTime;
-    }
-
-    public int getnNotificationCount() {
-        return nNotificationCount;
-    }
-
-    public void setnNotificationCount(int nNotificationCount) {
-        this.nNotificationCount = nNotificationCount;
-    }
-
-} // end of class Item_Event
+} // end of class Event
