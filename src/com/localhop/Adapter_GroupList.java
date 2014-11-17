@@ -21,7 +21,7 @@ public class Adapter_GroupList extends ArrayAdapter<Item_Group> {
 
     public Adapter_GroupList(Context context, ArrayList<Item_Group> itemsArrayList) {
 
-        super(context, R.layout.item_event, itemsArrayList);
+        super(context, R.layout.item_friend, itemsArrayList);
 
         this.context = context;
         this.itemsArrayList = itemsArrayList;

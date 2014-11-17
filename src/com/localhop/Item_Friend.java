@@ -8,10 +8,9 @@ public class Item_Friend {
     private String sMembers;
     private String sName;
 
-    public Item_Friend(String sMembers, String sName) {
+    public Item_Friend(String sName) {
 
         super();
-        this.sMembers = sMembers;
         this.sName = sName;
 
     } // end of constructor
@@ -23,14 +22,6 @@ public class Item_Friend {
 
     public void setsName(String sName) {
         this.sName = sName;
-    }
-
-    public String getsMembers() {
-        return sMembers;
-    }
-
-    public void setsMembers(String sMembers) {
-        this.sMembers = sMembers;
     }
 
 } // end of class Event
