@@ -10,7 +10,8 @@ Events List Tab.
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -44,7 +45,8 @@ Events List Tab.
                 android:id="@+id/ibDirections"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="30dp"
+                android:focusableInTouchMode="true"/>
 
         <TextView
                 android:layout_width="wrap_content"

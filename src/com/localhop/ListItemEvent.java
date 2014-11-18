@@ -48,7 +48,7 @@ public class ListItemEvent {
         return attendees;
     }
 
-    public void setAttendees(String sAttendees) {
+    public void setAttendees(String attendees) {
         this.attendees = attendees;
     }
 
@@ -56,7 +56,7 @@ public class ListItemEvent {
         return eventName;
     }
 
-    public void setEventName(String sEventName) {
+    public void setEventName(String eventName) {
         this.eventName = eventName;
     }
 
@@ -64,7 +64,7 @@ public class ListItemEvent {
         return location;
     }
 
-    public void setLocation(String sLocation) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -72,7 +72,7 @@ public class ListItemEvent {
         return startTime;
     }
 
-    public void setStartTime(String sStartTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
