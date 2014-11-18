@@ -131,7 +131,7 @@ public class EventListSwipe extends Fragment {
 
         ArrayList<ListItemEvent> items = new ArrayList<ListItemEvent>();
         items.add(new ListItemEvent("Night out on Mass", "Attending: You, Adam, Kendal",
-                "Mass Street", "11:00 PM", new Date(114, 11, 6), 2, ListItemEvent.EventType.Today));
+                "Mass Street", "11:00 PM", new Date(114, 11, 6), 2, ListItemEvent.EventType.Future));
         items.add(new ListItemEvent("Chipotle", "Attending: You, Michelle, Ryan",
                 "23rd St. Chipotle", "5:00 PM",new Date(114, 11, 7), 5, ListItemEvent.EventType.Future));
         items.add(new ListItemEvent("Senior Design Meetup", "Attending: You, Adam, Kendal",
