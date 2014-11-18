@@ -19,8 +19,7 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
     private final Context context;
     private final ArrayList<ListItemEvent> itemsArrayList;
     private final ListItemEvent.EventType eventType;
-    private final String[] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
-            "Friday", "Saturday"};
+    private final String[] daysOfWeek;
     private String eventNameSpacing = "    "; //< Spacing for the Event Name UI Component
 
     /**
@@ -35,6 +34,7 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
         this.context = context;
         this.itemsArrayList = itemsArrayList;
         this.eventType = eventType;
+        this.daysOfWeek = context.getResources().getStringArray(R.array.days_of_week);
     } // end of Constructor
 
     /**
@@ -47,7 +47,7 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View rowView = null;
+        View rowView;
 
         // Create inflater
         LayoutInflater inflater = (LayoutInflater) context
@@ -88,7 +88,7 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
     public View getDateDelimeterView(int position, ViewGroup parent, LayoutInflater inflater) {
 
         // Get rowView from inflater
-        View rowView = inflater.inflate(R.layout.list_item_event_date_delimeter, parent, false);
+        View rowView = inflater.inflate(R.layout.list_item_event_date_delimiter, parent, false);
 
         // Get the UI components
         TextView tvStartTime = (TextView) rowView.findViewById(R.id.tvStartTime);
@@ -105,12 +105,14 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
         tvAttendees.setText(itemsArrayList.get(position).getAttendees());
         tvDirection.setText(itemsArrayList.get(position).getLocation());
         ibDirection.setBackgroundResource(R.drawable.ic_directions_selector);
+        // If there are no notifications, do not show a count of zero
         String sNotificationCount = "" + itemsArrayList.get(position).getNotificationCount();
         if ( sNotificationCount.compareTo("0") == 0 ) {
             sNotificationCount = "";
         }
         tvNotification.setText(sNotificationCount);
 
+        // Set the date into the format DayOfWeek, Month/Day, Year
         Date date = itemsArrayList.get(position).getStartDate();
         if (date != null) {
             tvEventListDateDelimiter.setText(daysOfWeek[date.getDay()] + ", " +
@@ -121,6 +123,11 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
         return rowView;
     } // end of function getDateDelimeterView()
 
+
+    @Override
+    public ListItemEvent getItem(int position){
+        return itemsArrayList.get(position);
+    }
 
     /**
      * Gets the view for an Event List Item
@@ -141,6 +148,12 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
         TextView tvDirection = (TextView) rowView.findViewById(R.id.tvDirection);
         TextView tvNotification = (TextView) rowView.findViewById(R.id.tvNotification);
         ImageButton ibDirection = (ImageButton) rowView.findViewById(R.id.ibDirections);
+        ibDirection.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Load Navigation popup?
+            }
+        });
 
         // Set the UI components
         tvStartTime.setText(itemsArrayList.get(position).getStartTime());

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.localhop.AdapterEventList;
@@ -38,7 +39,7 @@ public class EventListSwipe extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Create the view for the event list items to be returned
-        View eventListItems = inflater.inflate(R.layout.tab_events_list_view, container,false);
+        View eventListItems = inflater.inflate(R.layout.tab_events_list_view, container, false);
 
         // Determine which layout to load based on the swipe tab position
         ArrayList<ListItemEvent> events = null;
@@ -62,7 +63,7 @@ public class EventListSwipe extends Fragment {
         }
 
         // Pass context and data to the custom adapter
-        AdapterEventList adapter = new AdapterEventList(eventListItems.getContext(),
+        final AdapterEventList adapter = new AdapterEventList(eventListItems.getContext(),
                 events, eventType);
 
         // Get ListView from tab_events_list_swipe.xml
@@ -70,7 +71,15 @@ public class EventListSwipe extends Fragment {
 
         // Set the List Adapter
         lvEvents.setAdapter(adapter);
-        
+
+        // Set the ListView Item Listener
+        lvEvents.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //System.out.println("\n\nEvent " + adapter.getItem(position).getEventName() + " has been clicked!");
+            }
+        });
+
         return eventListItems;
     } // end of function onCreateView()
 

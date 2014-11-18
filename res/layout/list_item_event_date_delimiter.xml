@@ -10,7 +10,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="vertical"
 android:layout_width="match_parent"
-android:layout_height="wrap_content">
+android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants">
 
     <TextView
         android:layout_width="match_parent"
@@ -20,7 +21,10 @@ android:layout_height="wrap_content">
         android:id="@+id/tvEventListDateDelimiter"
         android:layout_gravity="center_horizontal"
         android:gravity="center_vertical|center_horizontal"
-        android:background="#5cff0b0e" />
+        android:background="#5cff0b0e"
+        android:focusable="false"
+        android:clickable="false"
+        android:focusableInTouchMode="false" />
 
 <TextView
     android:layout_width="wrap_content"
@@ -54,7 +58,8 @@ android:layout_height="wrap_content">
     android:id="@+id/ibDirections"
     android:layout_marginLeft="5dp"
     android:layout_marginStart="5dp"
-    android:layout_marginTop="50dp" />
+    android:layout_marginTop="50dp"
+    android:focusableInTouchMode="true" />
 
 <TextView
     android:layout_width="wrap_content"
