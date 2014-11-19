@@ -2,14 +2,14 @@ package com.localhop.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+
 /**
- * Adapter for the custom Swipe View on the Events List tab.  The user will be given the ability
- * to swipe between Past, Today, and Future events.
+ * Adapter for the custom Swipe View for a specif event.  The user will be given the ability
+ * to swipe between an Event's details, chat, and map pages.
  */
-public class EventListSwipeAdapter extends FragmentPagerAdapter{
+public class EventSwipeAdapter extends FragmentPagerAdapter {
 
     final int TAB_COUNT = 3;
 
@@ -17,7 +17,7 @@ public class EventListSwipeAdapter extends FragmentPagerAdapter{
      * Constructor
      * @param fm
      */
-    public EventListSwipeAdapter(FragmentManager fm) {
+    public EventSwipeAdapter(android.support.v4.app.FragmentManager fm) {
         super(fm);
     } // end of Constructor
 
@@ -27,17 +27,17 @@ public class EventListSwipeAdapter extends FragmentPagerAdapter{
     @Override
     public Fragment getItem(int position) {
 
-        Bundle data = new Bundle();
-        data.putInt("current_page", position);
+        Bundle bundle = new Bundle();
+        bundle.putInt("current_page", position);
 
-        EventListSwipe eventListSwipe = new EventListSwipe();
-        eventListSwipe.setArguments(data);
-        return eventListSwipe;
+        EventSwipe eventSwipe = new EventSwipe();
+        eventSwipe.setArguments(bundle);
+        return eventSwipe;
     } // end of function getItem()
 
-
     /**
-     *  Returns the number of tabs for the Swipe View
+     * Returns the number of tabs for the Swipe View
+     * @return
      */
     @Override
     public int getCount() {
@@ -58,13 +58,13 @@ public class EventListSwipeAdapter extends FragmentPagerAdapter{
         switch (position) {
 
             case 0:
-                title = "Past";
+                title = "Details";
                 break;
             case 1:
-                title = "Today";
+                title = "Chat";
                 break;
             case 2:
-                title = "Future";
+                title = "Map";
                 break;
         }
 
@@ -72,4 +72,4 @@ public class EventListSwipeAdapter extends FragmentPagerAdapter{
 
     } // end of function getPageTitle()
 
-} // end of class EventListSwipeAdapter
+} // end of class EventSwipeAdapter

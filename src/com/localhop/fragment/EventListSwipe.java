@@ -1,5 +1,6 @@
 package com.localhop.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.localhop.ActivityEventSelection;
 import com.localhop.AdapterEventList;
 import com.localhop.ListItemEvent;
 import com.localhop.R;
@@ -77,6 +79,9 @@ public class EventListSwipe extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //System.out.println("\n\nEvent " + adapter.getItem(position).getEventName() + " has been clicked!");
+                Intent eventSelection = new Intent(view.getContext(), ActivityEventSelection.class);
+                //eventSelection.putExtra("eventID", eventID);
+                startActivity(eventSelection);
             }
         });
 

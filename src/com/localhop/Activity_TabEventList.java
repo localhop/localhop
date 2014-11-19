@@ -17,21 +17,13 @@ public class Activity_TabEventList extends FragmentActivity {
 
         setContentView(R.layout.tab_events_list_swipe);
 
-        setupSwipeView(); // Set up the custom Swipe View for Past, Today, and Future events
-
-    } // end of function onCreate()
-
-    /**
-     * Sets up the custom Swipe View for displaying Past, Today, and Future events
-     */
-    void setupSwipeView() {
-
+        // Set up the custom Swipe View for Past, Today, and Future events
         ViewPager pager = (ViewPager) findViewById(R.id.pEventList);
         FragmentManager fm = getSupportFragmentManager();
         EventListSwipeAdapter pagerAdapter = new EventListSwipeAdapter(fm);
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(1);
 
-    } // end of function setupSwipeView()
+    } // end of function onCreate()
 
 } // end of class TabEventListActivity
