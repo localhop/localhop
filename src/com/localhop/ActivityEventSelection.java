@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import com.localhop.fragment.EventSwipeAdapter;
+import com.viewpagerindicator.TabPageIndicator;
 
 /**
  * Activity for a specific Event selected from the Events List tab.
@@ -27,6 +28,9 @@ public class ActivityEventSelection extends FragmentActivity {
         EventSwipeAdapter pagerAdapter = new EventSwipeAdapter(fm);
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(0);
+
+        TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.tpiEvent);
+        indicator.setViewPager(pager);
 
         // Set Event Name, Start Time, and Back button UI
         TextView tvEventName = (TextView)findViewById(R.id.tvEventName);

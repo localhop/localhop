@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
+<module external.system.id="GRADLE" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android" name="Android">
-      <configuration />
+      <configuration>
+        <option name="ALLOW_USER_CONFIGURATION" value="false" />
+      </configuration>
+    </facet>
+    <facet type="android-gradle" name="Android-Gradle">
+      <configuration>
+        <option name="GRADLE_PROJECT_PATH" value=":" />
+      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="true">
@@ -15,6 +22,15 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="google-play-services" level="project" />
     <orderEntry type="library" name="android-support-v4" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES />
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/lib/library/src" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
 
