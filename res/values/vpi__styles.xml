@@ -28,8 +28,8 @@
         <item name="android:background">@drawable/vpi__tab_indicator</item>
         <item name="android:paddingLeft">22dip</item>
         <item name="android:paddingRight">22dip</item>
-        <item name="android:paddingTop">12dp</item>
-        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
         <item name="android:textAppearance">@style/TextAppearance.TabPageIndicator</item>
         <item name="android:textSize">12sp</item>
         <item name="android:maxLines">1</item>
@@ -37,6 +37,7 @@
 
     <style name="TextAppearance.TabPageIndicator" parent="Widget">
         <item name="android:textStyle">bold</item>
+        <item name="android:layout_centerHorizontal">true</item>
         <item name="android:textColor">@color/vpi__dark_theme</item>
     </style>
 

@@ -10,7 +10,8 @@ Details, Chat, and Map page.
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#2333b5e5">
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,9 +44,8 @@ Details, Chat, and Map page.
     <com.viewpagerindicator.TabPageIndicator
         android:id="@+id/tpiEvent"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:background="#4033b5e5"
+        android:layout_width="fill_parent"
+        android:background="#4433b5e5"
         android:layout_below="@+id/tvEventTime"
         />
 
@@ -55,5 +55,12 @@ Details, Chat, and Map page.
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tpiEvent" />
+
+    <com.viewpagerindicator.UnderlinePageIndicator
+        android:id="@+id/upiEvent"
+        android:layout_height="4dp"
+        android:layout_width="fill_parent"
+        android:layout_alignBottom="@+id/tpiEvent"
+        />
 
 </RelativeLayout>

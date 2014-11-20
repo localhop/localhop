@@ -7,7 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import com.localhop.fragment.EventSwipeAdapter;
+import com.viewpagerindicator.IconPageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
+import com.viewpagerindicator.UnderlinePageIndicator;
 
 /**
  * Activity for a specific Event selected from the Events List tab.
@@ -29,8 +31,25 @@ public class ActivityEventSelection extends FragmentActivity {
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(0);
 
-        TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.tpiEvent);
-        indicator.setViewPager(pager);
+        // Set up the icons for the custom swipe view
+        TabPageIndicator tabs = (TabPageIndicator)findViewById(R.id.tpiEvent);
+        tabs.setViewPager(pager);
+
+        // Set up the underline effect for the tabs of the custom swipe view
+        UnderlinePageIndicator underline = (UnderlinePageIndicator)findViewById(R.id.upiEvent);
+        underline.setViewPager(pager);
+
+        // Set Basic Event UI
+        setEventDetails();
+
+    } // end of function onCreate()
+
+
+    /**
+     * Updates the basic Event info such as the Event name and Event start time that display
+     * above the custom swipe view
+     */
+    public void setEventDetails() {
 
         // Set Event Name, Start Time, and Back button UI
         TextView tvEventName = (TextView)findViewById(R.id.tvEventName);
@@ -39,6 +58,6 @@ public class ActivityEventSelection extends FragmentActivity {
         tvEventName.setText("Chipotle");
         tvEventStartTime.setText("5:00 pm");
 
-    } // end of function onCreate()
+    } // end of function setEventDetails()
 
 } // end of class ActivityEventSelection
