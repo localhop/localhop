@@ -56,6 +56,14 @@ public class Activity_TabCreateEvent extends Activity {
         items.add(new Item_Friend("Michelle Perz"));
         items.add(new Item_Friend("Ryan Scott"));
         items.add(new Item_Friend("Zach Flies"));
+        items.add(new Item_Friend("Zach Flies"));
+        items.add(new Item_Friend("Zach Flies"));
+        items.add(new Item_Friend("Zach Flies"));
+        items.add(new Item_Friend("Zach Flies"));
+        items.add(new Item_Friend("Zach Flies"));
+        items.add(new Item_Friend("Zach Flies"));
+        items.add(new Item_Friend("Zach Flies"));
+        items.add(new Item_Friend("Ryan Scott"));
 
 
 

@@ -8,7 +8,8 @@ Custom List Item for displaying a specific group
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical" android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:descendantFocusability="blocksDescendants">
 
 
     <CheckBox
@@ -18,7 +19,7 @@ Custom List Item for displaying a specific group
             android:id="@+id/group_list_item_checkbox"
             android:gravity="center_vertical|center_horizontal"
             android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true" android:layout_alignBottom="@+id/group_list_item_group_members"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
