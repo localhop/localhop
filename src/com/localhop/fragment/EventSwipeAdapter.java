@@ -60,13 +60,13 @@ public class EventSwipeAdapter extends FragmentPagerAdapter implements IconPager
         switch (position) {
 
             case 0:
-                layout = R.drawable.tab_create_event_selector;
+                layout = R.drawable.tab_event_details_selector;
                 break;
             case 1:
-                layout = R.drawable.tab_event_list_selector;
+                layout = R.drawable.tab_event_chat_selector;
                 break;
             case 2:
-                layout = R.drawable.tab_map_selector;
+                layout = R.drawable.tab_event_map_selector;
                 break;
         }
 
@@ -83,18 +83,18 @@ public class EventSwipeAdapter extends FragmentPagerAdapter implements IconPager
 
         String title = "";
 
-//        switch (position) {
-//
-//            case 0:
-//                title = "Details";
-//                break;
-//            case 1:
-//                title = "Chat";
-//                break;
-//            case 2:
-//                title = "Map";
-//                break;
-//        }
+        switch (position) {
+
+            case 0:
+                title = "DETAILS";
+                break;
+            case 1:
+                title = "CHAT";
+                break;
+            case 2:
+                title = "MAP";
+                break;
+        }
 
         return title;
 
