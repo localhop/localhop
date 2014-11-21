@@ -2,18 +2,23 @@ package com.localhop;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+import com.localhop.fragment.CreateEventSwipeAdapter;
 
 import java.util.ArrayList;
 
-public class Activity_TabCreateEvent extends Activity {
+public class Activity_TabCreateEvent extends FragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_create_event_invite);
+//        setContentView(R.layout.tab_create_event_invite);
+
+        setContentView(R.layout.tab_create_event_swipe);
 
         // Pass context and data to the custom adapter
         Adapter_GroupList groupAdapter = new Adapter_GroupList(this, generateGroupData());
@@ -69,5 +74,18 @@ public class Activity_TabCreateEvent extends Activity {
 
         return items;
     }
+
+    /**
+     * Sets up the custom Swipe View for displaying Past, Today, and Future events
+     */
+    void setupSwipeView() {
+
+        ViewPager pager = (ViewPager) findViewById(R.id.pCreateEventDetailInvite);
+        FragmentManager fm = getSupportFragmentManager();
+        CreateEventSwipeAdapter pagerAdapter = new CreateEventSwipeAdapter(fm);
+        pager.setAdapter(pagerAdapter);
+        pager.setCurrentItem(1);
+
+    } // end of function setupSwipeView()
 
 } // end of class TabEventListActivity
