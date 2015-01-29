@@ -27,11 +27,12 @@ public class EventListSwipeAdapter extends FragmentPagerAdapter{
     @Override
     public Fragment getItem(int position) {
 
-        EventListSwipe myFragment = new EventListSwipe();
         Bundle data = new Bundle();
         data.putInt("current_page", position);
-        myFragment.setArguments(data);
-        return myFragment;
+
+        EventListSwipe eventListSwipe = new EventListSwipe();
+        eventListSwipe.setArguments(data);
+        return eventListSwipe;
     } // end of function getItem()
 
 
@@ -43,6 +44,12 @@ public class EventListSwipeAdapter extends FragmentPagerAdapter{
         return TAB_COUNT;
     } // end of function getCount()
 
+
+    /**
+     * Returns the title of the current tab within the Swipe View
+     * @param position
+     * @return
+     */
     @Override
     public CharSequence getPageTitle(int position) {
 

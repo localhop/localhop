@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--  tab_even_swipe.xml
+
+UI for the swipe tabs of a specific Event when selected from
+the Event List tab.  The swipe will contain tabs for an Event's
+Details, Chat, and Map page.
+
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2333b5e5">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Event Name"
+        android:id="@+id/tvEventName"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="5dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibEventBack"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Event Start Time"
+        android:id="@+id/tvEventTime"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true" />
+
+    <com.viewpagersupport.TabPageIndicator
+        android:id="@+id/tpiEvent"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:background="#4433b5e5"
+        android:layout_below="@+id/tvEventTime"
+        android:paddingTop="3dp"
+        />
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pEvent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tpiEvent" />
+
+    <com.viewpagersupport.UnderlinePageIndicator
+        android:id="@+id/upiEvent"
+        android:layout_height="4dp"
+        android:layout_width="fill_parent"
+        android:layout_alignBottom="@+id/tpiEvent"
+        />
+
+</RelativeLayout>
