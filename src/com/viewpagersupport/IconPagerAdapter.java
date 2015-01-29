@@ -1,4 +1,4 @@
-package com.viewpagerindicator;
+package com.viewpagersupport;
 
 public interface IconPagerAdapter {
     /**

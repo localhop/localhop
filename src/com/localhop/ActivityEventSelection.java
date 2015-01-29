@@ -7,9 +7,8 @@ import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import com.localhop.fragment.EventSwipeAdapter;
-import com.viewpagerindicator.IconPageIndicator;
-import com.viewpagerindicator.TabPageIndicator;
-import com.viewpagerindicator.UnderlinePageIndicator;
+import com.viewpagersupport.TabPageIndicator;
+import com.viewpagersupport.UnderlinePageIndicator;
 
 /**
  * Activity for a specific Event selected from the Events List tab.

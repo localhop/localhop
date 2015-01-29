@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.widget.SearchView;
+
 import com.localhop.fragment.EventListSwipeAdapter;
+import com.viewpagersupport.ZoomOutPageTransformer;
 
 /**
  * Activity for the Event List tab in the main navigation tabs.
@@ -23,6 +26,13 @@ public class Activity_TabEventList extends FragmentActivity {
         EventListSwipeAdapter pagerAdapter = new EventListSwipeAdapter(fm);
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(1);
+        pager.setPageTransformer(true, new ZoomOutPageTransformer());
+
+
+        // Set up the Search bar that allows events to be searched for
+        SearchView search = (SearchView) findViewById(R.id.svEventList);
+        search.setIconifiedByDefault(false);
+        search.setFocusable(false);
 
     } // end of function onCreate()
 

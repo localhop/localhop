@@ -99,7 +99,7 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
         ibDirection.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: List Item Direction Image Button
+                // TODO: List Item Direction Image Button Click
             }
         });
         String sNotificationCount = "" + event.getNotificationCount();

@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.localhop.R;
-import com.viewpagerindicator.IconPagerAdapter;
+import com.viewpagersupport.IconPagerAdapter;
 
 
 /**

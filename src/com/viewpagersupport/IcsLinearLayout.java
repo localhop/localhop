@@ -1,4 +1,4 @@
-package com.viewpagerindicator;
+package com.viewpagersupport;
 
 import android.content.Context;
 import android.content.res.TypedArray;
