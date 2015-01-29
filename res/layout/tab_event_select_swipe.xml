@@ -41,7 +41,7 @@ Details, Chat, and Map page.
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true" />
 
-    <com.viewpagersupport.TabPageIndicator
+    <com.localhop.swipe.viewpagersupport.TabPageIndicator
         android:id="@+id/tpiEvent"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
@@ -57,7 +57,7 @@ Details, Chat, and Map page.
         android:layout_height="match_parent"
         android:layout_below="@+id/tpiEvent" />
 
-    <com.viewpagersupport.UnderlinePageIndicator
+    <com.localhop.swipe.viewpagersupport.UnderlinePageIndicator
         android:id="@+id/upiEvent"
         android:layout_height="4dp"
         android:layout_width="fill_parent"

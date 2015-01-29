@@ -1,4 +1,4 @@
-package com.viewpagersupport;
+package com.localhop.swipe.viewpagersupport;
 
 public interface IconPagerAdapter {
     /**

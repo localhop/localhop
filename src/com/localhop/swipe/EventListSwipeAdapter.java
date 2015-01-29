@@ -1,4 +1,4 @@
-package com.localhop.fragment;
+package com.localhop.swipe;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -1,4 +1,4 @@
-package com.localhop;
+package com.localhop.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -6,9 +6,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
-import com.localhop.fragment.EventSwipeAdapter;
-import com.viewpagersupport.TabPageIndicator;
-import com.viewpagersupport.UnderlinePageIndicator;
+import com.localhop.R;
+import com.localhop.swipe.EventSelectSwipeAdapter;
+import com.localhop.swipe.viewpagersupport.TabPageIndicator;
+import com.localhop.swipe.viewpagersupport.UnderlinePageIndicator;
 
 /**
  * Activity for a specific Event selected from the Events List tab.
@@ -21,12 +22,12 @@ public class ActivityEventSelection extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.tab_event_swipe);
+        setContentView(R.layout.tab_event_select_swipe);
 
         // Set up the custom Swipe View for Details, Chat and Map for an event
         ViewPager pager = (ViewPager) findViewById(R.id.pEvent);
         FragmentManager fm = getSupportFragmentManager();
-        EventSwipeAdapter pagerAdapter = new EventSwipeAdapter(fm);
+        EventSelectSwipeAdapter pagerAdapter = new EventSelectSwipeAdapter(fm);
         pager.setAdapter(pagerAdapter);
         pager.setCurrentItem(0);
 

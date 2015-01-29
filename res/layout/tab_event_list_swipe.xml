@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--  tab_events_list_swipe.xml
-
+<!--  tab_event_list_swipe.xml
 UI for list of events the tab_user has been invited to, attending, etc.
 This will be used for Past and Today events.  A Variation may need
 to be created for Future events (TBD).

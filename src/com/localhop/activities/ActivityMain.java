@@ -1,16 +1,17 @@
-package com.localhop;
+package com.localhop.activities;
 
 /* Native Java libs ---------------------------------------------------------*/
 
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;                              // for logging - delete
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
+import com.localhop.R;
 
-public class Activity_Main extends TabActivity {
+
+public class ActivityMain extends TabActivity {
 
 
     /**
@@ -42,13 +43,13 @@ public class Activity_Main extends TabActivity {
         // Set the Tab name and Activity
         // that will be opened when particular Tab will be selected
         tabCreateEvent.setIndicator("", getResources().getDrawable(R.drawable.tab_create_event_selector));
-        tabCreateEvent.setContent(new Intent(this, Activity_TabCreateEvent.class));
+        tabCreateEvent.setContent(new Intent(this, ActivityTabCreateEvent.class));
         tabEventList.setIndicator("", getResources().getDrawable(R.drawable.tab_event_list_selector));
-        tabEventList.setContent(new Intent(this, Activity_TabEventList.class));
+        tabEventList.setContent(new Intent(this, ActivityTabEventList.class));
         tabUserManage.setIndicator("", getResources().getDrawable(R.drawable.tab_user_selector));
-        tabUserManage.setContent(new Intent(this, Activity_TabUserManage.class));
+        tabUserManage.setContent(new Intent(this, ActivityTabUserManage.class));
         tabMap.setIndicator("", getResources().getDrawable(R.drawable.tab_map_selector));
-        tabMap.setContent(new Intent(this, Activity_TabMap.class));
+        tabMap.setContent(new Intent(this, ActivityTabMap.class));
 
         // Add the tabs  to the TabHost to display.
         tabHost.addTab(tabCreateEvent);

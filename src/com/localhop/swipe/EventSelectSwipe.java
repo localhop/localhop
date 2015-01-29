@@ -1,4 +1,4 @@
-package com.localhop.fragment;
+package com.localhop.swipe;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +13,7 @@ import com.localhop.R;
  * Controls the custom Swipe View on a specific Events page.  The user will be given the ability
  * to swipe between a specific event's Details, Chat, and Map pages.
  */
-public class EventSwipe extends Fragment{
+public class EventSelectSwipe extends Fragment{
 
     private int mCurrentPage;
 
@@ -37,16 +37,16 @@ public class EventSwipe extends Fragment{
         switch (mCurrentPage) {
             case 0:
                 // Details
-                eventView = inflater.inflate(R.layout.tab_event_details, container, false);
+                eventView = inflater.inflate(R.layout.tab_event_select_details, container, false);
                 setDetailsPage(eventView);
                 break;
             case 1:
                 // Chat
-                eventView = inflater.inflate(R.layout.tab_event_chat, container, false);
+                eventView = inflater.inflate(R.layout.tab_event_select_chat, container, false);
                 break;
             case 2:
                 // Map
-                eventView = inflater.inflate(R.layout.tab_event_map, container, false);
+                eventView = inflater.inflate(R.layout.tab_event_select_map, container, false);
                 break;
         }
 

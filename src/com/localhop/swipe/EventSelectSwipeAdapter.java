@@ -1,18 +1,18 @@
-package com.localhop.fragment;
+package com.localhop.swipe;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.localhop.R;
-import com.viewpagersupport.IconPagerAdapter;
+import com.localhop.swipe.viewpagersupport.IconPagerAdapter;
 
 
 /**
  * Adapter for the custom Swipe View for a specif event.  The user will be given the ability
  * to swipe between an Event's details, chat, and map pages.
  */
-public class EventSwipeAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
+public class EventSelectSwipeAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
 
     final int TAB_COUNT = 3;
 
@@ -20,7 +20,7 @@ public class EventSwipeAdapter extends FragmentPagerAdapter implements IconPager
      * Constructor
      * @param fm
      */
-    public EventSwipeAdapter(android.support.v4.app.FragmentManager fm) {
+    public EventSelectSwipeAdapter(android.support.v4.app.FragmentManager fm) {
         super(fm);
     } // end of Constructor
 
@@ -33,7 +33,7 @@ public class EventSwipeAdapter extends FragmentPagerAdapter implements IconPager
         Bundle bundle = new Bundle();
         bundle.putInt("current_page", position);
 
-        EventSwipe eventSwipe = new EventSwipe();
+        EventSelectSwipe eventSwipe = new EventSelectSwipe();
         eventSwipe.setArguments(bundle);
         return eventSwipe;
     } // end of function getItem()

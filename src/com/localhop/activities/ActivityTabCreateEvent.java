@@ -1,9 +1,11 @@
-package com.localhop;
+package com.localhop.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-public class Activity_TabCreateEvent extends Activity {
+import com.localhop.R;
+
+public class ActivityTabCreateEvent extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

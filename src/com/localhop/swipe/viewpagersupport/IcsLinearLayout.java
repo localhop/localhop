@@ -1,4 +1,4 @@
-package com.viewpagersupport;
+package com.localhop.swipe.viewpagersupport;
 
 import android.content.Context;
 import android.content.res.TypedArray;

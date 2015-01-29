@@ -1,4 +1,4 @@
-package com.localhop;
+package com.localhop.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -6,19 +6,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.widget.SearchView;
 
-import com.localhop.fragment.EventListSwipeAdapter;
-import com.viewpagersupport.ZoomOutPageTransformer;
+import com.localhop.R;
+import com.localhop.swipe.EventListSwipeAdapter;
+import com.localhop.swipe.viewpagersupport.ZoomOutPageTransformer;
 
 /**
  * Activity for the Event List tab in the main navigation tabs.
  */
-public class Activity_TabEventList extends FragmentActivity {
+public class ActivityTabEventList extends FragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.tab_events_list_swipe);
+        setContentView(R.layout.tab_event_list_swipe);
 
         // Set up the custom Swipe View for Past, Today, and Future events
         ViewPager pager = (ViewPager) findViewById(R.id.pEventList);

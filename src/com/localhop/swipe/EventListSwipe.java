@@ -1,4 +1,4 @@
-package com.localhop.fragment;
+package com.localhop.swipe;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.localhop.ActivityEventSelection;
-import com.localhop.AdapterEventList;
-import com.localhop.ListItemEvent;
+import com.localhop.activities.ActivityEventSelection;
+import com.localhop.adapters.AdapterEventList;
+import com.localhop.objects.ListItemEvent;
 import com.localhop.R;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class EventListSwipe extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Create the view for the event list items to be returned
-        View eventListItems = inflater.inflate(R.layout.tab_events_list_view, container, false);
+        View eventListItems = inflater.inflate(R.layout.tab_event_list_view, container, false);
 
         // Determine which layout to load based on the swipe tab position
         ArrayList<ListItemEvent> events = null;
@@ -68,7 +68,7 @@ public class EventListSwipe extends Fragment {
         final AdapterEventList adapter = new AdapterEventList(eventListItems.getContext(),
                 events, eventType);
 
-        // Get ListView from tab_events_list_swipe.xml
+        // Get ListView from tab_event_list_swipe.xml
         ListView lvEvents = (ListView)eventListItems.findViewById(R.id.lvEvents);
 
         // Set the List Adapter

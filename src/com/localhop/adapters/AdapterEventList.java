@@ -1,4 +1,4 @@
-package com.localhop;
+package com.localhop.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.localhop.R;
+import com.localhop.objects.ListItemEvent;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -144,7 +147,7 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
                 ((position > 0 && itemsArrayList.get(position).getStartDate()
                         .compareTo(itemsArrayList.get(position - 1).getStartDate()) != 0) ||
                 position <= 0)) {
-            layout = R.layout.list_item_event_date_delimiter;
+            layout = R.layout.list_item_event_with_date_delimiter;
         }
 
         View rowView = inflater.inflate(layout, parent, false);

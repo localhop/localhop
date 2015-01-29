@@ -1,4 +1,4 @@
-package com.localhop;
+package com.localhop.objects;
 
 import java.util.Date;
 

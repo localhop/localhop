@@ -1,4 +1,4 @@
-package com.viewpagersupport;
+package com.localhop.swipe.viewpagersupport;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;
