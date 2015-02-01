@@ -41,27 +41,30 @@ Details, Chat, and Map page.
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true" />
 
-    <com.localhop.swipe.viewpagersupport.TabPageIndicator
-        android:id="@+id/tpiEvent"
-        android:layout_height="wrap_content"
+    <TabHost
         android:layout_width="fill_parent"
-        android:background="#4433b5e5"
+        android:layout_height="fill_parent"
+        android:id="@android:id/tabhost"
         android:layout_below="@+id/tvEventTime"
-        android:paddingTop="3dp"
-        />
+        android:layout_centerHorizontal="true">
 
-    <android.support.v4.view.ViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/pEvent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tpiEvent" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
-    <com.localhop.swipe.viewpagersupport.UnderlinePageIndicator
-        android:id="@+id/upiEvent"
-        android:layout_height="4dp"
-        android:layout_width="fill_parent"
-        android:layout_alignBottom="@+id/tpiEvent"
-        />
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"></TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
 
 </RelativeLayout>

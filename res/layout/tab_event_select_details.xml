@@ -7,7 +7,8 @@ UI for a specific event's details page
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/tab_event_select_details"
+    android:orientation="vertical" android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <RelativeLayout

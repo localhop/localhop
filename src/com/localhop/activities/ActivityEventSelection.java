@@ -1,43 +1,51 @@
 package com.localhop.activities;
 
+import android.app.TabActivity;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.localhop.R;
-import com.localhop.swipe.EventSelectSwipeAdapter;
-import com.localhop.swipe.viewpagersupport.TabPageIndicator;
-import com.localhop.swipe.viewpagersupport.UnderlinePageIndicator;
 
 /**
  * Activity for a specific Event selected from the Events List tab.
  * This activity will control the Details, Chat, and Maps tabs for a
  * specific event
  */
-public class ActivityEventSelection extends FragmentActivity {
+public class ActivityEventSelection extends TabActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.tab_event_select_swipe);
+        Resources res = getResources();
 
-        // Set up the custom Swipe View for Details, Chat and Map for an event
-        ViewPager pager = (ViewPager) findViewById(R.id.pEvent);
-        FragmentManager fm = getSupportFragmentManager();
-        EventSelectSwipeAdapter pagerAdapter = new EventSelectSwipeAdapter(fm);
-        pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(0);
+        // Create the tabHost and assign TabSpecs for each event select tab
+        TabHost tabHost = getTabHost();
+        TabHost.TabSpec tabDetails = tabHost.newTabSpec("tabDetails");
+        TabHost.TabSpec tabChat = tabHost.newTabSpec("tabChat");
+        TabHost.TabSpec tabMap = tabHost.newTabSpec("tabMap");
 
-        // Set up the icons for the custom swipe view
-        TabPageIndicator tabs = (TabPageIndicator)findViewById(R.id.tpiEvent);
-        tabs.setViewPager(pager);
+        // Set the Tab name and Activity
+        // that will be opened when particular Tab will be selected
+        tabDetails.setIndicator("", res.getDrawable(R.drawable.tab_event_details_selector));
+        getLayoutInflater().inflate(R.layout.tab_event_select_details, tabHost.getTabContentView(), true);
+        tabDetails.setContent(R.id.tab_event_select_details);
 
-        // Set up the underline effect for the tabs of the custom swipe view
-        UnderlinePageIndicator underline = (UnderlinePageIndicator)findViewById(R.id.upiEvent);
-        underline.setViewPager(pager);
+        tabChat.setIndicator("", res.getDrawable(R.drawable.tab_event_chat_selector));
+        getLayoutInflater().inflate(R.layout.tab_event_select_chat, tabHost.getTabContentView(), true);
+        tabChat.setContent(R.id.tab_event_select_chat);
+
+        tabMap.setIndicator("", res.getDrawable(R.drawable.tab_event_map_selector));
+        getLayoutInflater().inflate(R.layout.tab_event_select_map, tabHost.getTabContentView(), true);
+        tabMap.setContent(R.id.tab_event_select_map);
+
+        // Add the tabs  to the TabHost to display.
+        tabHost.addTab(tabDetails);
+        tabHost.addTab(tabChat);
+        tabHost.addTab(tabMap);
 
         // Set Basic Event UI
         setEventDetails();
