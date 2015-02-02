@@ -2,10 +2,15 @@ package com.localhop.activities;
 
 import android.app.TabActivity;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -75,14 +80,31 @@ public class ActivityEventSelection extends TabActivity {
 
         // UI References
         TextView tvEventName = (TextView)findViewById(R.id.tvEventName);
-        TextView tvEventStartTime = (TextView)findViewById(R.id.tvEventTime);
+        EditText etEventDetails = (EditText)findViewById(R.id.etEventDetails);
+        EditText etEventLocation = (EditText)findViewById(R.id.etEventLocation);
         ImageButton ibEventCalendar = (ImageButton)findViewById(R.id.ibEventCalendar);
         ImageButton ibEventLocation = (ImageButton)findViewById(R.id.ibEventLocation);
 
+        RelativeLayout rlEventRSPV = (RelativeLayout)findViewById(R.id.rlEventRSPV);
+        RelativeLayout rlEventDetails = (RelativeLayout)findViewById(R.id.rlEventDetails);
+
+        // Add Border lines between sections of the Details Page
+        ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
+        Paint paint = rectShapeDrawable.getPaint();
+        paint.setColor(Color.GRAY);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(5);
+        rlEventRSPV.setBackgroundDrawable(rectShapeDrawable);
+        rlEventDetails.setBackgroundDrawable(rectShapeDrawable);
 
         tvEventName.setText("Chipotle");
-        tvEventStartTime.setText("5:00 pm");
+        etEventDetails.setText("Hey Gang!\n\nYou know the drill, come to Chipotle and " +
+                "grab some grub. We can discuss our plans for the week " +
+                "and anything else worth talking about.");
 
+        etEventLocation.setText("Chipotle Mexican Grill\n" +
+                "1420 W. 23rd St.\n" +
+                "Lawrence, KS 66046");
 
         // Event Calendar button
         ibEventCalendar.setBackgroundResource(R.drawable.ic_add_box_selector);

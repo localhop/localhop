@@ -28,25 +28,16 @@ Details, Chat, and Map page.
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ibEventBack"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="11dp"
         />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Event Start Time"
-        android:id="@+id/tvEventTime"
-        android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true" />
 
     <TabHost
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@android:id/tabhost"
-        android:layout_below="@+id/tvEventTime"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ibEventBack">
 
         <LinearLayout
             android:layout_width="fill_parent"
