@@ -3,6 +3,9 @@ package com.localhop.activities;
 import android.app.TabActivity;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -19,8 +22,19 @@ public class ActivityEventSelection extends TabActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.tab_event_select_swipe);
+        setContentView(R.layout.tab_event_select_main);
         Resources res = getResources();
+
+        // Setup the Back button for user navigation out of the selected event
+        ImageButton ibBack = (ImageButton)findViewById(R.id.ibEventBack);
+        ibBack.setBackgroundResource(R.drawable.ic_back_arrow_selector);
+        ibBack.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                finish();
+                return false;
+            }
+        });
 
         // Create the tabHost and assign TabSpecs for each event select tab
         TabHost tabHost = getTabHost();
@@ -59,12 +73,35 @@ public class ActivityEventSelection extends TabActivity {
      */
     public void setEventDetails() {
 
-        // Set Event Name, Start Time, and Back button UI
+        // UI References
         TextView tvEventName = (TextView)findViewById(R.id.tvEventName);
         TextView tvEventStartTime = (TextView)findViewById(R.id.tvEventTime);
+        ImageButton ibEventCalendar = (ImageButton)findViewById(R.id.ibEventCalendar);
+        ImageButton ibEventLocation = (ImageButton)findViewById(R.id.ibEventLocation);
+
 
         tvEventName.setText("Chipotle");
         tvEventStartTime.setText("5:00 pm");
+
+
+        // Event Calendar button
+        ibEventCalendar.setBackgroundResource(R.drawable.ic_add_box_selector);
+        ibEventCalendar.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: List Item Direction Image Button Click
+            }
+        });
+
+        // Event Directions button
+        ibEventLocation.setBackgroundResource(R.drawable.ic_directions_selector);
+        ibEventLocation.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: List Item Direction Image Button Click
+            }
+        });
+
 
     } // end of function setEventDetails()
 
