@@ -80,7 +80,8 @@ public class EventListSwipe extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //System.out.println("\n\nEvent " + adapter.getItem(position).getEventName() + " has been clicked!");
                 Intent eventSelection = new Intent(view.getContext(), ActivityEventSelection.class);
-                //eventSelection.putExtra("eventID", eventID);
+                //TODO: pass eventID when DB Integration is ready.
+                // eventSelection.putExtra("eventID", eventID);
                 startActivity(eventSelection);
             }
         });

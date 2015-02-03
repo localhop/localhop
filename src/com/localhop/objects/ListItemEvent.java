@@ -2,6 +2,15 @@ package com.localhop.objects;
 
 import java.util.Date;
 
+/**
+ * This object class provides the necessary info needed from an event
+ * to display events in a list. This does not contain all information
+ * from an event.
+ *
+ * Note: It may be possible to delete this object class in the future
+ * once we have a dedicated Event object class when DB Integration is
+ * done.
+ */
 public class ListItemEvent {
 
     public enum EventType {

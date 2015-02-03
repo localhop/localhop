@@ -33,57 +33,30 @@ public class ActivityEventSelection extends TabActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.tab_event_select_main);
-        Resources res = getResources();
 
-        // Setup the Back button for user navigation out of the selected event
-        ImageButton ibBack = (ImageButton)findViewById(R.id.ibEventBack);
-        ibBack.setBackgroundResource(R.drawable.ic_back_arrow_selector);
-        ibBack.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                finish();
-                return false;
-            }
-        });
+        // Get the selected Event's id
+        // TODO: get "eventID" that was passed into this Intent from EventListSwipe.java
 
-        // Create the tabHost and assign TabSpecs for each event select tab
-        TabHost tabHost = getTabHost();
-        TabHost.TabSpec tabDetails = tabHost.newTabSpec("tabDetails");
-        TabHost.TabSpec tabChat = tabHost.newTabSpec("tabChat");
-        TabHost.TabSpec tabMap = tabHost.newTabSpec("tabMap");
+        // Retrieve all data for the event
+        // TODO: generate a ListItemEvent data object
 
-        // Set the Tab name and Activity
-        // that will be opened when particular Tab will be selected
-        tabDetails.setIndicator("", res.getDrawable(R.drawable.tab_event_details_selector));
-        getLayoutInflater().inflate(R.layout.tab_event_select_details, tabHost.getTabContentView(), true);
-        tabDetails.setContent(R.id.tab_event_select_details);
+        // Set up the main UI
+        setupUI();
 
-        tabChat.setIndicator("", res.getDrawable(R.drawable.tab_event_chat_selector));
-        getLayoutInflater().inflate(R.layout.tab_event_select_chat, tabHost.getTabContentView(), true);
-        tabChat.setContent(R.id.tab_event_select_chat);
-
-        tabMap.setIndicator("", res.getDrawable(R.drawable.tab_event_map_selector));
-        getLayoutInflater().inflate(R.layout.tab_event_select_map, tabHost.getTabContentView(), true);
-        tabMap.setContent(R.id.tab_event_select_map);
-
-        // Add the tabs  to the TabHost to display.
-        tabHost.addTab(tabDetails);
-        tabHost.addTab(tabChat);
-        tabHost.addTab(tabMap);
-
-        // Set Basic Event UI
+        // Set the UI and data for each tab
         setEventDetails();
+        // TODO: setEventChat();
+        // TODO: setEventMap();
 
     } // end of function onCreate()
 
 
     /**
-     * Updates the basic Event info such as the Event name and Event start time that display
-     * above the custom swipe view
+     * Sets the Details tab for a selected event.
      */
     public void setEventDetails() {
 
-        // UI References
+        // UI Components
         TextView tvEventName = (TextView)findViewById(R.id.tvEventName);
         TextView tvEventStartDate = (TextView)findViewById(R.id.tvEventStartDate);
         TextView tvEventStartTime = (TextView)findViewById(R.id.tvEventStartTime);
@@ -105,12 +78,12 @@ public class ActivityEventSelection extends TabActivity {
         rlEventRSPV.setBackgroundDrawable(rectShapeDrawable);
         rlEventDetails.setBackgroundDrawable(rectShapeDrawable);
 
-        //Temp Data
+        //Temp Data TODO: Delete after DB integration is done
         final CharSequence attendees[] = {"Michelle Perz", "Ryan Scott", "Zach Flies"};
         final CharSequence invited[] = {"Adam Smith", "Kendal Harland"};
 
-
-        // Add custom image for attending and invite buttons
+        // Add Attending/Invited buttons and setup corresponding dialogs
+        // TODO: Modify list items once DB integration is done
         ibEventAttending.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
         ibEventAttending.setText("3");
         ibEventAttending.setOnTouchListener(new View.OnTouchListener() {
@@ -127,16 +100,16 @@ public class ActivityEventSelection extends TabActivity {
                         .setItems(attendees, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                // TODO: What option do we want to give the user when they select a name from the list?
                             }
                         })
-                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setIcon(android.R.drawable.ic_dialog_info) // TODO: Change icon
                         .show();
 
                 return false;
             }
         });
-
+        // TODO: Modify list items once DB integration is done
         ibEventInvited.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
         ibEventInvited.setText("2");
         ibEventInvited.setOnTouchListener(new View.OnTouchListener() {
@@ -152,15 +125,18 @@ public class ActivityEventSelection extends TabActivity {
                         .setItems(invited, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                // TODO: What option do we want to give the user when they select a name from the list?
                             }
                         })
-                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setIcon(android.R.drawable.ic_dialog_info) // TODO: Change icon
                         .show();
                 return false;
             }
         });
 
+        /**
+         * TODO: Change all data below have DB integration is complete
+         */
         // Set Temp Data to UI components
         tvEventName.setText("Chipotle");
 
@@ -193,7 +169,51 @@ public class ActivityEventSelection extends TabActivity {
             }
         });
 
-
     } // end of function setEventDetails()
+
+    /**
+     * Link and setup the UI components for this Activity
+     */
+    public void setupUI() {
+
+        Resources res = getResources();
+
+        // Setup the Back button for user navigation out of the selected event
+        ImageButton ibBack = (ImageButton)findViewById(R.id.ibEventBack);
+        ibBack.setBackgroundResource(R.drawable.ic_back_arrow_selector);
+        ibBack.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                finish();
+                return false;
+            }
+        });
+
+        // Create the tabHost and assign TabSpecs for each event select tab
+        TabHost tabHost = getTabHost();
+        TabHost.TabSpec tabDetails = tabHost.newTabSpec("tabDetails");
+        TabHost.TabSpec tabChat = tabHost.newTabSpec("tabChat");
+        TabHost.TabSpec tabMap = tabHost.newTabSpec("tabMap");
+
+        // Set the Tab name and layout
+        // that will be opened when particular Tab will be selected
+        tabDetails.setIndicator("", res.getDrawable(R.drawable.tab_event_details_selector));
+        getLayoutInflater().inflate(R.layout.tab_event_select_details, tabHost.getTabContentView(), true);
+        tabDetails.setContent(R.id.tab_event_select_details);
+
+        tabChat.setIndicator("", res.getDrawable(R.drawable.tab_event_chat_selector));
+        getLayoutInflater().inflate(R.layout.tab_event_select_chat, tabHost.getTabContentView(), true);
+        tabChat.setContent(R.id.tab_event_select_chat);
+
+        tabMap.setIndicator("", res.getDrawable(R.drawable.tab_event_map_selector));
+        getLayoutInflater().inflate(R.layout.tab_event_select_map, tabHost.getTabContentView(), true);
+        tabMap.setContent(R.id.tab_event_select_map);
+
+        // Add the tabs  to the TabHost to display.
+        tabHost.addTab(tabDetails);
+        tabHost.addTab(tabChat);
+        tabHost.addTab(tabMap);
+
+    } // end of function setUI()
 
 } // end of class ActivityEventSelection
