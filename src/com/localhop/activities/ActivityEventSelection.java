@@ -64,8 +64,8 @@ public class ActivityEventSelection extends TabActivity {
         EditText etEventLocation = (EditText)findViewById(R.id.etEventLocation);
         ImageButton ibEventCalendar = (ImageButton)findViewById(R.id.ibEventCalendar);
         ImageButton ibEventLocation = (ImageButton)findViewById(R.id.ibEventLocation);
-        Button ibEventInvited = (Button) findViewById(R.id.ibEventInvited);
-        Button ibEventAttending = (Button) findViewById(R.id.ibEventAttending);
+        final Button ibEventInvited = (Button) findViewById(R.id.ibEventInvited);
+        final Button ibEventAttending = (Button) findViewById(R.id.ibEventAttending);
         RelativeLayout rlEventRSPV = (RelativeLayout)findViewById(R.id.rlEventRSPV);
         RelativeLayout rlEventDetails = (RelativeLayout)findViewById(R.id.rlEventDetails);
 
@@ -90,10 +90,12 @@ public class ActivityEventSelection extends TabActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
+                ibEventAttending.setEnabled( false );
                 new AlertDialog.Builder(ActivityEventSelection.this)
                         .setTitle("Attendees")
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                ibEventAttending.setEnabled(true);
                                 dialog.cancel();
                             }
                         })
@@ -101,9 +103,9 @@ public class ActivityEventSelection extends TabActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // TODO: What option do we want to give the user when they select a name from the list?
+                                ibEventAttending.setEnabled(true);
                             }
                         })
-                        .setIcon(android.R.drawable.ic_dialog_info) // TODO: Change icon
                         .show();
 
                 return false;
@@ -115,10 +117,13 @@ public class ActivityEventSelection extends TabActivity {
         ibEventInvited.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
+                ibEventInvited.setEnabled(false);
                 new AlertDialog.Builder(ActivityEventSelection.this)
                         .setTitle("Invited")
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                ibEventInvited.setEnabled(true);
                                 dialog.cancel();
                             }
                         })
@@ -126,9 +131,9 @@ public class ActivityEventSelection extends TabActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // TODO: What option do we want to give the user when they select a name from the list?
+                                ibEventInvited.setEnabled(true);
                             }
                         })
-                        .setIcon(android.R.drawable.ic_dialog_info) // TODO: Change icon
                         .show();
                 return false;
             }
