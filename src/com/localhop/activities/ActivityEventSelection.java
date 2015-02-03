@@ -1,6 +1,10 @@
 package com.localhop.activities;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.TabActivity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +12,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -80,11 +85,14 @@ public class ActivityEventSelection extends TabActivity {
 
         // UI References
         TextView tvEventName = (TextView)findViewById(R.id.tvEventName);
+        TextView tvEventStartDate = (TextView)findViewById(R.id.tvEventStartDate);
+        TextView tvEventStartTime = (TextView)findViewById(R.id.tvEventStartTime);
         EditText etEventDetails = (EditText)findViewById(R.id.etEventDetails);
         EditText etEventLocation = (EditText)findViewById(R.id.etEventLocation);
         ImageButton ibEventCalendar = (ImageButton)findViewById(R.id.ibEventCalendar);
         ImageButton ibEventLocation = (ImageButton)findViewById(R.id.ibEventLocation);
-
+        Button ibEventInvited = (Button) findViewById(R.id.ibEventInvited);
+        Button ibEventAttending = (Button) findViewById(R.id.ibEventAttending);
         RelativeLayout rlEventRSPV = (RelativeLayout)findViewById(R.id.rlEventRSPV);
         RelativeLayout rlEventDetails = (RelativeLayout)findViewById(R.id.rlEventDetails);
 
@@ -97,7 +105,68 @@ public class ActivityEventSelection extends TabActivity {
         rlEventRSPV.setBackgroundDrawable(rectShapeDrawable);
         rlEventDetails.setBackgroundDrawable(rectShapeDrawable);
 
+        //Temp Data
+        final CharSequence attendees[] = {"Michelle Perz", "Ryan Scott", "Zach Flies"};
+        final CharSequence invited[] = {"Adam Smith", "Kendal Harland"};
+
+
+        // Add custom image for attending and invite buttons
+        ibEventAttending.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
+        ibEventAttending.setText("3");
+        ibEventAttending.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                new AlertDialog.Builder(ActivityEventSelection.this)
+                        .setTitle("Attendees")
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setItems(attendees, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
+
+                return false;
+            }
+        });
+
+        ibEventInvited.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
+        ibEventInvited.setText("2");
+        ibEventInvited.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                new AlertDialog.Builder(ActivityEventSelection.this)
+                        .setTitle("Invited")
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setItems(invited, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
+                return false;
+            }
+        });
+
+        // Set Temp Data to UI components
         tvEventName.setText("Chipotle");
+
+        tvEventStartDate.setText("Monday, 12/1/2015");
+        tvEventStartTime.setText("5:00 PM - 6:00 PM");
+
         etEventDetails.setText("Hey Gang!\n\nYou know the drill, come to Chipotle and " +
                 "grab some grub. We can discuss our plans for the week " +
                 "and anything else worth talking about.");

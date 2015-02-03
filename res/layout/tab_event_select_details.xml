@@ -45,7 +45,6 @@ UI for a specific event's details page
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Start/End Time"
             android:id="@+id/tvEventStartTime"
-            android:paddingTop="5dp"
             android:layout_below="@+id/tvEventStartDate"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -70,25 +69,25 @@ UI for a specific event's details page
         android:paddingTop="15dp"
         android:layout_weight="0.29">
 
-        <ImageButton
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ibAttending"
+            android:id="@+id/ibEventInvited"
             android:layout_marginRight="75dp"
             android:layout_marginEnd="75dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
-        <ImageButton
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ibInvited"
+            android:id="@+id/ibEventAttending"
             android:layout_marginLeft="75dp"
             android:layout_marginStart="75dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="false" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -96,9 +95,13 @@ UI for a specific event's details page
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Attending"
             android:id="@+id/tvEventAttending"
-            android:layout_below="@+id/ibInvited"
-            android:layout_alignLeft="@+id/ibInvited"
-            android:layout_alignStart="@+id/ibInvited" />
+            android:layout_below="@+id/ibEventAttending"
+            android:layout_alignRight="@+id/ibEventAttending"
+            android:layout_alignEnd="@+id/ibEventAttending"
+            android:layout_alignLeft="@+id/ibEventAttending"
+            android:layout_alignStart="@+id/ibEventAttending"
+            android:textAlignment="center"
+            android:gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -106,9 +109,13 @@ UI for a specific event's details page
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Invited"
             android:id="@+id/tvEventInvited"
-            android:layout_below="@+id/ibAttending"
-            android:layout_alignLeft="@+id/ibAttending"
-            android:layout_alignStart="@+id/ibAttending" />
+            android:layout_below="@+id/ibEventInvited"
+            android:layout_alignLeft="@+id/ibEventInvited"
+            android:layout_alignStart="@+id/ibEventInvited"
+            android:layout_alignRight="@+id/ibEventInvited"
+            android:layout_alignEnd="@+id/ibEventInvited"
+            android:textAlignment="center"
+            android:gravity="center" />
 
     </RelativeLayout>
 
