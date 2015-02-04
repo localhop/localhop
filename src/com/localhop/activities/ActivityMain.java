@@ -5,10 +5,14 @@ package com.localhop.activities;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
 import com.localhop.R;
+import com.localhop.prefs.Prefs;
+import com.localhop.prefs.PrefsActivity;
 
 
 public class ActivityMain extends TabActivity {
@@ -22,10 +26,26 @@ public class ActivityMain extends TabActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        Prefs.initPrefs(this);
         createMainNavigationTabs(); // Creates the main navigation TabHost
 
     }
 
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.localhop_menu, menu);
+        return true;
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settings:
+                final Intent settingsIntent = new Intent(this, PrefsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     /**
      * Creates the main TabHost that will contain app-navigation for Creating Events,

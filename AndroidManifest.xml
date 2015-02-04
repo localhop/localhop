@@ -18,11 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.ActivityTabCreateEvent"></activity>
-        <activity android:name=".activities.ActivityTabEventList"></activity>
-        <activity android:name=".activities.ActivityTabUserManage"></activity>
-        <activity android:name=".activities.ActivityTabMap"></activity>
-        <activity android:name=".activities.ActivityEventSelection"></activity>
+        <activity android:name=".prefs.PrefsActivity"/>
+        <activity android:name=".activities.ActivityTabCreateEvent"/>
+        <activity android:name=".activities.ActivityTabEventList"/>
+        <activity android:name=".activities.ActivityTabUserManage"/>
+        <activity android:name=".activities.ActivityTabMap"/>
+        <activity android:name=".activities.ActivityEventSelection"/>
 
         <meta-data android:name="com.google.android.gms.version"
                    android:value="6171000" />
