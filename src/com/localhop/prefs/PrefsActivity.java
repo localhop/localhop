@@ -1,5 +1,6 @@
 package com.localhop.prefs;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -8,6 +9,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 import com.localhop.R;
+import com.localhop.network.HttpRequest;
+import com.localhop.network.HttpServerRequest;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class PrefsActivity extends PreferenceActivity {
 
@@ -33,10 +38,28 @@ public class PrefsActivity extends PreferenceActivity {
             mTestTheRestPref = findPreference(Prefs.TEST_THE_REST);
             mTestTheRestPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override public boolean onPreferenceClick(final Preference preference) {
-                    Toast.makeText(getActivity(), "Lol", Toast.LENGTH_LONG).show();
+                    newGetRequest().execute(HttpServerRequest.DUMMY_URL);
                     return true;
                 }
             });
+        }
+
+        private HttpServerRequest<Activity, String> newGetRequest() {
+            return new HttpServerRequest<Activity, String>(getActivity(), HttpRequest.GET) {
+                @Override protected String onResponse(final String response) {
+                    try {
+                        return new JSONObject(response).getString("ip");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return "ERROR: BAD THINGS HAPPENED";
+                    }
+                }
+
+                @Override protected void onPostExecute(String message) {
+                    super.onPostExecute(message);
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                }
+            };
         }
     }
 
