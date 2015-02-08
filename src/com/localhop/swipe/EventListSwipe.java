@@ -11,11 +11,10 @@ import android.widget.ListView;
 
 import com.localhop.activities.ActivityEventSelection;
 import com.localhop.adapters.AdapterEventList;
-import com.localhop.objects.ListItemEvent;
+import com.localhop.objects.Event;
 import com.localhop.R;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Controls the custom Swipe View on the Events List tab.  The user will be given the ability
@@ -23,7 +22,7 @@ import java.util.Date;
  */
 public class EventListSwipe extends Fragment {
 
-    private int mCurrentPage;
+    private int currentPage;    //< The current view of the swipe tabs
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,7 @@ public class EventListSwipe extends Fragment {
         Bundle data = getArguments();
 
         // Getting integer data of the key current_page from the bundle
-        mCurrentPage = data.getInt("current_page", 0);
+        currentPage = data.getInt("current_page", 0);
 
     } // end of function onCreate()
 
@@ -44,23 +43,23 @@ public class EventListSwipe extends Fragment {
         View eventListItems = inflater.inflate(R.layout.tab_event_list_view, container, false);
 
         // Determine which layout to load based on the swipe tab position
-        ArrayList<ListItemEvent> events = null;
-        ListItemEvent.EventType eventType = null;
-        switch (mCurrentPage) {
+        ArrayList<Event> events = null;
+        Event.EventType eventType = null;
+        switch (currentPage) {
             case 0:
                 // Past Events
-                eventType = ListItemEvent.EventType.Past;
-                events = generatePastEventsTestData();
+                eventType = Event.EventType.Past;
+                events = generatePastEvents();
                 break;
             case 1:
                 // Today Events
-                eventType = ListItemEvent.EventType.Today;
-                events = generateTodayEventsTestData();
+                eventType = Event.EventType.Today;
+                events = generateTodayEvents();
                 break;
             case 2:
                 // Future Events
-                eventType = ListItemEvent.EventType.Future;
-                events = generateFutureEventsTestData();
+                eventType = Event.EventType.Future;
+                events = generateFutureEvents();
                 break;
         }
 
@@ -78,9 +77,10 @@ public class EventListSwipe extends Fragment {
         lvEvents.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //System.out.println("\n\nEvent " + adapter.getItem(position).getEventName() + " has been clicked!");
+                // Prepare to start ActivityEventSelection
                 Intent eventSelection = new Intent(view.getContext(), ActivityEventSelection.class);
-                //eventSelection.putExtra("eventID", eventID);
+                // Pass the selected event object to the ActivityEventSelection.
+                eventSelection.putExtra("event", adapter.getItem(position));
                 startActivity(eventSelection);
             }
         });
@@ -89,58 +89,54 @@ public class EventListSwipe extends Fragment {
     } // end of function onCreateView()
 
     /**
-    * Generates static, test data for the Today Events List.  !! This will eventually be replaced
-    * with DB stored procedure calls
+    * Generates today events list
     * @return
             */
-    private ArrayList<ListItemEvent> generateTodayEventsTestData(){
+    private ArrayList<Event> generateTodayEvents(){
 
-        ArrayList<ListItemEvent> items = new ArrayList<ListItemEvent>();
-        items.add(new ListItemEvent("Chipotle", "Attending: You, Michelle, Ryan",
-                "23rd St. Chipotle", "5:00 PM", null, 5, ListItemEvent.EventType.Today));
-        items.add(new ListItemEvent("Senior Design Meetup", "Attending: You, Adam, Kendal",
-                "Spahr Library", "7:00 PM", null, 0, ListItemEvent.EventType.Today));
-        items.add(new ListItemEvent("Drinks at Brothers", "Attending: Alexander, Greene, Traylor",
-                "Brother's Bar", "8:00 PM", null, 1, ListItemEvent.EventType.Today));
-        items.add(new ListItemEvent("Dempsey's Half Pri...", "Attending: You, Michelle, Ryan",
-                "Dempsey's", "9:00 PM", null, 1, ListItemEvent.EventType.Today));
-        items.add(new ListItemEvent("Night out on Mass", "Attending: You, Adam, Kendal",
-                "Mass Street", "11:00 PM", null, 2, ListItemEvent.EventType.Today));
-        items.add(new ListItemEvent("Fuzzy's Tacos", "Attending: You, Adam, Kendal",
-                "Fuzzy's Tacos", "1:00 AM", null, 0, ListItemEvent.EventType.Today));
+        // TODO: DB Call to get event objects
+
+        ArrayList<Event> items = new ArrayList<Event>();
+//        items.add(new ListItemEvent(ListItemEvent.EventType.Today, "Chipotle", "",
+//                "23rd St. Chipotle", null, null, "Attending: You, Michelle, Ryan", 0, 0, 0));
+//
+//        items.add(new ListItemEvent(ListItemEvent.EventType.Today, "Senior Design Meetup", "",
+//                "Spahr Library", null, null, "Attending: You, Adam, Kendal", 0, 0, 0));
 
         return items;
     } // end of function generateTodayEventsTestData()
 
 
     /**
-     * Generates static, test data for the Past Events List.  !! This will eventually be replaced
-     * with DB stored procedure calls
+     * Generates past events list
      * @return
      */
-    private ArrayList<ListItemEvent> generatePastEventsTestData(){
+    private ArrayList<Event> generatePastEvents(){
 
-        ArrayList<ListItemEvent> items = new ArrayList<ListItemEvent>();
-        items.add(new ListItemEvent("Chipotle", "Attending: You, Michelle, Ryan",
-                "23rd St. Chipotle", "5:00 PM", new Date(114, 10, 5), 5, ListItemEvent.EventType.Past));
+        // TODO: DB Call to get event objects
+
+        ArrayList<Event> items = new ArrayList<Event>();
+//        items.add(new ListItemEvent("Chipotle", "Attending: You, Michelle, Ryan",
+//                "23rd St. Chipotle", "5:00 PM", new Date(114, 10, 5), 5, ListItemEvent.EventType.Past));
 
         return items;
     } // end of function generatePastEventsTestData()
 
     /**
-     * Generates static, test data for the Future Events List.  !! This will eventually be replaced
-     * with DB stored procedure calls
+     * Generates future events list
      * @return
      */
-    private ArrayList<ListItemEvent> generateFutureEventsTestData(){
+    private ArrayList<Event> generateFutureEvents(){
 
-        ArrayList<ListItemEvent> items = new ArrayList<ListItemEvent>();
-        items.add(new ListItemEvent("Night out on Mass", "Attending: You, Adam, Kendal",
-                "Mass Street", "11:00 PM", new Date(114, 11, 6), 2, ListItemEvent.EventType.Future));
-        items.add(new ListItemEvent("Chipotle", "Attending: You, Michelle, Ryan",
-                "23rd St. Chipotle", "5:00 PM",new Date(114, 11, 7), 5, ListItemEvent.EventType.Future));
-        items.add(new ListItemEvent("Senior Design Meetup", "Attending: You, Adam, Kendal",
-                "Spahr Library", "7:00 PM",new Date(114, 11, 7), 0, ListItemEvent.EventType.Future));
+        // TODO: DB Call to get event objects
+
+        ArrayList<Event> items = new ArrayList<Event>();
+//        items.add(new ListItemEvent("Night out on Mass", "Attending: You, Adam, Kendal",
+//                "Mass Street", "11:00 PM", new Date(114, 11, 6), 2, ListItemEvent.EventType.Future));
+//        items.add(new ListItemEvent("Chipotle", "Attending: You, Michelle, Ryan",
+//                "23rd St. Chipotle", "5:00 PM",new Date(114, 11, 7), 5, ListItemEvent.EventType.Future));
+//        items.add(new ListItemEvent("Senior Design Meetup", "Attending: You, Adam, Kendal",
+//                "Spahr Library", "7:00 PM",new Date(114, 11, 7), 0, ListItemEvent.EventType.Future));
 
         return items;
     } // end of function generateFutureEventsTestData()

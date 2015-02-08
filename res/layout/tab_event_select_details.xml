@@ -6,9 +6,17 @@ UI for a specific event's details page
 
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical" android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+<LinearLayout
+    android:id="@+id/tab_event_select_details"
+    android:orientation="vertical" android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:weightSum="1">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +24,9 @@ UI for a specific event's details page
         android:layout_gravity="center_horizontal"
         android:id="@+id/rlEventDateTime"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:layout_weight="0.09">
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,11 +34,10 @@ UI for a specific event's details page
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Start Date"
             android:id="@+id/tvEventStartDate"
-            android:layout_alignParentTop="true"
+            android:textStyle="bold"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:paddingTop="5dp"
-            android:textStyle="bold"/>
+            android:layout_alignParentTop="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,18 +45,17 @@ UI for a specific event's details page
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Start/End Time"
             android:id="@+id/tvEventStartTime"
-            android:layout_centerVertical="true"
+            android:layout_below="@+id/tvEventStartDate"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:paddingTop="20dp"/>
+            android:layout_alignParentStart="true" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ibEventCalendar"
-            android:layout_alignBottom="@+id/tvEventStartTime"
+            android:layout_alignTop="@+id/tvEventStartDate"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 
@@ -58,8 +66,57 @@ UI for a specific event's details page
         android:id="@+id/rlEventRSPV"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:paddingTop="5dp"
-        >
+        android:paddingTop="15dp"
+        android:layout_weight="0.29">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ibEventInvited"
+            android:layout_marginRight="75dp"
+            android:layout_marginEnd="75dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ibEventAttending"
+            android:layout_marginLeft="75dp"
+            android:layout_marginStart="75dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Attending"
+            android:id="@+id/tvEventAttending"
+            android:layout_below="@+id/ibEventAttending"
+            android:layout_alignRight="@+id/ibEventAttending"
+            android:layout_alignEnd="@+id/ibEventAttending"
+            android:layout_alignLeft="@+id/ibEventAttending"
+            android:layout_alignStart="@+id/ibEventAttending"
+            android:textAlignment="center"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Invited"
+            android:id="@+id/tvEventInvited"
+            android:layout_below="@+id/ibEventInvited"
+            android:layout_alignLeft="@+id/ibEventInvited"
+            android:layout_alignStart="@+id/ibEventInvited"
+            android:layout_alignRight="@+id/ibEventInvited"
+            android:layout_alignEnd="@+id/ibEventInvited"
+            android:textAlignment="center"
+            android:gravity="center" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -69,7 +126,8 @@ UI for a specific event's details page
         android:id="@+id/rlEventDetails"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="5dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,9 +136,9 @@ UI for a specific event's details page
             android:text="Details:"
             android:textStyle="bold"
             android:id="@+id/tvEventDetails"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -88,24 +146,32 @@ UI for a specific event's details page
             android:inputType="textMultiLine"
             android:ems="10"
             android:id="@+id/etEventDetails"
-            android:layout_below="@+id/tvEventDetails"
             android:layout_alignLeft="@+id/tvEventDetails"
             android:layout_alignStart="@+id/tvEventDetails"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:paddingTop="5dp"
             android:text="Event Details"
-            android:gravity="top" />
+            android:lines="5"
+            android:gravity="top"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            android:background="#00000000"
+            android:layout_below="@+id/tvEventDetails"
+            android:paddingBottom="5dp"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:id="@+id/rlEventLocation"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:paddingTop="5dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -114,9 +180,9 @@ UI for a specific event's details page
             android:text="Location:"
             android:textStyle="bold"
             android:id="@+id/tvEventLocation"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -126,19 +192,29 @@ UI for a specific event's details page
             android:id="@+id/etEventLocation"
             android:text="Event Location"
             android:gravity="top"
-            android:layout_below="@+id/ibEventLocation"
+            android:lines="4"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            android:background="#00000000"
+            android:layout_below="@+id/tvEventLocation"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/ibEventLocation"
-            android:layout_alignEnd="@+id/ibEventLocation" />
+            android:layout_toLeftOf="@+id/ibEventLocation"
+            android:layout_toStartOf="@+id/ibEventLocation" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ibEventLocation"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 
 </LinearLayout>
+</ScrollView>

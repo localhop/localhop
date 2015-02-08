@@ -1,63 +1,245 @@
 package com.localhop.activities;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.TabActivity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.localhop.R;
-import com.localhop.swipe.EventSelectSwipeAdapter;
-import com.localhop.swipe.viewpagersupport.TabPageIndicator;
-import com.localhop.swipe.viewpagersupport.UnderlinePageIndicator;
+import com.localhop.objects.Event;
+
+import java.util.Date;
 
 /**
  * Activity for a specific Event selected from the Events List tab.
  * This activity will control the Details, Chat, and Maps tabs for a
  * specific event
  */
-public class ActivityEventSelection extends FragmentActivity {
+public class ActivityEventSelection extends TabActivity {
+
+    private Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.tab_event_select_swipe);
+        setContentView(R.layout.tab_event_select_main);
 
-        // Set up the custom Swipe View for Details, Chat and Map for an event
-        ViewPager pager = (ViewPager) findViewById(R.id.pEvent);
-        FragmentManager fm = getSupportFragmentManager();
-        EventSelectSwipeAdapter pagerAdapter = new EventSelectSwipeAdapter(fm);
-        pager.setAdapter(pagerAdapter);
-        pager.setCurrentItem(0);
+        // Get the selected event
+        Intent eventListIntent = getIntent();
+        this.event = (Event)eventListIntent.getSerializableExtra("event");
 
-        // Set up the icons for the custom swipe view
-        TabPageIndicator tabs = (TabPageIndicator)findViewById(R.id.tpiEvent);
-        tabs.setViewPager(pager);
+        // Set up the main UI
+        setupUI();
 
-        // Set up the underline effect for the tabs of the custom swipe view
-        UnderlinePageIndicator underline = (UnderlinePageIndicator)findViewById(R.id.upiEvent);
-        underline.setViewPager(pager);
-
-        // Set Basic Event UI
+        // Set the UI and data for each tab
         setEventDetails();
+        // TODO: setEventChat();
+        // TODO: setEventMap();
 
     } // end of function onCreate()
 
 
     /**
-     * Updates the basic Event info such as the Event name and Event start time that display
-     * above the custom swipe view
+     * Sets the Details tab for a selected event.
      */
     public void setEventDetails() {
 
-        // Set Event Name, Start Time, and Back button UI
+        // UI Components
         TextView tvEventName = (TextView)findViewById(R.id.tvEventName);
-        TextView tvEventStartTime = (TextView)findViewById(R.id.tvEventTime);
+        TextView tvEventStartDate = (TextView)findViewById(R.id.tvEventStartDate);
+        TextView tvEventStartTime = (TextView)findViewById(R.id.tvEventStartTime);
+        EditText etEventDetails = (EditText)findViewById(R.id.etEventDetails);
+        EditText etEventLocation = (EditText)findViewById(R.id.etEventLocation);
+        ImageButton ibEventCalendar = (ImageButton)findViewById(R.id.ibEventCalendar);
+        ImageButton ibEventLocation = (ImageButton)findViewById(R.id.ibEventLocation);
+        final Button ibEventInvited = (Button) findViewById(R.id.ibEventInvited);
+        final Button ibEventAttending = (Button) findViewById(R.id.ibEventAttending);
+        RelativeLayout rlEventRSPV = (RelativeLayout)findViewById(R.id.rlEventRSPV);
+        RelativeLayout rlEventDetails = (RelativeLayout)findViewById(R.id.rlEventDetails);
 
-        tvEventName.setText("Chipotle");
-        tvEventStartTime.setText("5:00 pm");
+        // Add Border lines between sections of the Details Page
+        ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
+        Paint paint = rectShapeDrawable.getPaint();
+        paint.setColor(Color.GRAY);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(5);
+        rlEventRSPV.setBackgroundDrawable(rectShapeDrawable);
+        rlEventDetails.setBackgroundDrawable(rectShapeDrawable);
+
+        //Temp Data TODO: Delete after DB integration is done
+        final CharSequence attendees[] = {"Michelle Perz", "Ryan Scott", "Zach Flies"};
+        final CharSequence invited[] = {"Adam Smith", "Kendal Harland"};
+
+        // Add Attending/Invited buttons and setup corresponding dialogs
+        // TODO: Modify list items once DB integration is done
+        ibEventAttending.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
+        ibEventAttending.setText("3");
+        ibEventAttending.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                ibEventAttending.setEnabled( false );
+                new AlertDialog.Builder(ActivityEventSelection.this)
+                        .setTitle("Attendees")
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                ibEventAttending.setEnabled(true);
+                                dialog.cancel();
+                            }
+                        })
+                        .setItems(attendees, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO: What option do we want to give the user when they select a name from the list?
+                                ibEventAttending.setEnabled(true);
+                            }
+                        })
+                        .show();
+
+                return false;
+            }
+        });
+        // TODO: Modify list items once DB integration is done
+        ibEventInvited.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
+        ibEventInvited.setText("2");
+        ibEventInvited.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                ibEventInvited.setEnabled(false);
+                new AlertDialog.Builder(ActivityEventSelection.this)
+                        .setTitle("Invited")
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                ibEventInvited.setEnabled(true);
+                                dialog.cancel();
+                            }
+                        })
+                        .setItems(invited, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO: What option do we want to give the user when they select a name from the list?
+                                ibEventInvited.setEnabled(true);
+                            }
+                        })
+                        .show();
+                return false;
+            }
+        });
+
+        /**
+         * TODO: Change all data below have DB integration is complete
+         */
+        // Set Temp Data to UI components
+        tvEventName.setText(event.getName());
+
+        Date startDateTime = event.getStartDateTime();
+        if(startDateTime != null) {
+            tvEventStartDate.setText(
+                    startDateTime.getMonth() + "/" +
+                            startDateTime.getDate() + "/" +
+                            startDateTime.getYear() + 1900);
+
+            long time = startDateTime.getTime();
+            String ampm = " AM";
+            if (time > 12) {
+                ampm = " PM";
+            }
+            String eventTime = time + ampm;
+
+            //TODO: Add end date/time
+            Date endDateTime = event.getEndDateTime();
+            if(endDateTime != null)
+            {
+
+            }
+
+            tvEventStartTime.setText(eventTime);
+        }
+
+        etEventDetails.setText(event.getDescription());
+
+        etEventLocation.setText(event.getLocation());
+
+        // Event Calendar button
+        ibEventCalendar.setBackgroundResource(R.drawable.ic_add_box_selector);
+        ibEventCalendar.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: List Item Direction Image Button Click
+            }
+        });
+
+        // Event Directions button
+        ibEventLocation.setBackgroundResource(R.drawable.ic_directions_selector);
+        ibEventLocation.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: List Item Direction Image Button Click
+            }
+        });
 
     } // end of function setEventDetails()
+
+    /**
+     * Link and setup the UI components for this Activity
+     */
+    public void setupUI() {
+
+        Resources res = getResources();
+
+        // Setup the Back button for user navigation out of the selected event
+        ImageButton ibBack = (ImageButton)findViewById(R.id.ibEventBack);
+        ibBack.setBackgroundResource(R.drawable.ic_back_arrow_selector);
+        ibBack.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                finish();
+                return false;
+            }
+        });
+
+        // Create the tabHost and assign TabSpecs for each event select tab
+        TabHost tabHost = getTabHost();
+        TabHost.TabSpec tabDetails = tabHost.newTabSpec("tabDetails");
+        TabHost.TabSpec tabChat = tabHost.newTabSpec("tabChat");
+        TabHost.TabSpec tabMap = tabHost.newTabSpec("tabMap");
+
+        // Set the Tab name and layout
+        // that will be opened when particular Tab will be selected
+        tabDetails.setIndicator("", res.getDrawable(R.drawable.tab_event_details_selector));
+        getLayoutInflater().inflate(R.layout.tab_event_select_details, tabHost.getTabContentView(), true);
+        tabDetails.setContent(R.id.tab_event_select_details);
+
+        tabChat.setIndicator("", res.getDrawable(R.drawable.tab_event_chat_selector));
+        getLayoutInflater().inflate(R.layout.tab_event_select_chat, tabHost.getTabContentView(), true);
+        tabChat.setContent(R.id.tab_event_select_chat);
+
+        tabMap.setIndicator("", res.getDrawable(R.drawable.tab_event_map_selector));
+        getLayoutInflater().inflate(R.layout.tab_event_select_map, tabHost.getTabContentView(), true);
+        tabMap.setContent(R.id.tab_event_select_map);
+
+        // Add the tabs  to the TabHost to display.
+        tabHost.addTab(tabDetails);
+        tabHost.addTab(tabChat);
+        tabHost.addTab(tabMap);
+
+    } // end of function setUI()
 
 } // end of class ActivityEventSelection
