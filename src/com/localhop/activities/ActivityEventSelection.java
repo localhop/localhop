@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,6 +21,9 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.localhop.R;
+import com.localhop.objects.Event;
+
+import java.util.Date;
 
 /**
  * Activity for a specific Event selected from the Events List tab.
@@ -28,17 +32,17 @@ import com.localhop.R;
  */
 public class ActivityEventSelection extends TabActivity {
 
+    private Event event;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.tab_event_select_main);
 
-        // Get the selected Event's id
-        // TODO: get "eventID" that was passed into this Intent from EventListSwipe.java
-
-        // Retrieve all data for the event
-        // TODO: generate a ListItemEvent data object
+        // Get the selected event
+        Intent eventListIntent = getIntent();
+        this.event = (Event)eventListIntent.getSerializableExtra("event");
 
         // Set up the main UI
         setupUI();
@@ -143,18 +147,35 @@ public class ActivityEventSelection extends TabActivity {
          * TODO: Change all data below have DB integration is complete
          */
         // Set Temp Data to UI components
-        tvEventName.setText("Chipotle");
+        tvEventName.setText(event.getName());
 
-        tvEventStartDate.setText("Monday, 12/1/2015");
-        tvEventStartTime.setText("5:00 PM - 6:00 PM");
+        Date startDateTime = event.getStartDateTime();
+        if(startDateTime != null) {
+            tvEventStartDate.setText(
+                    startDateTime.getMonth() + "/" +
+                            startDateTime.getDate() + "/" +
+                            startDateTime.getYear() + 1900);
 
-        etEventDetails.setText("Hey Gang!\n\nYou know the drill, come to Chipotle and " +
-                "grab some grub. We can discuss our plans for the week " +
-                "and anything else worth talking about.");
+            long time = startDateTime.getTime();
+            String ampm = " AM";
+            if (time > 12) {
+                ampm = " PM";
+            }
+            String eventTime = time + ampm;
 
-        etEventLocation.setText("Chipotle Mexican Grill\n" +
-                "1420 W. 23rd St.\n" +
-                "Lawrence, KS 66046");
+            //TODO: Add end date/time
+            Date endDateTime = event.getEndDateTime();
+            if(endDateTime != null)
+            {
+
+            }
+
+            tvEventStartTime.setText(eventTime);
+        }
+
+        etEventDetails.setText(event.getDescription());
+
+        etEventLocation.setText(event.getLocation());
 
         // Event Calendar button
         ibEventCalendar.setBackgroundResource(R.drawable.ic_add_box_selector);

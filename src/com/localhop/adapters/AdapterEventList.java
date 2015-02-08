@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.localhop.R;
-import com.localhop.objects.ListItemEvent;
+import com.localhop.objects.Event;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,11 +17,11 @@ import java.util.Date;
 /**
  * Adapter for displaying custom list items in the Event List tab
  */
-public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
+public class AdapterEventList extends ArrayAdapter<Event> {
 
     private final Context context;
-    private final ArrayList<ListItemEvent> itemsArrayList;
-    private final ListItemEvent.EventType eventType;
+    private final ArrayList<Event> itemsArrayList;
+    private final Event.EventType eventType;
     private final String[] daysOfWeek;
     private String eventNameSpacing = "    "; //< Spacing for the Event Name UI Component
 
@@ -30,8 +30,8 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
      * @param context - The context the adapter is being used in
      * @param itemsArrayList - List of items for the Custom ListView
      */
-    public AdapterEventList(Context context, ArrayList<ListItemEvent> itemsArrayList,
-                            ListItemEvent.EventType eventType) {
+    public AdapterEventList(Context context, ArrayList<Event> itemsArrayList,
+                            Event.EventType eventType) {
 
         super(context, R.layout.list_item_event, itemsArrayList);
 
@@ -72,7 +72,7 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
      * @return
      */
     @Override
-    public ListItemEvent getItem(int position){
+    public Event getItem(int position){
         return itemsArrayList.get(position);
     } // end of function getItem()
 
@@ -93,8 +93,8 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
         ImageButton ibDirection = (ImageButton) rowView.findViewById(R.id.ibDirections);
 
         // Set the UI components
-        ListItemEvent event = itemsArrayList.get(position);
-        tvStartTime.setText(event.getStartTime());
+        Event event = itemsArrayList.get(position);
+        tvStartTime.setText(String.valueOf(event.getStartDateTime().getTime()));
         tvName.setText(eventNameSpacing + event.getEventName());
         tvAttendees.setText(event.getAttendees());
         tvDirection.setText(event.getLocation());
@@ -112,10 +112,10 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
         tvNotification.setText(sNotificationCount);
 
         // Add Date delimiter UI if the event is not today
-        Date date = event.getStartDate();
-        if(event.getType() != ListItemEvent.EventType.Today &&
-                ((position > 0 && itemsArrayList.get(position).getStartDate()
-                        .compareTo(itemsArrayList.get(position - 1).getStartDate()) != 0) ||
+        Date date = event.getStartDateTime();
+        if(event.getType() != Event.EventType.Today &&
+                ((position > 0 && itemsArrayList.get(position).getStartDateTime()
+                        .compareTo(itemsArrayList.get(position - 1).getStartDateTime()) != 0) ||
                         position <= 0)) {
             TextView tvEventListDateDelimiter = (TextView) rowView
                     .findViewById(R.id.tvEventListDateDelimiter);
@@ -139,13 +139,13 @@ public class AdapterEventList extends ArrayAdapter<ListItemEvent> {
      * @return
      */
     public View setViewLayout(int position, ViewGroup parent, LayoutInflater inflater,
-                              ListItemEvent.EventType type) {
+                              Event.EventType type) {
 
         int layout = R.layout.list_item_event;
 
-        if (type != ListItemEvent.EventType.Today &&
-                ((position > 0 && itemsArrayList.get(position).getStartDate()
-                        .compareTo(itemsArrayList.get(position - 1).getStartDate()) != 0) ||
+        if (type != Event.EventType.Today &&
+                ((position > 0 && itemsArrayList.get(position).getStartDateTime()
+                        .compareTo(itemsArrayList.get(position - 1).getStartDateTime()) != 0) ||
                 position <= 0)) {
             layout = R.layout.list_item_event_with_date_delimiter;
         }
