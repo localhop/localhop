@@ -1,6 +1,13 @@
 package com.localhop.objects;
 
+import android.util.Log;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -60,6 +67,32 @@ public class Event implements Serializable{
         this.notificationCount = notificationCount;
 
     } // end of constructor
+
+    public static Event fromJSON(JSONObject o) {
+        try {
+//            final DateFormat df = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss.fffZ");
+
+            final String name          = o.getString("name");
+            final String description   = o.getString("description");
+            final String location      = o.getString("location");
+            final Date dummyDate       = new Date();
+//            final Date   startDateTime = df.parse(o.getString("start"));
+//            final Date   endDateTime   = df.parse(o.getString("end"));
+            // TODO: figure out attendees
+            final int    inviteSetting = o.getJSONArray("invite_setting").getInt(0);
+            final int    organizer     = o.getInt("org_user_id");
+            // TODO: notification count
+
+            return new Event(EventType.Today, name, description, location, dummyDate,
+                             dummyDate, "", inviteSetting, organizer, 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null; // TODO: evil null voodoo
+        } /*catch (ParseException e) {
+            e.printStackTrace();
+            return null; // TODO: evil null voodoo
+        }*/
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //    Getters and Setters
