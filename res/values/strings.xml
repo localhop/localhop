@@ -21,6 +21,20 @@
         <item>@string/saturday</item>
     </string-array>
 
+    <!-- Account login -->
+    <string name="login">Login</string>
+    <string name="login_title">Log in to Local Hop</string>
+    <string name="login_email_hint">E-mail address</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_button">Log in for great justice</string>
+    <string name="new_account">New account</string>
+    <string name="login_forgot_button">Forgot something?</string>
+
+    <!-- Account creation -->
+    <string name="your_name_title">Your name</string>
+    <string name="your_name_hint">Name</string>
+    <string name="your_name_disclaimer">This name is displayed to other users who search for you.</string>
+
     <!-- SharedPreferences -->
     <string name="pref_test_rest">TEST_THE_REST</string>
 </resources>

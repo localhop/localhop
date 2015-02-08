@@ -2,6 +2,7 @@ package com.localhop.activities;
 
 /* Native Java libs ---------------------------------------------------------*/
 
+import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
 import com.localhop.R;
+import com.localhop.activities.account.ActivityAccountLogin;
 import com.localhop.prefs.Prefs;
 import com.localhop.prefs.PrefsActivity;
 
@@ -38,13 +40,19 @@ public class ActivityMain extends TabActivity {
 
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.login:
+                return startActivityFromClass(ActivityAccountLogin.class);
             case R.id.settings:
-                final Intent settingsIntent = new Intent(this, PrefsActivity.class);
-                startActivity(settingsIntent);
-                return true;
+                return startActivityFromClass(PrefsActivity.class);
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean startActivityFromClass(Class<? extends Activity> cls) {
+        final Intent i = new Intent(this, cls);
+        startActivity(i);
+        return true;
     }
 
     /**
