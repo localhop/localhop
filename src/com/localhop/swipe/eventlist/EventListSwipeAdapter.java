@@ -1,4 +1,4 @@
-package com.localhop.swipe;
+package com.localhop.swipe.eventlist;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

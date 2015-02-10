@@ -1,11 +1,9 @@
 package com.localhop.objects;
 
-import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,7 +30,7 @@ public class Event implements Serializable{
     private int inviteSetting;      //< Event Invite Setting
     private Date startDateTime;     //< Event's start Date/Time
     private Date endDateTime;       //< Event's end Date/Time
-    private int organizer;          //< Event's organizer id (need to derive name)
+    private int organizer;          //< Event's organizer id (needed to derive name)
     private String attendees;       //< Event attendees (also derived)
     private int notificationCount;  //< Number of notifications associated for this event for a user
 
@@ -68,30 +66,58 @@ public class Event implements Serializable{
 
     } // end of constructor
 
+
+    /**
+     * Collects Event objects from the DB
+     * @param o
+     * @return
+     */
     public static Event fromJSON(JSONObject o) {
         try {
-//            final DateFormat df = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss.fffZ");
+            //final SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss.fffZ");
+            final SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 
             final String name          = o.getString("name");
             final String description   = o.getString("description");
             final String location      = o.getString("location");
-            final Date dummyDate       = new Date();
-//            final Date   startDateTime = df.parse(o.getString("start"));
-//            final Date   endDateTime   = df.parse(o.getString("end"));
+
+            String temp = o.getString("start");
+            temp = temp.substring(0, 10) + " " + temp.substring(11, 19);
+            Date   startDateTime        = newFormat.parse(temp);
+            //final Date   startDateTime = newFormat.parse(newFormat.format(dateOriginal));
+
+            //dateOriginal = oldFormat.parse(o.getString("end"));
+           // final Date   endDateTime   = newFormat.parse(newFormat.format(dateOriginal));
             // TODO: figure out attendees
+
             final int    inviteSetting = o.getJSONArray("invite_setting").getInt(0);
             final int    organizer     = o.getInt("org_user_id");
+
             // TODO: notification count
 
-            return new Event(EventType.Today, name, description, location, dummyDate,
-                             dummyDate, "", inviteSetting, organizer, 0);
+            // Determine if the event is Past, Today, or Future
+            final Date   currentDate   = new Date();
+            EventType type = EventType.Today;
+            if(startDateTime.getDate() < currentDate.getDate())
+            {
+                type = EventType.Past;
+            }
+            else if (startDateTime.getDate() > currentDate.getDate())
+            {
+                type = EventType.Future;
+            }
+
+
+            return new Event(type, name, description, location, startDateTime,
+                    startDateTime, "", inviteSetting, organizer, 0);
         } catch (JSONException e) {
             e.printStackTrace();
             return null; // TODO: evil null voodoo
-        } /*catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
             return null; // TODO: evil null voodoo
-        }*/
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

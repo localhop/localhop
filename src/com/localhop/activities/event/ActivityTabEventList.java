@@ -1,4 +1,4 @@
-package com.localhop.activities;
+package com.localhop.activities.event;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -7,7 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.SearchView;
 
 import com.localhop.R;
-import com.localhop.swipe.EventListSwipeAdapter;
+import com.localhop.swipe.eventlist.EventListSwipeAdapter;
 import com.localhop.swipe.viewpagersupport.ZoomOutPageTransformer;
 
 /**

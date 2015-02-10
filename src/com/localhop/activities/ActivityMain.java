@@ -13,6 +13,8 @@ import android.widget.TabHost.TabSpec;
 
 import com.localhop.R;
 import com.localhop.activities.account.ActivityAccountLogin;
+import com.localhop.activities.event.ActivityTabCreateEvent;
+import com.localhop.activities.event.ActivityTabEventList;
 import com.localhop.prefs.Prefs;
 import com.localhop.prefs.PrefsActivity;
 

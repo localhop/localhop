@@ -1,4 +1,4 @@
-package com.localhop.activities;
+package com.localhop.activities.event;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.localhop.adapters;
+package com.localhop.swipe.eventlist;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,7 +21,6 @@ public class AdapterEventList extends ArrayAdapter<Event> {
 
     private final Context context;
     private final ArrayList<Event> itemsArrayList;
-    private final Event.EventType eventType;
     private final String[] daysOfWeek;
     private String eventNameSpacing = "    "; //< Spacing for the Event Name UI Component
 
@@ -30,14 +29,12 @@ public class AdapterEventList extends ArrayAdapter<Event> {
      * @param context - The context the adapter is being used in
      * @param itemsArrayList - List of items for the Custom ListView
      */
-    public AdapterEventList(Context context, ArrayList<Event> itemsArrayList,
-                            Event.EventType eventType) {
+    public AdapterEventList(Context context, ArrayList<Event> itemsArrayList) {
 
         super(context, R.layout.list_item_event, itemsArrayList);
 
         this.context = context;
         this.itemsArrayList = itemsArrayList;
-        this.eventType = eventType;
         this.daysOfWeek = context.getResources().getStringArray(R.array.days_of_week);
     } // end of Constructor
 
@@ -94,7 +91,24 @@ public class AdapterEventList extends ArrayAdapter<Event> {
 
         // Set the UI components
         Event event = itemsArrayList.get(position);
-        tvStartTime.setText(String.valueOf(event.getStartDateTime().getTime()));
+
+        // TODO: Correct the time format
+        int hours = event.getStartDateTime().getHours();
+        int minutes = event.getStartDateTime().getMinutes();
+        String ampm = " AM";
+        if (hours > 12)
+        {
+            hours = 24 - hours;
+            ampm = " PM";
+        }
+
+        tvStartTime.setText(hours + ":" +
+                minutes + ampm);
+
+
+
+
+
         tvName.setText(eventNameSpacing + event.getEventName());
         tvAttendees.setText(event.getAttendees());
         tvDirection.setText(event.getLocation());
