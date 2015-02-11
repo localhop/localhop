@@ -1,6 +1,7 @@
 package com.localhop.swipe.eventlist;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.localhop.R;
+import com.localhop.objects.DateTime;
 import com.localhop.objects.Event;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -19,10 +22,10 @@ import java.util.Date;
  */
 public class AdapterEventList extends ArrayAdapter<Event> {
 
-    private final Context context;
-    private final ArrayList<Event> itemsArrayList;
-    private final String[] daysOfWeek;
-    private String eventNameSpacing = "    "; //< Spacing for the Event Name UI Component
+    private final Context mContext;
+    private final ArrayList<Event> mEventListItems;
+    private final String mEventNameSpacing;             //< Spacing for the Event Name UI Component
+
 
     /**
      * Constructor
@@ -33,9 +36,10 @@ public class AdapterEventList extends ArrayAdapter<Event> {
 
         super(context, R.layout.list_item_event, itemsArrayList);
 
-        this.context = context;
-        this.itemsArrayList = itemsArrayList;
-        this.daysOfWeek = context.getResources().getStringArray(R.array.days_of_week);
+        this.mContext = context;
+        this.mEventListItems = itemsArrayList;
+        this.mEventNameSpacing = "    ";
+
     } // end of Constructor
 
     /**
@@ -49,12 +53,12 @@ public class AdapterEventList extends ArrayAdapter<Event> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         // Create inflater
-        LayoutInflater inflater = (LayoutInflater) context
+        LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Create the view to be returned
         View rowView = setViewLayout(position, parent, inflater,
-                itemsArrayList.get(position).getType());
+                mEventListItems.get(position).getType());
 
         // Setup the UI for the new list item view
         setItemView(position, rowView);
@@ -70,7 +74,7 @@ public class AdapterEventList extends ArrayAdapter<Event> {
      */
     @Override
     public Event getItem(int position){
-        return itemsArrayList.get(position);
+        return mEventListItems.get(position);
     } // end of function getItem()
 
     /**
@@ -89,27 +93,15 @@ public class AdapterEventList extends ArrayAdapter<Event> {
         TextView tvNotification = (TextView) rowView.findViewById(R.id.tvNotification);
         ImageButton ibDirection = (ImageButton) rowView.findViewById(R.id.ibDirections);
 
-        // Set the UI components
-        Event event = itemsArrayList.get(position);
+        // Get the current event
+        Event event = mEventListItems.get(position);
 
-        // TODO: Correct the time format
-        int hours = event.getStartDateTime().getHours();
-        int minutes = event.getStartDateTime().getMinutes();
-        String ampm = " AM";
-        if (hours > 12)
-        {
-            hours = 24 - hours;
-            ampm = " PM";
-        }
+        // Set the Event Time
+        DateTime datetime = new DateTime(getContext(), event.getStartDateTime());
+        tvStartTime.setText(datetime.getTimeFormat());
 
-        tvStartTime.setText(hours + ":" +
-                minutes + ampm);
-
-
-
-
-
-        tvName.setText(eventNameSpacing + event.getEventName());
+        // Set the remaining UI components
+        tvName.setText(mEventNameSpacing + event.getEventName());
         tvAttendees.setText(event.getAttendees());
         tvDirection.setText(event.getLocation());
         ibDirection.setBackgroundResource(R.drawable.ic_directions_selector);
@@ -126,19 +118,16 @@ public class AdapterEventList extends ArrayAdapter<Event> {
         tvNotification.setText(sNotificationCount);
 
         // Add Date delimiter UI if the event is not today
-        Date date = event.getStartDateTime();
         if(event.getType() != Event.EventType.Today &&
-                ((position > 0 && itemsArrayList.get(position).getStartDateTime()
-                        .compareTo(itemsArrayList.get(position - 1).getStartDateTime()) != 0) ||
+                ((position > 0 && mEventListItems.get(position).getStartDateTime()
+                        .compareTo(mEventListItems.get(position - 1).getStartDateTime()) != 0) ||
                         position <= 0)) {
             TextView tvEventListDateDelimiter = (TextView) rowView
                     .findViewById(R.id.tvEventListDateDelimiter);
             // Set the date into the format DayOfWeek, Month/Day, Year
-            if (date != null) {
-                tvEventListDateDelimiter.setText(daysOfWeek[date.getDay()] + ", " +
-                        (date.getMonth() + 1) + "/" + date.getDate() + ", " +
-                        (date.getYear() + 1900));
-            }
+                tvEventListDateDelimiter.setText(
+                        datetime.getDayOfWeekString() + ", " +
+                                datetime.getMonthDayYearFormat());
         }
 
     } // end of function setItemView()
@@ -158,8 +147,8 @@ public class AdapterEventList extends ArrayAdapter<Event> {
         int layout = R.layout.list_item_event;
 
         if (type != Event.EventType.Today &&
-                ((position > 0 && itemsArrayList.get(position).getStartDateTime()
-                        .compareTo(itemsArrayList.get(position - 1).getStartDateTime()) != 0) ||
+                ((position > 0 && mEventListItems.get(position).getStartDateTime()
+                        .compareTo(mEventListItems.get(position - 1).getStartDateTime()) != 0) ||
                 position <= 0)) {
             layout = R.layout.list_item_event_with_date_delimiter;
         }

@@ -19,8 +19,10 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.localhop.R;
+import com.localhop.objects.DateTime;
 import com.localhop.objects.Event;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -141,38 +143,23 @@ public class ActivityEventSelection extends TabActivity {
             }
         });
 
-        /**
-         * TODO: Change all data below have DB integration is complete
-         */
-        // Set Temp Data to UI components
+        // Set Event Name
         tvEventName.setText(event.getName());
 
-        Date startDateTime = event.getStartDateTime();
-        if(startDateTime != null) {
-            tvEventStartDate.setText(
-                    startDateTime.getMonth() + "/" +
-                            startDateTime.getDate() + "/" +
-                            startDateTime.getYear() + 1900);
+        // Set Event Start Date
+        DateTime datetime = new DateTime(getApplicationContext(), event.getStartDateTime());
+        tvEventStartDate.setText(datetime.getMonthDayYearFormat());
 
-            long time = startDateTime.getTime();
-            String ampm = " AM";
-            if (time > 12) {
-                ampm = " PM";
-            }
-            String eventTime = time + ampm;
+        // Set Event Start and End Time
+        String startEventTime = datetime.getTimeFormat();
+        datetime.setTime(event.getEndDateTime());
+        String endEventTime = datetime.getTimeFormat();
+        tvEventStartTime.setText(startEventTime + " - " + endEventTime);
 
-            //TODO: Add end date/time
-            Date endDateTime = event.getEndDateTime();
-            if(endDateTime != null)
-            {
-
-            }
-
-            tvEventStartTime.setText(eventTime);
-        }
-
+        // Set Event Details
         etEventDetails.setText(event.getDescription());
 
+        // Set Event Location
         etEventLocation.setText(event.getLocation());
 
         // Event Calendar button

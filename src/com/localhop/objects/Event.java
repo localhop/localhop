@@ -77,15 +77,16 @@ public class Event implements Serializable{
             //final SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss.fffZ");
             final SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-
             final String name          = o.getString("name");
             final String description   = o.getString("description");
             final String location      = o.getString("location");
 
             String temp = o.getString("start");
             temp = temp.substring(0, 10) + " " + temp.substring(11, 19);
-            Date   startDateTime        = newFormat.parse(temp);
-            //final Date   startDateTime = newFormat.parse(newFormat.format(dateOriginal));
+            Date startDateTime = newFormat.parse(temp);
+            temp = o.getString("end");
+            temp = temp.substring(0, 10) + " " + temp.substring(11, 19);
+            Date endDateTime = newFormat.parse(temp);
 
             //dateOriginal = oldFormat.parse(o.getString("end"));
            // final Date   endDateTime   = newFormat.parse(newFormat.format(dateOriginal));
@@ -110,7 +111,7 @@ public class Event implements Serializable{
 
 
             return new Event(type, name, description, location, startDateTime,
-                    startDateTime, "", inviteSetting, organizer, 0);
+                    endDateTime, "", inviteSetting, organizer, 0);
         } catch (JSONException e) {
             e.printStackTrace();
             return null; // TODO: evil null voodoo
