@@ -65,7 +65,7 @@ public class EventListSwipe extends Fragment {
 
                 @Override protected ArrayList<Event> onResponse(final String response) {
                     try {
-                        final JSONArray arr = new JSONObject(response).getJSONArray("json");
+                        final JSONArray arr = new JSONObject(response).getJSONArray("json").getJSONArray(0);
 
                         ArrayList<Event> events = new ArrayList<Event>();
                         for (int i = 0; i < arr.length(); ++i) {
@@ -86,7 +86,7 @@ public class EventListSwipe extends Fragment {
                     layoutFragment();
                 }
 
-            }.execute("http://24.124.60.119/getEvents");
+            }.execute("http://24.124.60.119/get/user/events/2");
 
     } // end of function getAllUserEvents()
 
