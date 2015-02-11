@@ -74,7 +74,6 @@ public class Event implements Serializable{
      */
     public static Event fromJSON(JSONObject o) {
         try {
-            //final SimpleDateFormat oldFormat = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss.fffZ");
             final SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             final String name          = o.getString("name");
@@ -88,8 +87,6 @@ public class Event implements Serializable{
             temp = temp.substring(0, 10) + " " + temp.substring(11, 19);
             Date endDateTime = newFormat.parse(temp);
 
-            //dateOriginal = oldFormat.parse(o.getString("end"));
-           // final Date   endDateTime   = newFormat.parse(newFormat.format(dateOriginal));
             // TODO: figure out attendees
 
             final int    inviteSetting = o.getJSONArray("invite_setting").getInt(0);

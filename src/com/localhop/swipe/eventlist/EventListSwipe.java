@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.localhop.activities.event.ActivityEventSelection;
 import com.localhop.network.HttpRequest;
@@ -19,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -61,11 +63,13 @@ public class EventListSwipe extends Fragment {
      */
     private void getAllUserEvents() {
 
+        // TODO: Extract this query into its own class of queries
+        // TODO: Note, onPostExecute may run into issues. Be Creative (:
             new HttpServerRequest<Activity, ArrayList<Event>>(getActivity(), HttpRequest.GET) {
 
                 @Override protected ArrayList<Event> onResponse(final String response) {
                     try {
-                        final JSONArray arr = new JSONObject(response).getJSONArray("json").getJSONArray(0);
+                        final JSONArray arr = new JSONObject(response).getJSONArray("text");
 
                         ArrayList<Event> events = new ArrayList<Event>();
                         for (int i = 0; i < arr.length(); ++i) {
@@ -99,75 +103,85 @@ public class EventListSwipe extends Fragment {
         if( mEvents != null )
         {
             // Split up the events based on Event Type (i.e. Past, Today, or Future)
-            Event.EventType type = Event.EventType.Today;
-            ArrayList<Event> events = new ArrayList<Event>();
-            Date currentDate = new Date();
+            ArrayList<Event> pastEvents = new ArrayList<Event>();
+            ArrayList<Event> todayEvents = new ArrayList<Event>();
+            ArrayList<Event> futureEvents = new ArrayList<Event>();
             Event tempEvent;
+            for(int i = 0; i < mEvents.size(); i++)
+            {
+                tempEvent = mEvents.get(i);
+                if( tempEvent.getType() == Event.EventType.Past )
+                {
+                    pastEvents.add(tempEvent);
+                }
+                else if( tempEvent.getType() == Event.EventType.Today )
+                {
+                    todayEvents.add(tempEvent);
+                }
+                else if( tempEvent.getType() == Event.EventType.Future )
+                {
+                    futureEvents.add(tempEvent);
+                }
+            }
+
             switch (mCurrentPage) {
                 case 0:
                     // Past Events
-                    type = Event.EventType.Past;
-
-                    for(int i = 0; i < mEvents.size(); i++)
-                    {
-                        tempEvent = mEvents.get(i);
-                        if( tempEvent.getStartDateTime().getDate() < currentDate.getDate())
-                        {
-                            events.add(tempEvent);
-                        }
-                    }
+                    setupEventSelection(pastEvents);
                     break;
                 case 1:
                     // Today Events
-                    for(int i = 0; i < mEvents.size(); i++)
-                    {
-                        tempEvent = mEvents.get(i);
-                        if( tempEvent.getStartDateTime().getDate() == currentDate.getDate())
-                        {
-                            events.add(tempEvent);
-                        }
-                    }
+                    setupEventSelection(todayEvents);
                     break;
                 case 2:
                     // Future Events
-                    type = Event.EventType.Future;
-                    for(int i = 0; i < mEvents.size(); i++)
-                    {
-                        tempEvent = mEvents.get(i);
-                        if( tempEvent.getStartDateTime().getDate() > currentDate.getDate())
-                        {
-                            events.add(tempEvent);
-                        }
-                    }
+                    setupEventSelection(futureEvents);
                     break;
             }
-
-            // Pass context and data to the custom adapter
-            final AdapterEventList eventListAdapter = new AdapterEventList(mEventListView.getContext(),
-                    events);
-
-            // Get ListView from tab_event_list_swipe.xml
-            ListView lvEvents = (ListView) mEventListView.findViewById(R.id.lvEvents);
-
-            // Set the List Adapter
-            lvEvents.setAdapter(eventListAdapter);
-
-            // Set the ListView Item Listener
-            lvEvents.setOnItemClickListener(new ListView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // Prepare to start ActivityEventSelection
-                    Intent eventSelection = new Intent(view.getContext(), ActivityEventSelection.class);
-                    // Pass the selected event object to the ActivityEventSelection.
-                    eventSelection.putExtra("event", eventListAdapter.getItem(position));
-                    startActivity(eventSelection);
-                }
-            });
         }
     } // end of function layoutFragment()
+
 
     private void setEvents(final ArrayList<Event> events) {
         mEvents = events;
     }
+
+    /**
+     * Sets up the Search View and handles searches for specific events
+     */
+    private void searchEvents(){
+
+        SearchView sv = (SearchView)mEventListView.findViewById(R.id.svEventList);
+
+    }
+
+    /**
+     * Sets up and handles event selections
+     * @param events
+     */
+    private void setupEventSelection(ArrayList<Event> events){
+
+        // Pass context and data to the custom adapter
+        final AdapterEventList eventListAdapter = new AdapterEventList(mEventListView.getContext(),
+                events);
+
+        // Get ListView from tab_event_list_swipe.xml
+        ListView lvEvents = (ListView) mEventListView.findViewById(R.id.lvEvents);
+
+        // Set the List Adapter
+        lvEvents.setAdapter(eventListAdapter);
+
+        // Set the ListView Item Listener
+        lvEvents.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Prepare to start ActivityEventSelection
+                Intent eventSelection = new Intent(view.getContext(), ActivityEventSelection.class);
+                // Pass the selected event object to the ActivityEventSelection.
+                eventSelection.putExtra("event", eventListAdapter.getItem(position));
+                startActivity(eventSelection);
+            }
+        });
+    } // end of class setupEventSelection
 
 } // end of class EventListSwipe
