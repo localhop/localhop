@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +31,12 @@ import java.util.Date;
  */
 public class EventListSwipe extends Fragment {
 
-    private int mCurrentPage;           //< The current view of the swipe tabs
-    private ArrayList<Event> mEvents;   //< All events associated to a user (Past, Today, and Future)
-    private View mEventListView;        //< The event list view for the swipe view
+    private int mCurrentPage;                  //< The current view of the swipe tabs
+    private ArrayList<Event> mEvents;          //< All events associated to a user (Past, Today, and Future)
+    private View mEventListView;               //< The event list view for the swipe view
+    private SwipeRefreshLayout mRefreshLayout; // Swipe to refresh the events, ooooh, aaaah...
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Getting the arguments to the Bundle object
@@ -46,11 +47,11 @@ public class EventListSwipe extends Fragment {
 
     } // end of function onCreate()
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Create the view for the event list items to be returned
         mEventListView = inflater.inflate(R.layout.tab_event_list_view, container, false);
+        mRefreshLayout = (SwipeRefreshLayout) mEventListView.findViewById(R.id.srl_events);
 
         // Get all events for a user and split them up based on type of event?
         getAllUserEvents();
@@ -88,6 +89,7 @@ public class EventListSwipe extends Fragment {
                     super.onPostExecute(events);
                     setEvents(events);
                     layoutFragment();
+                    mRefreshLayout.setRefreshing(false);
                 }
 
             }.execute("http://24.124.60.119/get/user/events/2");
@@ -167,6 +169,12 @@ public class EventListSwipe extends Fragment {
 
         // Get ListView from tab_event_list_swipe.xml
         ListView lvEvents = (ListView) mEventListView.findViewById(R.id.lvEvents);
+
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override public void onRefresh() {
+                getAllUserEvents();
+            }
+        });
 
         // Set the List Adapter
         lvEvents.setAdapter(eventListAdapter);
