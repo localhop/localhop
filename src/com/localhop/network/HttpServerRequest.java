@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 
 import android.app.Activity;
+import android.widget.Toast;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -120,6 +121,9 @@ public abstract class HttpServerRequest<A extends Activity, Result> extends Asyn
     @Override
     protected void onCancelled(Result error) {
         super.onCancelled(error);
+        if (mErrorMessage != null) {
+            Toast.makeText(getActivity(), mErrorMessage, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private Result cancelResult(Exception error, String errorMsg) {

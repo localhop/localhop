@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +29,12 @@ import java.util.Date;
  */
 public class EventListSwipe extends Fragment {
 
-    private int mCurrentPage;           //< The current view of the swipe tabs
-    private ArrayList<Event> mEvents;   //< All events associated to a user (Past, Today, and Future)
-    private View mEventListView;        //< The event list view for the swipe view
+    private int mCurrentPage;                  //< The current view of the swipe tabs
+    private ArrayList<Event> mEvents;          //< All events associated to a user (Past, Today, and Future)
+    private View mEventListView;               //< The event list view for the swipe view
+    private SwipeRefreshLayout mRefreshLayout; // Swiping down causes the events to refresh. Ooooh.
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Getting the arguments to the Bundle object
@@ -44,11 +45,11 @@ public class EventListSwipe extends Fragment {
 
     } // end of function onCreate()
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Create the view for the event list items to be returned
         mEventListView = inflater.inflate(R.layout.tab_event_list_view, container, false);
+        mRefreshLayout = (SwipeRefreshLayout) mEventListView.findViewById(R.id.srl_events);
 
         // Get all events for a user and split them up based on type of event?
         getAllUserEvents();
@@ -60,33 +61,36 @@ public class EventListSwipe extends Fragment {
      * Retrieves all events associated to a user from the DB
      */
     private void getAllUserEvents() {
+        new HttpServerRequest<Activity, ArrayList<Event>>(getActivity(), HttpRequest.GET) {
+            @Override protected ArrayList<Event> onResponse(final String response) {
+                try {
+                    final JSONArray arr = new JSONObject(response).getJSONArray("json").getJSONArray(0);
 
-            new HttpServerRequest<Activity, ArrayList<Event>>(getActivity(), HttpRequest.GET) {
-
-                @Override protected ArrayList<Event> onResponse(final String response) {
-                    try {
-                        final JSONArray arr = new JSONObject(response).getJSONArray("json").getJSONArray(0);
-
-                        ArrayList<Event> events = new ArrayList<Event>();
-                        for (int i = 0; i < arr.length(); ++i) {
-                            final JSONObject obj = arr.getJSONObject(i);
-                            events.add(Event.fromJSON(obj));
-                        }
-
-                        return events;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        return null; // TODO: null voodoo
+                    ArrayList<Event> events = new ArrayList<Event>();
+                    for (int i = 0; i < arr.length(); ++i) {
+                        final JSONObject obj = arr.getJSONObject(i);
+                        events.add(Event.fromJSON(obj));
                     }
-                }
 
-                @Override protected void onPostExecute(ArrayList<Event> events) {
-                    super.onPostExecute(events);
-                    setEvents(events);
-                    layoutFragment();
+                    return events;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null; // TODO: null voodoo
                 }
+            }
 
-            }.execute("http://24.124.60.119/get/user/events/2");
+            @Override protected void onPostExecute(ArrayList<Event> events) {
+                super.onPostExecute(events);
+                setEvents(events);
+                layoutFragment();
+                mRefreshLayout.setRefreshing(false);
+            }
+
+            @Override protected void onCancelled() {
+                mRefreshLayout.setRefreshing(false);
+            }
+
+        }.execute("http://24.124.60.119/get/user/events/2");
 
     } // end of function getAllUserEvents()
 
@@ -96,8 +100,7 @@ public class EventListSwipe extends Fragment {
      */
     public void layoutFragment() {
 
-        if( mEvents != null )
-        {
+        if (mEvents != null) {
             // Split up the events based on Event Type (i.e. Past, Today, or Future)
             Event.EventType type = Event.EventType.Today;
             ArrayList<Event> events = new ArrayList<Event>();
@@ -108,22 +111,18 @@ public class EventListSwipe extends Fragment {
                     // Past Events
                     type = Event.EventType.Past;
 
-                    for(int i = 0; i < mEvents.size(); i++)
-                    {
+                    for (int i = 0; i < mEvents.size(); i++) {
                         tempEvent = mEvents.get(i);
-                        if( tempEvent.getStartDateTime().getDate() < currentDate.getDate())
-                        {
+                        if (tempEvent.getStartDateTime().getDate() < currentDate.getDate()) {
                             events.add(tempEvent);
                         }
                     }
                     break;
                 case 1:
                     // Today Events
-                    for(int i = 0; i < mEvents.size(); i++)
-                    {
+                    for (int i = 0; i < mEvents.size(); i++) {
                         tempEvent = mEvents.get(i);
-                        if( tempEvent.getStartDateTime().getDate() == currentDate.getDate())
-                        {
+                        if (tempEvent.getStartDateTime().getDate() == currentDate.getDate()) {
                             events.add(tempEvent);
                         }
                     }
@@ -131,11 +130,9 @@ public class EventListSwipe extends Fragment {
                 case 2:
                     // Future Events
                     type = Event.EventType.Future;
-                    for(int i = 0; i < mEvents.size(); i++)
-                    {
+                    for (int i = 0; i < mEvents.size(); i++) {
                         tempEvent = mEvents.get(i);
-                        if( tempEvent.getStartDateTime().getDate() > currentDate.getDate())
-                        {
+                        if (tempEvent.getStartDateTime().getDate() > currentDate.getDate()) {
                             events.add(tempEvent);
                         }
                     }
@@ -148,6 +145,13 @@ public class EventListSwipe extends Fragment {
 
             // Get ListView from tab_event_list_swipe.xml
             ListView lvEvents = (ListView) mEventListView.findViewById(R.id.lvEvents);
+
+
+            mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override public void onRefresh() {
+                    getAllUserEvents();
+                }
+            });
 
             // Set the List Adapter
             lvEvents.setAdapter(eventListAdapter);
