@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 
 import android.app.Activity;
+import android.widget.Toast;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -37,6 +38,7 @@ public abstract class HttpServerRequest<A extends Activity, Result> extends Asyn
      * Constructs a new instance. The constructor is not the place to put any input
      * {@link JSONObject}s (do that in {@link android.os.AsyncTask#execute(JSONObject...)
      * execute(JSONObject...)} instead).
+     *
      * @param console reference to the current console.
      */
     public HttpServerRequest(A activity, HttpRequest request) {
@@ -120,6 +122,9 @@ public abstract class HttpServerRequest<A extends Activity, Result> extends Asyn
     @Override
     protected void onCancelled(Result error) {
         super.onCancelled(error);
+        if (mErrorMessage != null) {
+            Toast.makeText(getActivity(), mErrorMessage, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private Result cancelResult(Exception error, String errorMsg) {
