@@ -9,6 +9,7 @@ import android.widget.SearchView;
 import com.localhop.R;
 import com.localhop.swipe.eventlist.EventListSwipeAdapter;
 import com.localhop.swipe.viewpagersupport.ZoomOutPageTransformer;
+import com.localhop.utils.ActivityUtils;
 
 /**
  * Activity for the Event List tab in the main navigation tabs.
@@ -22,7 +23,7 @@ public class ActivityTabEventList extends FragmentActivity {
         setContentView(R.layout.tab_event_list_swipe);
 
         // Set up the custom Swipe View for Past, Today, and Future events
-        ViewPager pager = (ViewPager) findViewById(R.id.pEventList);
+        ViewPager pager = ActivityUtils.findViewById(this, R.id.pEventList);
         FragmentManager fm = getSupportFragmentManager();
         EventListSwipeAdapter pagerAdapter = new EventListSwipeAdapter(fm);
         pager.setAdapter(pagerAdapter);
@@ -31,7 +32,7 @@ public class ActivityTabEventList extends FragmentActivity {
 
 
         // Set up the Search bar that allows events to be searched for
-        SearchView search = (SearchView) findViewById(R.id.svEventList);
+        SearchView search = ActivityUtils.findViewById(this, R.id.svEventList);
         search.setIconifiedByDefault(false);
         search.setFocusable(false);
 

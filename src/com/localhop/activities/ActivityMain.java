@@ -2,7 +2,6 @@ package com.localhop.activities;
 
 /* Native Java libs ---------------------------------------------------------*/
 
-import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,13 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-
 import com.localhop.R;
 import com.localhop.activities.account.ActivityAccountLogin;
 import com.localhop.activities.event.ActivityTabCreateEvent;
 import com.localhop.activities.event.ActivityTabEventList;
 import com.localhop.prefs.Prefs;
 import com.localhop.prefs.PrefsActivity;
+import com.localhop.utils.ActivityUtils;
 
 
 public class ActivityMain extends TabActivity {
@@ -43,18 +42,12 @@ public class ActivityMain extends TabActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.login:
-                return startActivityFromClass(ActivityAccountLogin.class);
+                return ActivityUtils.startActivityFromClass(this, ActivityAccountLogin.class);
             case R.id.settings:
-                return startActivityFromClass(PrefsActivity.class);
+                return ActivityUtils.startActivityFromClass(this, PrefsActivity.class);
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private boolean startActivityFromClass(Class<? extends Activity> cls) {
-        final Intent i = new Intent(this, cls);
-        startActivity(i);
-        return true;
     }
 
     /**
@@ -64,7 +57,7 @@ public class ActivityMain extends TabActivity {
     private void createMainNavigationTabs() {
 
         // Create the tabHost and assign TabSpecs for each main tab
-        TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
+        TabHost tabHost = ActivityUtils.findViewById(this, android.R.id.tabhost);
         TabSpec tabCreateEvent = tabHost.newTabSpec("tabCreateEvent");
         TabSpec tabEventList = tabHost.newTabSpec("tabEventList");
         TabSpec tabUserManage = tabHost.newTabSpec("tabUserManage");

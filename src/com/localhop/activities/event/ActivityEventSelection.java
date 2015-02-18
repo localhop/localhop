@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.localhop.R;
 import com.localhop.objects.DateTime;
 import com.localhop.objects.Event;
+import com.localhop.utils.ActivityUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -61,17 +62,17 @@ public class ActivityEventSelection extends TabActivity {
     public void setEventDetails() {
 
         // UI Components
-        TextView tvEventName = (TextView)findViewById(R.id.tvEventName);
-        TextView tvEventStartDate = (TextView)findViewById(R.id.tvEventStartDate);
-        TextView tvEventStartTime = (TextView)findViewById(R.id.tvEventStartTime);
-        EditText etEventDetails = (EditText)findViewById(R.id.etEventDetails);
-        EditText etEventLocation = (EditText)findViewById(R.id.etEventLocation);
-        ImageButton ibEventCalendar = (ImageButton)findViewById(R.id.ibEventCalendar);
-        ImageButton ibEventLocation = (ImageButton)findViewById(R.id.ibEventLocation);
-        final Button ibEventInvited = (Button) findViewById(R.id.ibEventInvited);
-        final Button ibEventAttending = (Button) findViewById(R.id.ibEventAttending);
-        RelativeLayout rlEventRSPV = (RelativeLayout)findViewById(R.id.rlEventRSPV);
-        RelativeLayout rlEventDetails = (RelativeLayout)findViewById(R.id.rlEventDetails);
+        TextView tvEventName          = ActivityUtils.findViewById(this, R.id.tvEventName);
+        TextView tvEventStartDate     = ActivityUtils.findViewById(this, R.id.tvEventStartDate);
+        TextView tvEventStartTime     = ActivityUtils.findViewById(this, R.id.tvEventStartTime);
+        EditText etEventDetails       = ActivityUtils.findViewById(this, R.id.etEventDetails);
+        EditText etEventLocation      = ActivityUtils.findViewById(this, R.id.etEventLocation);
+        ImageButton ibEventCalendar   = ActivityUtils.findViewById(this, R.id.ibEventCalendar);
+        ImageButton ibEventLocation   = ActivityUtils.findViewById(this, R.id.ibEventLocation);
+        final Button ibEventInvited   = ActivityUtils.findViewById(this, R.id.ibEventInvited);
+        final Button ibEventAttending = ActivityUtils.findViewById(this, R.id.ibEventAttending);
+        RelativeLayout rlEventRSPV    = ActivityUtils.findViewById(this, R.id.rlEventRSPV);
+        RelativeLayout rlEventDetails = ActivityUtils.findViewById(this, R.id.rlEventDetails);
 
         // Add Border lines between sections of the Details Page
         ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
@@ -190,7 +191,7 @@ public class ActivityEventSelection extends TabActivity {
         Resources res = getResources();
 
         // Setup the Back button for user navigation out of the selected event
-        ImageButton ibBack = (ImageButton)findViewById(R.id.ibEventBack);
+        ImageButton ibBack = ActivityUtils.findViewById(this, R.id.ibEventBack);
         ibBack.setBackgroundResource(R.drawable.ic_back_arrow_selector);
         ibBack.setOnTouchListener(new View.OnTouchListener() {
             @Override

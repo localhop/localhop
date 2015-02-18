@@ -17,6 +17,7 @@ import com.localhop.network.HttpRequest;
 import com.localhop.network.HttpServerRequest;
 import com.localhop.objects.Event;
 import com.localhop.R;
+import com.localhop.utils.ViewUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class EventListSwipe extends Fragment {
 
         // Create the view for the event list items to be returned
         mEventListView = inflater.inflate(R.layout.tab_event_list_view, container, false);
-        mRefreshLayout = (SwipeRefreshLayout) mEventListView.findViewById(R.id.srl_events);
+        mRefreshLayout = ViewUtils.findViewById(mEventListView, R.id.srl_events);
 
         // Get all events for a user and split them up based on type of event?
         getAllUserEvents();
@@ -153,7 +154,7 @@ public class EventListSwipe extends Fragment {
      */
     private void searchEvents(){
 
-        SearchView sv = (SearchView)mEventListView.findViewById(R.id.svEventList);
+        SearchView sv = ViewUtils.findViewById(mEventListView, R.id.svEventList);
 
     }
 
@@ -168,7 +169,7 @@ public class EventListSwipe extends Fragment {
                 events);
 
         // Get ListView from tab_event_list_swipe.xml
-        ListView lvEvents = (ListView) mEventListView.findViewById(R.id.lvEvents);
+        ListView lvEvents = ViewUtils.findViewById(mEventListView, R.id.lvEvents);
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override public void onRefresh() {

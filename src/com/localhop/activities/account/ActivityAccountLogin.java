@@ -7,8 +7,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import com.localhop.R;
+import com.localhop.activities.BaseActivity;
 
-public class ActivityAccountLogin extends Activity {
+public class ActivityAccountLogin extends BaseActivity {
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,17 +21,6 @@ public class ActivityAccountLogin extends Activity {
                 startActivityFromClass(ActivityAccountName.class);
             }
         });
-    }
-
-    public <V extends View> V findView(final int resId) {
-        //noinspection unchecked
-        return (V) findViewById(resId);
-    }
-
-    private boolean startActivityFromClass(Class<? extends Activity> cls) {
-        final Intent i = new Intent(this, cls);
-        startActivity(i);
-        return true;
     }
 
 }
