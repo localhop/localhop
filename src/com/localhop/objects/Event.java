@@ -97,15 +97,16 @@ public class Event implements Serializable{
             // Determine if the event is Past, Today, or Future
             final Date   currentDate   = new Date();
             EventType type = EventType.Today;
-            if(startDateTime.getDate() < currentDate.getDate())
+            if(startDateTime.getTime() < currentDate.getTime() &&
+                    startDateTime.getDate() != currentDate.getDate())
             {
                 type = EventType.Past;
             }
-            else if (startDateTime.getDate() > currentDate.getDate())
+            else if (startDateTime.getTime() > currentDate.getTime() &&
+                    startDateTime.getDate() != currentDate.getDate())
             {
                 type = EventType.Future;
             }
-
 
             return new Event(type, name, description, location, startDateTime,
                     endDateTime, "", inviteSetting, organizer, 0);

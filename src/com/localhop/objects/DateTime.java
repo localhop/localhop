@@ -84,10 +84,7 @@ public class DateTime {
 
         if(mDate != null) {
 
-            // For some reason, the json object returns an hour value of 6 less
-
-
-            int hours = mDate.get(Calendar.HOUR_OF_DAY) - 6;
+            int hours = mDate.get(Calendar.HOUR_OF_DAY);
             int minutes = mDate.get(Calendar.MINUTE);
 
             if( hours < 1 )
