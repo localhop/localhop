@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.localhop.R;
 import com.localhop.objects.DateTime;
 import com.localhop.objects.Event;
+import com.localhop.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -86,12 +87,12 @@ public class AdapterEventList extends ArrayAdapter<Event> {
     public void setItemView(int position, View rowView) {
 
         // Get the UI components
-        TextView tvStartTime = (TextView) rowView.findViewById(R.id.tvStartTime);
-        TextView tvName = (TextView) rowView.findViewById(R.id.tvName);
-        TextView tvAttendees = (TextView) rowView.findViewById(R.id.tvAttendees);
-        TextView tvDirection = (TextView) rowView.findViewById(R.id.tvDirection);
-        TextView tvNotification = (TextView) rowView.findViewById(R.id.tvNotification);
-        ImageButton ibDirection = (ImageButton) rowView.findViewById(R.id.ibDirections);
+        TextView tvStartTime    = ViewUtils.findViewById(rowView, R.id.tvStartTime);
+        TextView tvName         = ViewUtils.findViewById(rowView, R.id.tvName);
+        TextView tvAttendees    = ViewUtils.findViewById(rowView, R.id.tvAttendees);
+        TextView tvDirection    = ViewUtils.findViewById(rowView, R.id.tvDirection);
+        TextView tvNotification = ViewUtils.findViewById(rowView, R.id.tvNotification);
+        ImageButton ibDirection = ViewUtils.findViewById(rowView, R.id.ibDirections);
 
         // Get the current event
         Event event = mEventListItems.get(position);
@@ -122,8 +123,7 @@ public class AdapterEventList extends ArrayAdapter<Event> {
                 ((position > 0 && mEventListItems.get(position).getStartDateTime()
                         .compareTo(mEventListItems.get(position - 1).getStartDateTime()) != 0) ||
                         position <= 0)) {
-            TextView tvEventListDateDelimiter = (TextView) rowView
-                    .findViewById(R.id.tvEventListDateDelimiter);
+            TextView tvEventListDateDelimiter = ViewUtils.findViewById(rowView, R.id.tvEventListDateDelimiter);
             // Set the date into the format DayOfWeek, Month/Day, Year
                 tvEventListDateDelimiter.setText(
                         datetime.getDayOfWeekString() + ", " +
