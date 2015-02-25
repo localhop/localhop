@@ -92,6 +92,10 @@ public class EventListSwipe extends Fragment {
                     layoutFragment();
                     mRefreshLayout.setRefreshing(false);
                 }
+                
+                @Override protected void onCancelled() {
+                    mRefreshLayout.setRefreshing(false);
+                }
 
             }.execute("http://24.124.60.119/get/user/events/2");
 
