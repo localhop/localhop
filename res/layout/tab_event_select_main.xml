@@ -10,8 +10,7 @@ Details, Chat, and Map page.
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#2333b5e5">
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,7 +51,8 @@ Details, Chat, and Map page.
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:background="#23b1e4f4">
             </FrameLayout>
         </LinearLayout>
     </TabHost>

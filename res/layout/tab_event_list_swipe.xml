@@ -16,7 +16,8 @@ to be created for Future events (TBD).
         android:id="@+id/pEventList"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/svEventList">
+        android:layout_below="@+id/svEventList"
+        android:background="#23b1e4f4">
 
         <android.support.v4.view.PagerTitleStrip
             android:id="@+id/ptsEventList"
@@ -42,6 +43,6 @@ to be created for Future events (TBD).
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>
