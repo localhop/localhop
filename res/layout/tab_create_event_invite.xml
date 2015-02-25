@@ -6,7 +6,52 @@ UI for the invite page when creating an event
 
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <SearchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sv_create_event_invite" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" android:layout_alignParentTop="true"
+            android:queryHint="Search for Friends or Groups" android:iconifiedByDefault="false"/>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sv_create_event_invite"
+            android:id="@+id/scrollView">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="Groups"
+                      android:id="@+id/event_invite_group_label"
+                      android:gravity="center_vertical|center_horizontal"
+                      android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+                      android:background="@android:color/holo_blue_light" android:clickable="false"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/event_invite_group_list"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:layout_below="@+id/event_invite_group_label"
+                    android:layout_alignParentLeft="true" android:layout_alignParentStart="true">
+            </LinearLayout>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceMedium" android:text="Friends"
+                      android:id="@+id/event_invite_friend_label"
+                      android:gravity="center_vertical|center_horizontal" android:layout_below="@+id/event_invite_group_list"
+                      android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+                      android:background="@android:color/holo_blue_light"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/event_invite_friend_list"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:layout_below="@+id/event_invite_friend_label"
+                    android:layout_alignParentLeft="true" android:layout_alignParentStart="true">
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
