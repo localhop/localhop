@@ -6,8 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 /**
- * Adapter for the custom Swipe View on the Events List tab.  The user will be given the ability
- * to swipe between Past, Today, and Future events.
+ * Adapter for the custom Swipe View on the Create Event tab.
+ * The user will be given the ability to swipe between the Details
+ * and Invite page while creating an Event.
  */
 public class CreateEventSwipeAdapter extends FragmentPagerAdapter{
 
@@ -27,15 +28,16 @@ public class CreateEventSwipeAdapter extends FragmentPagerAdapter{
     @Override
     public Fragment getItem(int position) {
 
-        EventListSwipe myFragment = new EventListSwipe();
         Bundle data = new Bundle();
         data.putInt("current_page", position);
-        myFragment.setArguments(data);
-        return myFragment;
+
+        CreateEventSwipe createEventSwipe = new CreateEventSwipe();
+        createEventSwipe.setArguments(data);
+        return createEventSwipe;
     } // end of function getItem()
 
 
-    /**
+    /**d
      *  Returns the number of tabs for the Swipe View
      */
     @Override
@@ -43,6 +45,12 @@ public class CreateEventSwipeAdapter extends FragmentPagerAdapter{
         return TAB_COUNT;
     } // end of function getCount()
 
+
+    /**
+     * Returns the title of the current tab within the Swipe View
+     * @param position
+     * @return
+     */
     @Override
     public CharSequence getPageTitle(int position) {
 
@@ -62,4 +70,4 @@ public class CreateEventSwipeAdapter extends FragmentPagerAdapter{
 
     } // end of function getPageTitle()
 
-} // end of class EventListSwipeAdapter
+} // end of class CreateEventSwipeAdapter

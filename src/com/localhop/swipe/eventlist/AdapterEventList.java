@@ -1,7 +1,6 @@
 package com.localhop.swipe.eventlist;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import com.localhop.objects.Event;
 import com.localhop.utils.ViewUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Adapter for displaying custom list items in the Event List tab
@@ -158,4 +155,4 @@ public class AdapterEventList extends ArrayAdapter<Event> {
         return rowView;
     } // end of function setViewLayout()
 
-} // end of class Adapter_EventList.java
+} // end of class AdapterEventList.java
