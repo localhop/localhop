@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">localhop</string>
+    <string name="app_name">Local Hop</string>
     <string name="settings">Settings</string>
     <string name="sunday">Sunday</string>
     <string name="monday">Monday</string>
