@@ -23,11 +23,24 @@ UI for the Favorite/Recent events list when creating an event
             android:layout_height="wrap_content"
             android:text="Create"
             android:id="@+id/bCreateEvent"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentCenter="true"
+            android:layout_alignParentEnd="true" />
 
-            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:hint="Event Name"
+            android:paddingLeft="10dp"
+            android:textSize="25dp"
+            android:gravity="bottom"
+            android:id="@+id/tv_create_event_name"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/bCreateEvent"
+            android:layout_toStartOf="@+id/bCreateEvent" />
 
     </RelativeLayout>
 

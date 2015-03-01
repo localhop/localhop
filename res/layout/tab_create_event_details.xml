@@ -18,42 +18,6 @@ UI for the details page when creating an event
         android:layout_height="match_parent"
         android:weightSum="1">
 
-        <!-- Event Name -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/rl_create_event_name"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/et_create_event_name"
-                android:textSize="30dp"
-                android:hint="Event Name"
-                android:maxLines="1"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/blueBar1"
-            android:layout_width="fill_parent"
-            android:layout_height="3dp"
-            android:layout_below="@+id/rl_create_event_name"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="@android:color/holo_blue_light">
-        </LinearLayout>
-
         <!-- Date Time -->
         <RelativeLayout
             android:layout_width="match_parent"
@@ -139,7 +103,7 @@ UI for the details page when creating an event
             android:orientation="vertical"
             android:id="@+id/blueBar2"
             android:layout_width="fill_parent"
-            android:layout_height="3dp"
+            android:layout_height="2dp"
             android:layout_below="@+id/rl_create_event_date"
             android:layout_marginTop="10dp"
             android:layout_alignParentLeft="true"
@@ -193,7 +157,7 @@ UI for the details page when creating an event
             android:orientation="vertical"
             android:id="@+id/blueBar3"
             android:layout_width="fill_parent"
-            android:layout_height="3dp"
+            android:layout_height="2dp"
             android:layout_below="@+id/rl_create_event_details"
             android:layout_marginTop="10dp"
             android:layout_alignParentLeft="true"
