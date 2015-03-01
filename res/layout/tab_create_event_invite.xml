@@ -34,7 +34,7 @@ UI for the invite page when creating an event
                 android:text="Groups"
                 android:id="@+id/tvInviteGroup"
                 android:gravity="center_vertical|center_horizontal"
-                android:background="@android:color/holo_blue_light"
+                android:background="@color/default_action_bar_background_color"
                 android:clickable="false"
                 android:layout_below="@+id/sv_create_event_invite"
                 android:layout_alignParentLeft="true"
@@ -42,7 +42,7 @@ UI for the invite page when creating an event
 
             <ListView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:id="@+id/lvCreateEventInviteGroups"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -56,14 +56,14 @@ UI for the invite page when creating an event
                 android:text="Friends"
                 android:id="@+id/tvInviteFriend"
                 android:gravity="center_vertical|center_horizontal"
-                android:background="@android:color/holo_blue_light"
+                android:background="@color/default_action_bar_background_color"
                 android:clickable="false"
                 android:layout_centerVertical="true"
                 />
 
             <ListView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:id="@+id/lvCreateEventInviteFriends"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"

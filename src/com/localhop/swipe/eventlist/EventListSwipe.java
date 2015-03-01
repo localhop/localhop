@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -159,7 +160,6 @@ public class EventListSwipe extends Fragment {
     private void searchEvents(){
 
         SearchView sv = ViewUtils.findViewById(mEventListView, R.id.svEventList);
-
     }
 
     /**
