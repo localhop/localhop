@@ -1,17 +1,13 @@
 package com.localhop.swipe.createevent;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
 
 import com.localhop.R;
-import com.localhop.activities.event.ActivityEventSelection;
 import com.localhop.objects.Friend;
 import com.localhop.objects.Group;
 import com.localhop.utils.ViewUtils;
@@ -57,21 +53,23 @@ public class CreateEventSwipe extends Fragment {
                 mFriends = getFriends();
                 mGroups = getGroups();
 
-                if( mFriends != null) {
-                    final AdapterFriendList friendListAdapter = new AdapterFriendList(mCreateEventView.getContext(),
-                            mFriends);
+                final AdapterExpandFriendGroupList expandAdapter =
+                        new AdapterExpandFriendGroupList(mCreateEventView.getContext(), mGroups, mFriends);
 
-                    ListView lvFriends = ViewUtils.findViewById(mCreateEventView, R.id.lvCreateEventInviteFriends);
-                    lvFriends.setAdapter(friendListAdapter);
-                }
+                ExpandableListView elvInvite = ViewUtils.findViewById(mCreateEventView, R.id.elvCreateEventInvite);
+                elvInvite.setAdapter(expandAdapter);
+                elvInvite.expandGroup(0);
+                elvInvite.expandGroup(1);
 
-                if( mGroups != null) {
-                    final AdapterGroupList groupListAdapter = new AdapterGroupList(mCreateEventView.getContext(),
-                            mGroups);
+                elvInvite.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                    @Override
+                    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                    ListView lvGroups = ViewUtils.findViewById(mCreateEventView, R.id.lvCreateEventInviteGroups);
-                    lvGroups.setAdapter(groupListAdapter);
-                }
+                        //TODO: Do Something
+
+                        return false;
+                    }
+                });
 
                 break;
         }

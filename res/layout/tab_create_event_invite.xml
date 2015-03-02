@@ -28,57 +28,14 @@ UI for the invite page when creating an event
                 android:layout_alignParentEnd="true" android:layout_alignParentTop="true"
                 android:queryHint="Search for Friends or Groups" android:iconifiedByDefault="false"/>
 
-            <TextView android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Groups"
-                android:id="@+id/tvInviteGroup"
-                android:gravity="center_vertical|center_horizontal"
-                android:background="@color/default_action_bar_background_color"
-                android:clickable="false"
-                android:layout_below="@+id/sv_create_event_invite"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <ListView
+            <ExpandableListView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:id="@+id/lvCreateEventInviteGroups"
+                android:id="@+id/elvCreateEventInvite"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/tvInviteGroup"
-                android:layout_above="@+id/tvInviteFriend" />
-
-
-            <TextView android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Friends"
-                android:id="@+id/tvInviteFriend"
-                android:gravity="center_vertical|center_horizontal"
-                android:background="@color/default_action_bar_background_color"
-                android:clickable="false"
-                android:layout_centerVertical="true"
-                />
-
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:id="@+id/lvCreateEventInviteFriends"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tvInviteFriend"
-                android:layout_above="@+id/bCreateEvent"/>
-
-            <Button
-                android:layout_width="86dp"
-                android:layout_height="wrap_content"
-                android:text="Create"
-                android:id="@+id/bCreateEvent"
-                android:layout_gravity="right"
-                android:layout_alignParentBottom="true"
-                android:layout_alignRight="@+id/lvCreateEventInviteFriends"
-                android:layout_alignEnd="@+id/lvCreateEventInviteFriends" />
+                android:layout_above="@+id/tvInviteFriend"
+                android:layout_below="@+id/sv_create_event_invite" />
 
         </RelativeLayout>
     </ScrollView>

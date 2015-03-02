@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">Local Hop</string>
     <string name="settings">Settings</string>
+
+    <!-- Date/Time-->
     <string name="sunday">Sunday</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
@@ -9,8 +11,6 @@
     <string name="thursday">Thursday</string>
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
-
-    <!-- Date/Time-->
     <string-array
         name="days_of_week">
         <item>@string/sunday</item>
@@ -37,6 +37,10 @@
     <string name="your_name_title">Your name</string>
     <string name="your_name_hint">Name</string>
     <string name="your_name_disclaimer">This name is displayed to other users who search for you.</string>
+
+    <!-- Groups/Friends -->
+    <string name="groups">Groups</string>
+    <string name="friends">Friends</string>
 
     <!-- SharedPreferences -->
     <string name="pref_test_rest">TEST_THE_REST</string>
