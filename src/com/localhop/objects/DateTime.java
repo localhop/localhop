@@ -35,8 +35,45 @@ public class DateTime {
 
     } // end of Constructor DateTime()
 
+    /**
+     * Constructor
+     */
+    public DateTime(Context context, Calendar cal){
 
+        mDate = cal;
+        mResources = context.getResources();
+        mDaysOfWeek = mResources.getStringArray(R.array.days_of_week);
+        mLog = Logger.getLogger(this.getClass().getPackage().getName());
 
+    } // end of Constructor DateTime()
+
+    /**
+     * Returns the current calendar object
+     * @return
+     */
+    public Calendar getCalendar(){
+
+        return mDate;
+
+    } // getCalendar()
+
+    /**
+     * Returns the name of a day of the week
+     * @return
+     */
+    public String getDayOfWeekString()
+    {
+        if (mDate != null)
+        {
+            return mDaysOfWeek[mDate.get(Calendar.DAY_OF_WEEK) - 1];
+        }
+        else
+        {
+            Throwable ex = new NullPointerException("Error: null mDate parameter");
+            mLog.log(Level.SEVERE, "", ex);
+            return "";
+        }
+    } // end of function getDayOfWeekSting
 
     /**
      * Return the date in the format Day/Month/Year
@@ -58,23 +95,6 @@ public class DateTime {
 
     } // end of function getDayMonthYearFormat
 
-    /**
-     * Returns the name of a day of the week
-     * @return
-     */
-    public String getDayOfWeekString()
-    {
-        if (mDate != null)
-        {
-            return mDaysOfWeek[mDate.get(Calendar.DAY_OF_WEEK) - 1];
-        }
-        else
-        {
-            Throwable ex = new NullPointerException("Error: null mDate parameter");
-            mLog.log(Level.SEVERE, "", ex);
-            return "";
-        }
-    } // end of function getDayOfWeekSting
 
     /**
      * Formats time from a Calendar object into HH:MM or HH:MM AM/PM
@@ -135,5 +155,27 @@ public class DateTime {
         mDate.setTime(date);
     } // end of function setDate()
 
+    /**
+     * Sets the Date
+     * @param cal
+     */
+    public void setTime(Calendar cal)
+    {
+        mDate.clear();
+        mDate = cal;
+    } // end of function setDate()
+
+
+    /**
+     * Returns the next, nearest half hour
+     * (i.e. current time is 2:14, 2:30 would be returned)
+     */
+    public void setTimeToNearestHalfHour(){
+
+        int nextHalfHour = mDate.get(Calendar.MINUTE) % 30;
+        nextHalfHour = nextHalfHour < 8 ? - nextHalfHour : (30 - nextHalfHour);
+        mDate.set(Calendar.MINUTE, nextHalfHour);
+
+    } // setTimeToNearestHalfHour()
 
 } // end of class DateTime
