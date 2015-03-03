@@ -10,4 +10,6 @@
     <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
     <color name="default_underline_indicator_selected_color">#FF33B5E5</color>
     <color name="default_action_bar_background_color">#BFDDE8</color>
+    <color name="default_faded_text_color">#848484</color>
+
 </resources>

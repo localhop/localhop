@@ -18,20 +18,27 @@ UI for the Favorite/Recent events list when creating an event
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create"
-            android:id="@+id/bCreateEvent"
+            android:text="@string/create"
+            android:id="@+id/ibCreateEvent"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:background="@android:color/transparent"
+            android:paddingRight="15dp"
+            android:paddingLeft="10dp"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:src="@drawable/ic_create_event_selector" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:hint="Event Name"
+            android:hint="@string/event_name_hint"
             android:paddingLeft="10dp"
             android:textSize="25dp"
             android:gravity="bottom"
@@ -39,8 +46,8 @@ UI for the Favorite/Recent events list when creating an event
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/bCreateEvent"
-            android:layout_toStartOf="@+id/bCreateEvent" />
+            android:layout_toLeftOf="@+id/ibCreateEvent"
+            android:layout_toStartOf="@+id/ibCreateEvent" />
 
     </RelativeLayout>
 
@@ -57,10 +64,10 @@ UI for the Favorite/Recent events list when creating an event
             android:layout_gravity="top"
             android:background="#33b5e5"
             android:textColor="#fff"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
     </android.support.v4.view.ViewPager>
 
 </RelativeLayout>

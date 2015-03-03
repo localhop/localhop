@@ -15,7 +15,7 @@ UI for the details page when creating an event
         android:id="@+id/tab_create_event_details"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:weightSum="1">
 
         <!-- Date Time -->
@@ -31,11 +31,13 @@ UI for the details page when creating an event
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="From:"
+                android:text="@string/date_time_from"
+                android:textSize="15dp"
+                android:textColor="@color/default_faded_text_color"
                 android:id="@+id/tv_create_event_date_from"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_toRightOf="@+id/iv_create_event_date_time"
+                android:layout_toEndOf="@+id/iv_create_event_date_time" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -43,11 +45,12 @@ UI for the details page when creating an event
                 android:ems="10"
                 android:id="@+id/et_create_event_date_from"
                 android:layout_below="@+id/tv_create_event_date_from"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                />
+                android:layout_alignLeft="@+id/tv_create_event_date_from"
+                android:layout_alignStart="@+id/tv_create_event_date_from"
+                android:layout_toStartOf="@+id/et_create_event_time_from"
+                android:inputType="date" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -58,20 +61,23 @@ UI for the details page when creating an event
                 android:layout_below="@+id/tv_create_event_date_from"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/et_create_event_date_from"
-                android:layout_toEndOf="@+id/et_create_event_date_from"
                 android:focusableInTouchMode="false"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:layout_toRightOf="@+id/et_create_event_date_to"
+                android:layout_toEndOf="@+id/et_create_event_date_to" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="To:"
+                android:text="@string/date_time_to"
                 android:id="@+id/tv_create_event_date_to"
+                android:paddingTop="5dp"
+                android:textSize="15dp"
+                android:textColor="@color/default_faded_text_color"
                 android:layout_below="@+id/et_create_event_date_from"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_toRightOf="@+id/iv_create_event_date_time"
+                android:layout_toEndOf="@+id/iv_create_event_date_time" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -80,10 +86,10 @@ UI for the details page when creating an event
                 android:ems="10"
                 android:id="@+id/et_create_event_date_to"
                 android:layout_below="@+id/tv_create_event_date_to"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:focusableInTouchMode="false"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:layout_alignLeft="@+id/tv_create_event_date_to"
+                android:layout_alignStart="@+id/tv_create_event_date_to" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -92,10 +98,33 @@ UI for the details page when creating an event
                 android:ems="10"
                 android:id="@+id/et_create_event_time_to"
                 android:layout_alignTop="@+id/et_create_event_date_to"
-                android:layout_toRightOf="@+id/et_create_event_date_to"
                 android:layout_toEndOf="@+id/et_create_event_date_to"
                 android:focusableInTouchMode="false"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:layout_toRightOf="@+id/et_create_event_date_to" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_create_event_date_time"
+                android:src="@drawable/ic_event_date_time_selector"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="10dp"
+                android:contentDescription="@string/date_time_from"/>
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date_time_all_day"
+                android:paddingTop="10dp"
+                android:id="@+id/sw_create_event_all_day"
+                android:layout_below="@+id/et_create_event_date_to"
+                android:layout_toRightOf="@+id/iv_create_event_date_time"
+                android:layout_alignRight="@+id/et_create_event_time_to"
+                android:layout_alignEnd="@+id/et_create_event_time_to"
+                android:checked="false" />
 
         </RelativeLayout>
 
@@ -104,17 +133,15 @@ UI for the details page when creating an event
             android:id="@+id/blueBar2"
             android:layout_width="fill_parent"
             android:layout_height="4dp"
-            android:layout_below="@+id/rl_create_event_date"
             android:layout_marginTop="10dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp"
             android:background="@color/default_action_bar_background_color">
         </LinearLayout>
 
         <!-- Event Details -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:id="@+id/rl_create_event_details"
             android:paddingLeft="10dp"
@@ -123,34 +150,35 @@ UI for the details page when creating an event
             android:paddingBottom="5dp"
             android:layout_weight="1.93">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Details:"
-                android:textStyle="bold"
-                android:id="@+id/tv_create_event_details"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:ems="10"
                 android:id="@+id/et_create_event_details"
-                android:hint="Event Details"
+                android:hint="@string/event_description_hint"
                 android:maxLines="5"
                 android:gravity="top"
                 android:scrollbars="vertical"
                 android:fadeScrollbars="false"
                 android:paddingBottom="5dp"
-                android:layout_below="@+id/tv_create_event_details"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toRightOf="@+id/iv_create_event_details"
+                android:layout_toEndOf="@+id/iv_create_event_details" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_create_event_details"
+                android:src="@drawable/ic_event_details_info_selector"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:paddingRight="10dp"
+                android:contentDescription="@string/event_description_hint"/>
+
         </RelativeLayout>
 
         <LinearLayout
@@ -158,10 +186,8 @@ UI for the details page when creating an event
             android:id="@+id/blueBar3"
             android:layout_width="fill_parent"
             android:layout_height="4dp"
-            android:layout_below="@+id/rl_create_event_details"
             android:layout_marginTop="10dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_marginBottom="10dp"
             android:background="@color/default_action_bar_background_color">
         </LinearLayout>
 
@@ -175,41 +201,32 @@ UI for the details page when creating an event
             android:paddingTop="5dp"
             android:paddingBottom="5dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Location:"
-                android:textStyle="bold"
-                android:id="@+id/tv_create_event_location"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:ems="10"
                 android:id="@+id/et_create_event_location"
-                android:hint="Event Location"
+                android:hint="@string/event_location_hint"
                 android:gravity="top"
                 android:maxLines="4"
                 android:scrollbars="vertical"
-                android:fadeScrollbars="false"
-                android:layout_below="@+id/tv_create_event_location"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_toLeftOf="@+id/ib_create_event_location"
-                android:layout_toStartOf="@+id/ib_create_event_location" />
+                android:fadeScrollbars="true"
+                android:layout_alignTop="@+id/iv_create_event_location"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/iv_create_event_location" />
 
-            <ImageButton
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ib_create_event_location"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:id="@+id/iv_create_event_location"
+                android:src="@drawable/ic_event_location_pin_selector"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="10dp"
+                android:contentDescription="@string/event_location_hint"/>
 
         </RelativeLayout>
 
@@ -218,10 +235,8 @@ UI for the details page when creating an event
             android:id="@+id/blueBar4"
             android:layout_width="fill_parent"
             android:layout_height="4dp"
-            android:layout_below="@+id/rl_create_event_location"
             android:layout_marginTop="10dp"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:background="@color/default_action_bar_background_color">
         </LinearLayout>
 

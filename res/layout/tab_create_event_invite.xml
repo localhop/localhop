@@ -16,8 +16,6 @@ UI for the invite page when creating an event
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
             android:layout_weight="0.09">
 
             <SearchView
@@ -26,6 +24,7 @@ UI for the invite page when creating an event
                 android:id="@+id/sv_create_event_invite" android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" android:layout_alignParentTop="true"
+                android:paddingRight="15dp"
                 android:queryHint="Search for Friends or Groups" android:iconifiedByDefault="false"/>
 
             <ExpandableListView
@@ -35,6 +34,8 @@ UI for the invite page when creating an event
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_above="@+id/tvInviteFriend"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:layout_below="@+id/sv_create_event_invite" />
 
         </RelativeLayout>
