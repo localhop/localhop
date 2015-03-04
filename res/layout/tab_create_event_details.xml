@@ -34,35 +34,31 @@ UI for the details page when creating an event
                 android:text="@string/date_time_from"
                 android:textSize="15dp"
                 android:textColor="@color/default_faded_text_color"
-                android:id="@+id/tv_create_event_date_from"
+                android:id="@+id/tv_create_event_date_from_label"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/iv_create_event_date_time"
                 android:layout_toEndOf="@+id/iv_create_event_date_time" />
 
-            <EditText
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:id="@+id/et_create_event_date_from"
-                android:layout_below="@+id/tv_create_event_date_from"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_alignLeft="@+id/tv_create_event_date_from"
-                android:layout_alignStart="@+id/tv_create_event_date_from"
+                android:layout_below="@+id/tv_create_event_date_from_label"
+                android:layout_alignLeft="@+id/tv_create_event_date_from_label"
+                android:layout_alignStart="@+id/tv_create_event_date_from_label"
                 android:layout_toStartOf="@+id/et_create_event_time_from"
                 android:inputType="date" />
 
-            <EditText
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="time"
                 android:ems="10"
                 android:id="@+id/et_create_event_time_from"
-                android:layout_below="@+id/tv_create_event_date_from"
+                android:layout_below="@+id/tv_create_event_date_from_label"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:focusableInTouchMode="false"
-                android:focusable="false"
                 android:layout_toRightOf="@+id/et_create_event_date_to"
                 android:layout_toEndOf="@+id/et_create_event_date_to" />
 
@@ -71,7 +67,7 @@ UI for the details page when creating an event
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/date_time_to"
-                android:id="@+id/tv_create_event_date_to"
+                android:id="@+id/tv_create_event_date_to_label"
                 android:paddingTop="5dp"
                 android:textSize="15dp"
                 android:textColor="@color/default_faded_text_color"
@@ -79,19 +75,17 @@ UI for the details page when creating an event
                 android:layout_toRightOf="@+id/iv_create_event_date_time"
                 android:layout_toEndOf="@+id/iv_create_event_date_time" />
 
-            <EditText
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="date"
                 android:ems="10"
                 android:id="@+id/et_create_event_date_to"
-                android:layout_below="@+id/tv_create_event_date_to"
-                android:focusableInTouchMode="false"
-                android:focusable="false"
-                android:layout_alignLeft="@+id/tv_create_event_date_to"
-                android:layout_alignStart="@+id/tv_create_event_date_to" />
+                android:layout_below="@+id/tv_create_event_date_to_label"
+                android:layout_alignLeft="@+id/tv_create_event_date_to_label"
+                android:layout_alignStart="@+id/tv_create_event_date_to_label" />
 
-            <EditText
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="time"
@@ -99,8 +93,6 @@ UI for the details page when creating an event
                 android:id="@+id/et_create_event_time_to"
                 android:layout_alignTop="@+id/et_create_event_date_to"
                 android:layout_toEndOf="@+id/et_create_event_date_to"
-                android:focusableInTouchMode="false"
-                android:focusable="false"
                 android:layout_toRightOf="@+id/et_create_event_date_to" />
 
             <ImageView

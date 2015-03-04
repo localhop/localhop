@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import com.localhop.R;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -56,6 +55,32 @@ public class DateTime {
         return mDate;
 
     } // getCalendar()
+
+    public int getCalendarDayOfMonth(){
+        return mDate.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public int getCalendarHourOfDay(){
+        return mDate.get(Calendar.HOUR_OF_DAY);
+    }
+
+    public int getCalendarMinute(){
+        return mDate.get(Calendar.MINUTE);
+    }
+
+    public int getCalendarMonth(){
+        return mDate.get(Calendar.MONTH);
+    }
+
+    public int getCalendarYear(){
+        return mDate.get(Calendar.YEAR);
+    }
+
+    public boolean getCalendarIs24Hour(){
+        // TODO: Need to get from user prefs if 24hour or 12hour is preferred
+        return true;
+    }
+
 
     /**
      * Returns the name of a day of the week
@@ -146,6 +171,19 @@ public class DateTime {
 
 
     /**
+     * Sets the year, month, and day of month.
+     * @param year
+     * @param month
+     * @param dayOfMonth
+     */
+    public void setDate(int year, int month, int dayOfMonth){
+
+        mDate.set(Calendar.YEAR, year);
+        mDate.set(Calendar.MONTH, month);
+        mDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+    } // end of function setDate()
+
+    /**
      * Sets the Date
      * @param date
      */
@@ -165,17 +203,28 @@ public class DateTime {
         mDate = cal;
     } // end of function setDate()
 
+    /**
+     * Sets the hour and minute
+     * @param hour
+     * @param minutes
+     */
+    public void setTime(int hour, int minutes)
+    {
+        mDate.set(Calendar.HOUR, hour);
+        mDate.set(Calendar.MINUTE, minutes);
+    }
 
     /**
-     * Returns the next, nearest half hour
-     * (i.e. current time is 2:14, 2:30 would be returned)
+     * Sets the time to the next 30 minutes
+     * (i.e. current time is 2:14, 2:30 would be set)
+
      */
-    public void setTimeToNearestHalfHour(){
+    public void setTimeToNextHalfHour()
+    {
+        int minToNearestHalfHour = 30 - (mDate.get(Calendar.MINUTE) % 30);
+        mDate.setTimeInMillis(mDate.getTimeInMillis() + (minToNearestHalfHour * 60000));
 
-        int nextHalfHour = mDate.get(Calendar.MINUTE) % 30;
-        nextHalfHour = nextHalfHour < 8 ? - nextHalfHour : (30 - nextHalfHour);
-        mDate.set(Calendar.MINUTE, nextHalfHour);
+    } // setTimeToNextHalfHour()
 
-    } // setTimeToNearestHalfHour()
 
 } // end of class DateTime
