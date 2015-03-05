@@ -54,33 +54,63 @@ public class DateTime {
 
         return mDate;
 
-    } // getCalendar()
+    } // end of function getCalendar()
 
+    /**
+     * Returns the Date's DAY_OF_MONTH value
+     * @return
+     */
     public int getCalendarDayOfMonth(){
         return mDate.get(Calendar.DAY_OF_MONTH);
-    }
+    } // end of function getCalendarDayOfMonth()
 
+    /**
+     * Returns the Date's HOUR_OF_DAY value if in 24hour time,
+     * else it returns HOUR if in 12 hour time
+     * @return
+     */
     public int getCalendarHourOfDay(){
-        return mDate.get(Calendar.HOUR_OF_DAY);
-    }
+        if(getCalendarIs24Hour()) {
+            return mDate.get(Calendar.HOUR_OF_DAY);
+        }
+        else
+        {
+            return mDate.get(Calendar.HOUR);
+        }
+    } // end of function getCalendarHourOfDay()
 
+    /**
+     * Returns the Date's MINUTE value
+     * @return
+     */
     public int getCalendarMinute(){
         return mDate.get(Calendar.MINUTE);
-    }
+    } // end of function getCalendarMinute()
 
+    /**
+     * Returns the Date's MONTH value
+     * @return
+     */
     public int getCalendarMonth(){
         return mDate.get(Calendar.MONTH);
-    }
+    } // end of function getCalendarMonth()
 
+    /**
+     * Returns the Date's YEAR value
+     * @return
+     */
     public int getCalendarYear(){
         return mDate.get(Calendar.YEAR);
-    }
+    } // end of function getCalendarYear()
 
+    /**
+     * Returns true if the Calendar should be in 24hour time vs 12 hour time format.
+     * @return
+     */
     public boolean getCalendarIs24Hour(){
         // TODO: Need to get from user prefs if 24hour or 12hour is preferred
-        return true;
-    }
-
+        return false;
+    } // end of function getCalendarIs24Hour()
 
     /**
      * Returns the name of a day of the week
@@ -129,26 +159,26 @@ public class DateTime {
 
         if(mDate != null) {
 
+            String ampm = "";
+
             int hours = mDate.get(Calendar.HOUR_OF_DAY);
             int minutes = mDate.get(Calendar.MINUTE);
 
-            if( hours < 1 )
+            // HOUR is used instead if the time is in 12hr format
+            if(!getCalendarIs24Hour())
             {
-                hours = 24 - Math.abs(hours);
+                hours = mDate.get(Calendar.HOUR);
+                if(mDate.get(Calendar.AM_PM) == Calendar.AM)
+                {
+                    ampm = "AM";
+                }
+                else {
+                    ampm = "PM";
+                }
             }
-
-            String ampm = "";
 
             // TODO: Check user prefs for 12hr or 24hr time - This determines whether or not to
             // TODO:   format a time into 12hr with AM or PM
-
-            // if 12-hour time is preferred then
-//            ampm = " " + mResources.getString(R.string.am);
-//            if (hours > 12) {
-//                hours = 24 - hours;
-//                ampm = " " + mResources.getString(R.string.pm);
-//            }
-            // end if
 
             String hoursFormatted = String.valueOf(hours);
             String minutesFormatted = String.valueOf(minutes);
@@ -210,7 +240,34 @@ public class DateTime {
      */
     public void setTime(int hour, int minutes)
     {
-        mDate.set(Calendar.HOUR, hour);
+
+        if(getCalendarIs24Hour())
+        {
+            mDate.set(Calendar.HOUR_OF_DAY, hour);
+        }
+        else
+        {
+            mDate.set(Calendar.HOUR, hour);
+        }
+        mDate.set(Calendar.MINUTE, minutes);
+    }
+
+    /**
+     * Sets the hour and minute
+     * @param hour
+     * @param minutes
+     */
+    public void setTime(int hour, int minutes, boolean is24Hour)
+    {
+
+        if(is24Hour)
+        {
+            mDate.set(Calendar.HOUR_OF_DAY, hour);
+        }
+        else
+        {
+            mDate.set(Calendar.HOUR, hour);
+        }
         mDate.set(Calendar.MINUTE, minutes);
     }
 

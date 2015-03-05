@@ -2,7 +2,6 @@ package com.localhop.swipe.createevent;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TimePicker;
 
@@ -22,7 +20,6 @@ import com.localhop.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  * Controls the custom Swipe View on the Events List tab.  The user will be given the ability
@@ -125,14 +122,23 @@ public class CreateEventSwipe extends Fragment {
         mEndDateButton = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_date_to);
         mStartTimeButton = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_time_from);
         mEndTimeButton = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_time_to);
-        updateDateButtons();
-        updateTimeButtons();
+        updateDateTimeButtons();
 
         // Setup Date/Time Picker Dialogs
         setupStartDatePickerDialog();
         setupEndDatePickerDialog();
         setupStartTimePickerDialog();
         setupEndTimePickerDialog();
+
+        // TODO: All Day Option
+
+        // TODO: Event Details
+
+        // TODO: Event Location
+
+        // TODO: Event Name
+
+        // TODO: Create button and validation before POST query to DB
 
     } // end of function setupDetailsPage()
 
@@ -163,23 +169,19 @@ public class CreateEventSwipe extends Fragment {
 
 
     /**
-     * Update the Date Buttons with the current/selected date
+     * Update the Date/Time Buttons with the current/selected dates/times
      */
-    private void updateDateButtons(){
+    private void updateDateTimeButtons(){
         mStartDateButton.setText(mStartDateTime.getMonthDayYearFormat());
+        mEndDateButton.setText(mEndDateTime.getMonthDayYearFormat());
         mStartTimeButton.setText(mStartDateTime.getTimeFormat());
-
+        mEndTimeButton.setText(mEndDateTime.getTimeFormat());
     } // end of function updateDateTimeButtons()
 
+
     /**
-     * Update the Time Buttons with the current/selected time
+     * Updates the end date of the event being created and validates the date/time pickers
      */
-    private void updateTimeButtons(){
-        mEndDateButton.setText(mEndDateTime.getMonthDayYearFormat());
-        mEndTimeButton.setText(mEndDateTime.getTimeFormat());
-    } // end of function updateTimeButtons()
-
-
     private void setupEndDatePickerDialog(){
 
         // End Date Picker Dialog
@@ -194,9 +196,8 @@ public class CreateEventSwipe extends Fragment {
                             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                                   int dayOfMonth) {
 
-
-
-
+                                mEndDateTime.setDate(year, monthOfYear, dayOfMonth);
+                                validateDateTimePickers();
                             }
                         },
                         mEndDateTime.getCalendarYear(),
@@ -210,6 +211,9 @@ public class CreateEventSwipe extends Fragment {
     } // end of function setupEndDatePickerDialog()
 
 
+    /**
+     * Updates the end time of the event being created and validates the date/time pickers
+     */
     private void setupEndTimePickerDialog(){
 
         // End Time Picker Dialog
@@ -219,10 +223,11 @@ public class CreateEventSwipe extends Fragment {
                 TimePickerDialog tpd = new TimePickerDialog(
                         mCreateEventView.getContext(),
                         new TimePickerDialog.OnTimeSetListener(){
-
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                //updateEndTime(hourOfDay, minute);
+
+                                mEndDateTime.setTime(hourOfDay, minute, true); // Must pass true since hourOfDay is in 24hr format
+                                validateDateTimePickers();
                             }
                         },
                         mEndDateTime.getCalendarHourOfDay(),
@@ -235,10 +240,7 @@ public class CreateEventSwipe extends Fragment {
     } // end of function setupEndTimePickerDialog()
 
     /**
-     * Updates the start date of the event being created. If the start date is later than the
-     * current ending date, then the ending date will be set to the start date. In the situation
-     * that the start date is today, and the start time is set earlier than the current time, then
-     * the start/end time will be updated as needed.
+     * Updates the start date of the event being created and validates the date/time pickers
      */
     private void setupStartDatePickerDialog(){
 
@@ -255,31 +257,7 @@ public class CreateEventSwipe extends Fragment {
                                                   int dayOfMonth) {
 
                                 mStartDateTime.setDate(year, monthOfYear, dayOfMonth);
-
-                                // If the start date is changed to a date/time ahead of the current end date/time,
-                                // reset the end date/time
-                                if (mEndDateTime.getCalendar().getTime().getTime() <=
-                                        mStartDateTime.getCalendar().getTime().getTime())
-                                {
-                                    mEndDateTime.setTime(mStartDateTime.getCalendar().getTime());
-                                    //mEndDateTime.setTimeToNextHalfHour();
-                                }
-
-                                // If the start date is today, and the start time is earlier than the current time, reset
-                                // both the start and end times
-                                if (mStartDateTime.getCalendar().getTime().getTime() <
-                                        Calendar.getInstance().getTime().getTime())
-                                {
-                                    // Set Date to today
-                                    Calendar cal = Calendar.getInstance();
-                                    mStartDateTime.setDate(cal.get(Calendar.YEAR),
-                                            cal.get(Calendar.MONTH),
-                                            cal.get(Calendar.DAY_OF_MONTH));
-
-                                    //mStartDateTime.setTimeToNextHalfHour();
-                                }
-
-                                updateDateButtons();
+                                validateDateTimePickers();
                             }
                         },
                         mStartDateTime.getCalendarYear(),
@@ -292,6 +270,10 @@ public class CreateEventSwipe extends Fragment {
 
     } // end of function setupStartDatePickerDialog()
 
+
+    /**
+     * Updates the start time of the event being created and validates the date/time pickers
+     */
     private void setupStartTimePickerDialog(){
 
         // Start Time Picker Dialog
@@ -301,10 +283,11 @@ public class CreateEventSwipe extends Fragment {
                 TimePickerDialog tpd = new TimePickerDialog(
                         mCreateEventView.getContext(),
                         new TimePickerDialog.OnTimeSetListener(){
-
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                //updateStartTime(hourOfDay, minute);
+
+                                mStartDateTime.setTime(hourOfDay, minute, true); // Must pass true since hourOfDay is in 24hr format
+                                validateDateTimePickers();
                             }
                         },
                         mStartDateTime.getCalendarHourOfDay(),
@@ -315,7 +298,65 @@ public class CreateEventSwipe extends Fragment {
             }
         });
 
-
     } // end of function setupStartTimePickerDialog()
+
+    /**
+     * Validate the Date/Time Pickers. Read the comments on how these are being validated.
+     */
+    private void validateDateTimePickers(){
+
+        // Case 1: The start date/time is later than the current end date/time.
+        // Reset the end date/time.
+        // We cannot have an end time be before the start time.
+        if (mEndDateTime.getCalendar().getTime().getTime() <
+                mStartDateTime.getCalendar().getTime().getTime())
+        {
+            // First, set the new end date. We want to try to keep the end time that is currently
+            // set in case the user is setting the dates and times in a weird order.
+            mEndDateTime.setDate(mStartDateTime.getCalendarYear(),
+                    mStartDateTime.getCalendarMonth(),
+                    mStartDateTime.getCalendarDayOfMonth());
+
+            // In the situation that the new end date/time is still before the start date/time,
+            // we will need to update the end time to match the start time
+            if (mEndDateTime.getCalendar().getTime().getTime() <
+                    mStartDateTime.getCalendar().getTime().getTime())
+            {
+                mEndDateTime.setTime(mStartDateTime.getCalendarHourOfDay(),
+                        mStartDateTime.getCalendarMinute());
+            }
+        }
+
+        // Case 2: The start date is today, and the start time has already passed
+        // (i.e. start time is 7:00 and the current time is 7:05)
+        // We need to set the new start time to the current time.
+        // The reason for this, is if a user is trying to create an event for now, and the time
+        // picker is set to the current time, the user may spend several minutes creating the event
+        // before it is submitted. To prevent the time from being rejected over and over, let us
+        // give the user 5 minutes. For example, I want to create an event that starts now. If the
+        // time in the time picker is 7:05 and the current time is 7:07 when I submit the event to
+        // be created, I don't want to have to update the time. However, if the current time is 7:10
+        // or later, then I think the user should have to update the event being created.
+        Calendar cal = Calendar.getInstance();
+        if((mStartDateTime.getCalendar().getTime().getTime() + (5 * 60000)) <
+                cal.getTime().getTime())
+        {
+            if(mStartDateTime.getCalendarIs24Hour()) {
+                mStartDateTime.setTime(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE));
+            }
+            else
+            {
+                mStartDateTime.setTime(cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE));
+            }
+
+            // Since we changed the start time, we need to revalidate the other date/time pickers
+            validateDateTimePickers();
+        }
+        else
+        {
+            updateDateTimeButtons();
+        }
+
+    } // end of function validateDateTimePickers()
 
 } // end of class EventListSwipe
