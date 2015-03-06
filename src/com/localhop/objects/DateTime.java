@@ -47,6 +47,26 @@ public class DateTime {
     } // end of Constructor DateTime()
 
     /**
+     * Compare if two dates are on the same day.
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public boolean compareAreDatesSameDay(Date date1, Date date2)
+    {
+        boolean isSameDay = false;
+
+        if(date1.getYear() == date2.getYear() &&
+                date1.getMonth() == date2.getMonth() &&
+                date1.getDate() == date2.getDate())
+        {
+            isSameDay = true;
+        }
+
+        return isSameDay;
+    } // end of function compareAreDatesSameDay()
+
+    /**
      * Returns the current calendar object
      * @return
      */
@@ -110,7 +130,7 @@ public class DateTime {
      */
     public boolean getCalendarIs24Hour(){
         // TODO: Need to get from user prefs if 24hour or 12hour is preferred
-        return false;
+        return true;
     } // end of function getCalendarIs24Hour()
 
     /**

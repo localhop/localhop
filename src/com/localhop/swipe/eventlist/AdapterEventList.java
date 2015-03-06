@@ -14,6 +14,7 @@ import com.localhop.objects.Event;
 import com.localhop.utils.ViewUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Adapter for displaying custom list items in the Event List tab
@@ -116,15 +117,31 @@ public class AdapterEventList extends ArrayAdapter<Event> {
         tvNotification.setText(sNotificationCount);
 
         // Add Date delimiter UI if the event is not today
-        if(event.getType() != Event.EventType.Today &&
-                ((position > 0 && mEventListItems.get(position).getStartDateTime()
-                        .compareTo(mEventListItems.get(position - 1).getStartDateTime()) != 0) ||
-                        position <= 0)) {
-            TextView tvEventListDateDelimiter = ViewUtils.findViewById(rowView, R.id.tvEventListDateDelimiter);
-            // Set the date into the format DayOfWeek, Month/Day, Year
-                tvEventListDateDelimiter.setText(
-                        datetime.getDayOfWeekString() + ", " +
-                                datetime.getMonthDayYearFormat());
+        if(event.getType() != Event.EventType.Today)
+        {
+          if(position > 0)
+          {
+              DateTime dateTime = new DateTime(mContext, new Date());
+
+              if(!dateTime.compareAreDatesSameDay(mEventListItems.get(position).getStartDateTime(),
+                      mEventListItems.get(position - 1).getStartDateTime()))
+              {
+                  TextView tvEventListDateDelimiter = ViewUtils.findViewById(rowView, R.id.tvEventListDateDelimiter);
+                  // Set the date into the format DayOfWeek, Month/Day, Year
+                  tvEventListDateDelimiter.setText(
+                          datetime.getDayOfWeekString() + ", " +
+                                  datetime.getMonthDayYearFormat());
+              }
+          }
+          else
+          {
+              TextView tvEventListDateDelimiter = ViewUtils.findViewById(rowView, R.id.tvEventListDateDelimiter);
+              // Set the date into the format DayOfWeek, Month/Day, Year
+              tvEventListDateDelimiter.setText(
+                      datetime.getDayOfWeekString() + ", " +
+                              datetime.getMonthDayYearFormat());
+          }
+
         }
 
     } // end of function setItemView()
@@ -143,11 +160,24 @@ public class AdapterEventList extends ArrayAdapter<Event> {
 
         int layout = R.layout.list_item_event;
 
-        if (type != Event.EventType.Today &&
-                ((position > 0 && mEventListItems.get(position).getStartDateTime()
-                        .compareTo(mEventListItems.get(position - 1).getStartDateTime()) != 0) ||
-                position <= 0)) {
-            layout = R.layout.list_item_event_with_date_delimiter;
+        // If the event is not today, there isn't already an event listed on the same day, post this
+        // event with the date delimiter layout
+        if (type != Event.EventType.Today)
+        {
+            if( position > 0 )
+            {
+                DateTime dateTime = new DateTime(mContext, new Date());
+
+                if(!dateTime.compareAreDatesSameDay(mEventListItems.get(position).getStartDateTime(),
+                        mEventListItems.get(position - 1).getStartDateTime()))
+                {
+                    layout = R.layout.list_item_event_with_date_delimiter;
+                }
+            }
+            else
+            {
+                layout = R.layout.list_item_event_with_date_delimiter;
+            }
         }
 
         View rowView = inflater.inflate(layout, parent, false);
