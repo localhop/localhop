@@ -226,7 +226,9 @@ public class CreateEventSwipe extends Fragment {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-                                mEndDateTime.setTime(hourOfDay, minute, true); // Must pass true since hourOfDay is in 24hr format
+                                // Must pass true since hourOfDay is in 24hr format, even if user
+                                // prefs is set to 12
+                                mEndDateTime.setTime(hourOfDay, minute, true);
                                 validateDateTimePickers();
                             }
                         },
@@ -286,7 +288,9 @@ public class CreateEventSwipe extends Fragment {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-                                mStartDateTime.setTime(hourOfDay, minute, true); // Must pass true since hourOfDay is in 24hr format
+                                // Must pass true since hourOfDay is in 24hr format, even if user
+                                // prefs is set to 12
+                                mStartDateTime.setTime(hourOfDay, minute, true);
                                 validateDateTimePickers();
                             }
                         },
@@ -323,7 +327,7 @@ public class CreateEventSwipe extends Fragment {
                     mStartDateTime.getCalendar().getTime().getTime())
             {
                 mEndDateTime.setTime(mStartDateTime.getCalendarHourOfDay(),
-                        mStartDateTime.getCalendarMinute());
+                        mStartDateTime.getCalendarMinute(), true);
             }
         }
 
@@ -347,15 +351,12 @@ public class CreateEventSwipe extends Fragment {
             else
             {
                 mStartDateTime.setTime(cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE));
+                mStartDateTime.setAMPM(cal.get(Calendar.AM_PM));
             }
+        }
 
-            // Since we changed the start time, we need to revalidate the other date/time pickers
-            validateDateTimePickers();
-        }
-        else
-        {
-            updateDateTimeButtons();
-        }
+        // Update all date/time buttons
+        updateDateTimeButtons();
 
     } // end of function validateDateTimePickers()
 

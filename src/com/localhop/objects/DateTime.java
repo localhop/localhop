@@ -65,19 +65,20 @@ public class DateTime {
     } // end of function getCalendarDayOfMonth()
 
     /**
-     * Returns the Date's HOUR_OF_DAY value if in 24hour time,
-     * else it returns HOUR if in 12 hour time
+     * Returns the Date's HOUR_OF_DAY value for 24 hour time
      * @return
      */
     public int getCalendarHourOfDay(){
-        if(getCalendarIs24Hour()) {
             return mDate.get(Calendar.HOUR_OF_DAY);
-        }
-        else
-        {
-            return mDate.get(Calendar.HOUR);
-        }
     } // end of function getCalendarHourOfDay()
+
+    /**
+     * Returns the Date's HOUR value for 12 hour time
+     * @return
+     */
+    public int getCalendarHour(){
+        return mDate.get(Calendar.HOUR);
+    } // end of function getCalendarHour()
 
     /**
      * Returns the Date's MINUTE value
@@ -188,7 +189,7 @@ public class DateTime {
                 minutesFormatted = "0" + minutesFormatted;
             }
 
-            return hoursFormatted + ":" + minutesFormatted + ampm;
+            return hoursFormatted + ":" + minutesFormatted + " " + ampm;
         }
         else
         {
@@ -199,6 +200,22 @@ public class DateTime {
 
     } // end of function getTimeFormat()
 
+    /**
+     * Sets whether or not the 12 hour clock is currently AM or PM
+     * @param am_pm
+     */
+    public void setAMPM(int am_pm){
+
+        switch (am_pm)
+        {
+            case Calendar.AM:
+                mDate.set(Calendar.AM_PM, Calendar.AM);
+                break;
+            case Calendar.PM:
+                mDate.set(Calendar.AM_PM, Calendar.PM);
+                break;
+        }
+    } // end of function setAMPM()
 
     /**
      * Sets the year, month, and day of month.

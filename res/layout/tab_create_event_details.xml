@@ -39,29 +39,6 @@ UI for the details page when creating an event
                 android:layout_toRightOf="@+id/iv_create_event_date_time"
                 android:layout_toEndOf="@+id/iv_create_event_date_time" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/et_create_event_date_from"
-                android:layout_below="@+id/tv_create_event_date_from_label"
-                android:layout_alignLeft="@+id/tv_create_event_date_from_label"
-                android:layout_alignStart="@+id/tv_create_event_date_from_label"
-                android:layout_toStartOf="@+id/et_create_event_time_from"
-                android:inputType="date" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="time"
-                android:ems="10"
-                android:id="@+id/et_create_event_time_from"
-                android:layout_below="@+id/tv_create_event_date_from_label"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@+id/et_create_event_date_to"
-                android:layout_toEndOf="@+id/et_create_event_date_to" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,52 +48,107 @@ UI for the details page when creating an event
                 android:paddingTop="5dp"
                 android:textSize="15dp"
                 android:textColor="@color/default_faded_text_color"
-                android:layout_below="@+id/et_create_event_date_from"
-                android:layout_toRightOf="@+id/iv_create_event_date_time"
-                android:layout_toEndOf="@+id/iv_create_event_date_time" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="date"
-                android:ems="10"
-                android:id="@+id/et_create_event_date_to"
-                android:layout_below="@+id/tv_create_event_date_to_label"
-                android:layout_alignLeft="@+id/tv_create_event_date_to_label"
-                android:layout_alignStart="@+id/tv_create_event_date_to_label" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="time"
-                android:ems="10"
-                android:id="@+id/et_create_event_time_to"
-                android:layout_alignTop="@+id/et_create_event_date_to"
-                android:layout_toEndOf="@+id/et_create_event_date_to"
-                android:layout_toRightOf="@+id/et_create_event_date_to" />
+                android:layout_below="@+id/ll_create_event_date_time_from"
+                android:layout_alignLeft="@+id/tv_create_event_date_from_label"
+                android:layout_alignStart="@+id/tv_create_event_date_from_label" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/iv_create_event_date_time"
                 android:src="@drawable/ic_event_date_time_selector"
-                android:layout_centerVertical="true"
+                android:paddingRight="10dp"
+                android:contentDescription="@string/date_time_from"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:paddingRight="10dp"
-                android:contentDescription="@string/date_time_from"/>
+                android:layout_above="@+id/tv_create_event_date_to_label"
+                android:layout_alignTop="@+id/ll_create_event_date_time_from" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_create_event_date_time_from"
+                android:layout_below="@+id/tv_create_event_date_from_label"
+                android:layout_toRightOf="@+id/tv_create_event_date_to_label"
+                android:layout_alignRight="@+id/ll_create_event_date_time_to"
+                android:layout_alignEnd="@+id/ll_create_event_date_time_to">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/et_create_event_date_from"
+                    android:layout_below="@+id/tv_create_event_date_from_label"
+                    android:layout_alignLeft="@+id/tv_create_event_date_from_label"
+                    android:layout_alignStart="@+id/tv_create_event_date_from_label"
+                    android:layout_toStartOf="@+id/et_create_event_time_from"
+                    android:inputType="date" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:inputType="time"
+                    android:ems="10"
+                    android:id="@+id/et_create_event_time_from"
+                    android:layout_below="@+id/tv_create_event_date_from_label"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/et_create_event_date_to"
+                    android:layout_toEndOf="@+id/et_create_event_date_to" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/ll_create_event_date_time_to"
+                android:layout_below="@+id/tv_create_event_date_to_label"
+                android:layout_toRightOf="@+id/tv_create_event_date_to_label"
+                android:layout_toEndOf="@+id/tv_create_event_date_to_label">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:ems="10"
+                    android:id="@+id/et_create_event_date_to"
+                    android:layout_below="@+id/tv_create_event_date_to_label"
+                    android:layout_alignLeft="@+id/tv_create_event_date_to_label"
+                    android:layout_alignStart="@+id/tv_create_event_date_to_label" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:inputType="time"
+                    android:ems="10"
+                    android:id="@+id/et_create_event_time_to"
+                    android:layout_alignTop="@+id/et_create_event_date_to"
+                    android:layout_toEndOf="@+id/et_create_event_date_to"
+                    android:layout_toRightOf="@+id/et_create_event_date_to" />
+            </LinearLayout>
 
             <Switch
-                android:layout_width="wrap_content"
+                android:layout_width="337dp"
                 android:layout_height="wrap_content"
                 android:text="@string/date_time_all_day"
                 android:paddingTop="10dp"
+                android:paddingLeft="5dp"
                 android:id="@+id/sw_create_event_all_day"
-                android:layout_below="@+id/et_create_event_date_to"
-                android:layout_toRightOf="@+id/iv_create_event_date_time"
-                android:layout_alignRight="@+id/et_create_event_time_to"
-                android:layout_alignEnd="@+id/et_create_event_time_to"
-                android:checked="false" />
+                android:checked="false"
+                android:layout_below="@+id/ll_create_event_date_time_to"
+                android:layout_alignRight="@+id/ll_create_event_date_time_to"
+                android:layout_alignEnd="@+id/ll_create_event_date_time_to"
+                android:layout_toEndOf="@+id/tv_create_event_date_from_label"
+                android:layout_alignLeft="@+id/ll_create_event_date_time_to"
+                android:layout_alignStart="@+id/ll_create_event_date_time_to" />
 
         </RelativeLayout>
 
