@@ -46,6 +46,12 @@
     <string name="event_location_hint">Event Location</string>
     <string name="create">Create</string>
     <string name="event_name_hint">Event Name</string>
+    <string name="invite_setting_open_invite">Open Invite</string>
+    <string name="invite_setting_closed_invite">Closed Invite</string>
+    <string-array name="invite_settings">
+        <item>@string/invite_setting_closed_invite</item>
+        <item>@string/invite_setting_open_invite</item>
+    </string-array>
 
     <!-- Groups/Friends -->
     <string name="groups">Groups</string>

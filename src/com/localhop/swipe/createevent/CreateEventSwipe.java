@@ -5,11 +5,14 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.localhop.R;
@@ -53,8 +56,7 @@ public class CreateEventSwipe extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Create the view for the event list items to be returned
-
+        // Setup the correct view based on the current page in the swipe view
         switch ( mCurrentPage ) {
 
             case 0:
@@ -165,6 +167,11 @@ public class CreateEventSwipe extends Fragment {
             }
         });
 
+
+        // Invite Settings Spinner
+        Spinner inviteSettingsSpinner = ViewUtils.findViewById(mCreateEventView, R.id.spin_create_event_invite_settings);
+        inviteSettingsSpinner.setSelection(0);
+
     } // end of function setupInvitesPage()
 
 
@@ -185,7 +192,7 @@ public class CreateEventSwipe extends Fragment {
     private void setupEndDatePickerDialog(){
 
         // End Date Picker Dialog
-        mEndDateButton.setOnClickListener( new View.OnClickListener() {
+        mEndDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Date Picker Dialog
@@ -217,12 +224,12 @@ public class CreateEventSwipe extends Fragment {
     private void setupEndTimePickerDialog(){
 
         // End Time Picker Dialog
-        mEndTimeButton.setOnClickListener( new View.OnClickListener() {
+        mEndTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerDialog tpd = new TimePickerDialog(
                         mCreateEventView.getContext(),
-                        new TimePickerDialog.OnTimeSetListener(){
+                        new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
@@ -284,7 +291,7 @@ public class CreateEventSwipe extends Fragment {
             public void onClick(View v) {
                 TimePickerDialog tpd = new TimePickerDialog(
                         mCreateEventView.getContext(),
-                        new TimePickerDialog.OnTimeSetListener(){
+                        new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 

@@ -18,36 +18,26 @@ UI for the Favorite/Recent events list when creating an event
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/create"
-            android:id="@+id/ibCreateEvent"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:background="@android:color/transparent"
-            android:paddingRight="15dp"
-            android:paddingLeft="10dp"
-            android:clickable="true"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
-            android:src="@drawable/ic_create_event_selector" />
-
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:hint="@string/event_name_hint"
-            android:paddingLeft="10dp"
-            android:textSize="25dp"
-            android:gravity="bottom"
-            android:id="@+id/tv_create_event_name"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/ibCreateEvent"
-            android:layout_toStartOf="@+id/ibCreateEvent" />
+            android:text="Create New Event"
+            android:id="@+id/tv_create_event_title"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="10dp"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ib_create_event_back_button"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="11dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_back_arrow_selector"
+            />
 
     </RelativeLayout>
 
