@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -135,6 +136,8 @@ public class EventListSwipe extends Fragment {
             switch (mCurrentPage) {
                 case 0:
                     // Past Events
+                    // Sort the events in DESC order (latest event first)
+                    Collections.reverse(pastEvents);
                     setupEventSelection(pastEvents);
                     break;
                 case 1:

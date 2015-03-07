@@ -130,7 +130,7 @@ public class DateTime {
      */
     public boolean getCalendarIs24Hour(){
         // TODO: Need to get from user prefs if 24hour or 12hour is preferred
-        return true;
+        return false;
     } // end of function getCalendarIs24Hour()
 
     /**
