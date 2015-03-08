@@ -5,15 +5,17 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.localhop.R;
 import com.localhop.objects.DateTime;
@@ -30,16 +32,26 @@ import java.util.Calendar;
  */
 public class CreateEventSwipe extends Fragment {
 
+    // Global Variables
     private int mCurrentPage;
     private ArrayList<Friend> mFriends;
     private ArrayList<Group> mGroups;
+
+    // UI Components
     private View mCreateEventView;
+    private EditText mEventNameEditText;
     private DateTime mStartDateTime;
     private DateTime mEndDateTime;
     private Button mStartDateButton;
     private Button mEndDateButton;
     private Button mStartTimeButton;
     private Button mEndTimeButton;
+    private Switch mAllDaySwitch;
+    private EditText mDescriptionEditText;
+    private EditText mLocationEditText;
+    private ExpandableListView mInviteELV;
+    private Spinner mInviteSettingsSpinner;
+    private ImageButton mCreateEventImageButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +93,8 @@ public class CreateEventSwipe extends Fragment {
      */
     private ArrayList<Friend> getFriends() {
 
+        //TODO: Replace with DB query
+
         ArrayList<Friend> items = new ArrayList<Friend>();
         items.add(new Friend("Adam Smith"));
         items.add(new Friend("Kendal Harland"));
@@ -97,6 +111,8 @@ public class CreateEventSwipe extends Fragment {
      */
     private ArrayList<Group> getGroups() {
 
+        //TODO: Replace with DB query
+
         ArrayList<Group> items = new ArrayList<Group>();
         items.add(new Group("Adam, Kendal, Michelle, Ryan, Zach", "Senior Design Group"));
         items.add(new Group("Adam, Connor, Ryan, Orion", "Food Group"));
@@ -105,11 +121,13 @@ public class CreateEventSwipe extends Fragment {
         return items;
     } // end of function getGroups()
 
-
     /**
      * Setup the UI and everything needed for the create event details page
      */
     private void setupDetailsPage() {
+
+        // Event Name
+        mEventNameEditText = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_name);
 
         // Start Date/Time
         mStartDateTime = new DateTime(mCreateEventView.getContext(), Calendar.getInstance());
@@ -132,15 +150,15 @@ public class CreateEventSwipe extends Fragment {
         setupStartTimePickerDialog();
         setupEndTimePickerDialog();
 
-        // TODO: All Day Option
+        // All Day Switch
+        mAllDaySwitch = ViewUtils.findViewById(mCreateEventView, R.id.sw_create_event_all_day);
 
-        // TODO: Event Details
+        // Event Details
+        mDescriptionEditText = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_details);
 
-        // TODO: Event Location
-
-        // TODO: Event Name
-
-        // TODO: Create button and validation before POST query to DB
+        // Event Location
+        mLocationEditText = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_location);
+        // TODO: Setup Google Places Search API
 
     } // end of function setupDetailsPage()
 
@@ -152,11 +170,11 @@ public class CreateEventSwipe extends Fragment {
         // Friend/Group List
         final AdapterExpandFriendGroupList expandAdapter =
                 new AdapterExpandFriendGroupList(mCreateEventView.getContext(), mGroups, mFriends);
-        ExpandableListView elvInvite = ViewUtils.findViewById(mCreateEventView, R.id.elvCreateEventInvite);
-        elvInvite.setAdapter(expandAdapter);
-        elvInvite.expandGroup(0);
-        elvInvite.expandGroup(1);
-        elvInvite.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        mInviteELV = ViewUtils.findViewById(mCreateEventView, R.id.elvCreateEventInvite);
+        mInviteELV.setAdapter(expandAdapter);
+        mInviteELV.expandGroup(0);
+        mInviteELV.expandGroup(1);
+        mInviteELV.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
@@ -167,16 +185,24 @@ public class CreateEventSwipe extends Fragment {
         });
 
         // Invite Settings Spinner
-        Spinner inviteSettingsSpinner = ViewUtils.findViewById(mCreateEventView, R.id.spin_create_event_invite_settings);
-        inviteSettingsSpinner.setSelection(0);
+        mInviteSettingsSpinner = ViewUtils.findViewById(mCreateEventView, R.id.spin_create_event_invite_settings);
+        mInviteSettingsSpinner.setSelection(0);
 
         // Create Event Button
-        ImageButton ibCreateEvent = ViewUtils.findViewById(mCreateEventView, R.id.ib_create_event);
-        ibCreateEvent.setOnClickListener(new View.OnClickListener() {
+        mCreateEventImageButton = ViewUtils.findViewById(mCreateEventView, R.id.ib_create_event);
+        mCreateEventImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: Validate all data
-                // TODO: Create new event in DB
+                if(mEventNameEditText == null || mEventNameEditText.getText().toString().isEmpty())
+                {
+                    Toast.makeText(getActivity(), R.string.missing_event_name_error, Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+
+                    // TODO: Create new event in DB
+                }
             }
         });
 

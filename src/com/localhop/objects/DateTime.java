@@ -189,6 +189,10 @@ public class DateTime {
             if(!getCalendarIs24Hour())
             {
                 hours = mDate.get(Calendar.HOUR);
+                if (hours == 0)
+                {
+                    hours = 12;
+                }
                 if(mDate.get(Calendar.AM_PM) == Calendar.AM)
                 {
                     ampm = "AM";

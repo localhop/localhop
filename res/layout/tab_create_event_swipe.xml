@@ -28,7 +28,7 @@ UI for the Favorite/Recent events list when creating an event
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:paddingTop="10dp"
-            android:textColor="@android:color/secondary_text_dark" />
+            android:textColor="@android:color/tab_indicator_text" />
 
         <ImageButton
             android:layout_width="wrap_content"
