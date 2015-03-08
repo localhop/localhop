@@ -45,6 +45,7 @@
     <string name="event_description_hint">Event Details</string>
     <string name="event_location_hint">Event Location</string>
     <string name="create">Create</string>
+    <string name="optional">Optional</string>
     <string name="event_name_hint">Event Name</string>
     <string name="invite_setting_open_invite">Open Invite</string>
     <string name="invite_setting_closed_invite">Closed Invite</string>

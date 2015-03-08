@@ -204,6 +204,17 @@ UI for the details page when creating an event
         </LinearLayout>
 
         <!-- Event Details -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/optional"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:textColor="@color/default_underline_indicator_selected_color"
+            android:id="@+id/tv_create_event_option" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -245,16 +256,6 @@ UI for the details page when creating an event
                 android:contentDescription="@string/event_description_hint"/>
 
         </RelativeLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/blueBar3"
-            android:layout_width="fill_parent"
-            android:layout_height="4dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/default_action_bar_background_color">
-        </LinearLayout>
 
         <!-- Event Location -->
         <RelativeLayout

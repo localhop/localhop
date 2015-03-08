@@ -149,14 +149,13 @@ public class CreateEventSwipe extends Fragment {
      */
     private void setupInvitesPage() {
 
+        // Friend/Group List
         final AdapterExpandFriendGroupList expandAdapter =
                 new AdapterExpandFriendGroupList(mCreateEventView.getContext(), mGroups, mFriends);
-
         ExpandableListView elvInvite = ViewUtils.findViewById(mCreateEventView, R.id.elvCreateEventInvite);
         elvInvite.setAdapter(expandAdapter);
         elvInvite.expandGroup(0);
         elvInvite.expandGroup(1);
-
         elvInvite.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -167,10 +166,19 @@ public class CreateEventSwipe extends Fragment {
             }
         });
 
-
         // Invite Settings Spinner
         Spinner inviteSettingsSpinner = ViewUtils.findViewById(mCreateEventView, R.id.spin_create_event_invite_settings);
         inviteSettingsSpinner.setSelection(0);
+
+        // Create Event Button
+        ImageButton ibCreateEvent = ViewUtils.findViewById(mCreateEventView, R.id.ib_create_event);
+        ibCreateEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Validate all data
+                // TODO: Create new event in DB
+            }
+        });
 
     } // end of function setupInvitesPage()
 
