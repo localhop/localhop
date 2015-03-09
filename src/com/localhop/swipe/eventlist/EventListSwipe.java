@@ -99,7 +99,7 @@ public class EventListSwipe extends Fragment {
                     mRefreshLayout.setRefreshing(false);
                 }
 
-            }.execute("http://24.124.60.119/get/user/events/2");
+            }.execute("http://24.124.60.119/user/events/2");
 
     } // end of function getAllUserEvents()
 
