@@ -1,5 +1,6 @@
 package com.localhop.swipe.createevent;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -18,13 +19,19 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.localhop.R;
+import com.localhop.network.HttpRequest;
+import com.localhop.network.HttpServerRequest;
 import com.localhop.objects.DateTime;
+import com.localhop.objects.Event;
 import com.localhop.objects.Friend;
 import com.localhop.objects.Group;
 import com.localhop.utils.ViewUtils;
+import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Controls the custom Swipe View on the Events List tab.  The user will be given the ability
@@ -85,7 +92,6 @@ public class CreateEventSwipe extends Fragment {
 
         return mCreateEventView;
     } // end of function onCreateView()
-
 
     /**
      * Retrieve the Friends for a particular user
@@ -162,6 +168,7 @@ public class CreateEventSwipe extends Fragment {
 
     } // end of function setupDetailsPage()
 
+
     /**
      * Sets up the UI for the create event Invites page
      */
@@ -201,13 +208,55 @@ public class CreateEventSwipe extends Fragment {
                 else
                 {
 
-                    // TODO: Create new event in DB
+
+                    Event event = new Event(Event.EventType.Future,
+                                            mEventNameEditText.getText().toString(),
+                                            mDescriptionEditText.getText().toString(),
+                                            mLocationEditText.getText().toString(),
+                                            new Date(mStartDateButton.getText().toString()),
+                                            new Date(mEndDateButton.getText().toString()),
+                                            new ArrayList<Integer>(),
+                                            (int)mInviteSettingsSpinner.getSelectedItemId(), // TODO: make a boolean instead
+                                            2,// organizerID
+                                            0 // notification count. why?
+                    );
+                    submitEvent(event.toNameValuePair());
                 }
             }
         });
 
     } // end of function setupInvitesPage()
 
+    /**
+     * Pushes a new event to the server
+     */
+    private void submitEvent(List<NameValuePair> eventData) {
+
+        new HttpServerRequest<Activity, String>(getActivity(), HttpRequest.POST, eventData) {
+
+            @Override
+            protected String onResponse(final String response) {
+//                try {
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    return null; // TODO: null voodoo
+//                }
+                return "";
+            }
+
+            @Override
+            protected void onPostExecute(String response) {
+                super.onPostExecute(response);
+            }
+
+            @Override
+            protected void onCancelled() {
+
+            }
+
+        }.execute("http://24.124.60.119/event/add");
+    } // end of function createEvent()
 
     /**
      * Update the Date/Time Buttons with the current/selected dates/times
