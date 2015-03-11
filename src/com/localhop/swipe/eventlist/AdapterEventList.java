@@ -101,7 +101,7 @@ public class AdapterEventList extends ArrayAdapter<Event> {
 
         // Set the remaining UI components
         tvName.setText(mEventNameSpacing + event.getEventName());
-        tvAttendees.setText(event.getAttendees());
+        tvAttendees.setText(event.getAttendees().toString());
         tvDirection.setText(event.getLocation());
         ibDirection.setBackgroundResource(R.drawable.ic_directions_selector);
         ibDirection.setOnClickListener(new ImageButton.OnClickListener() {
