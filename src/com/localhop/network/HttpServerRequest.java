@@ -70,7 +70,7 @@ public abstract class HttpServerRequest<A extends Activity, Result> extends Asyn
                 request = new HttpGet(url);
             } else if (mRequest.equals(HttpRequest.POST)) {
                 final HttpPost httpPost = new HttpPost(url);
-                if (params.length > 1) {
+                if (mData != null) {
                     try {
                         httpPost.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
                     } catch (UnsupportedEncodingException e) {
