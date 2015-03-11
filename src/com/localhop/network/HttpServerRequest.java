@@ -3,13 +3,11 @@ package com.localhop.network;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
+import java.util.List;
 
 import android.app.Activity;
 import android.widget.Toast;
-import org.apache.http.HttpException;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NoHttpResponseException;
+import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -33,6 +31,7 @@ public abstract class HttpServerRequest<A extends Activity, Result> extends Asyn
     public static String DUMMY_URL = "http://ip.jsontest.com/";
     private HttpRequest mRequest;
     private String mErrorMessage;
+    private List<NameValuePair> mData;
 
     /**
      * Constructs a new instance. The constructor is not the place to put any input
@@ -41,9 +40,10 @@ public abstract class HttpServerRequest<A extends Activity, Result> extends Asyn
      *
      * @param console reference to the current console.
      */
-    public HttpServerRequest(A activity, HttpRequest request) {
+    public HttpServerRequest(A activity, HttpRequest request, List<NameValuePair> data) {
         super(activity);
         mRequest = request;
+        mData = data;
     }
 
     @Override
