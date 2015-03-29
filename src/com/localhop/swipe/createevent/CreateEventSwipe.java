@@ -89,7 +89,7 @@ public class CreateEventSwipe extends Fragment {
                 mCreateEventView = inflater.inflate(R.layout.tab_create_event_invite, container, false);
                 getFriends();
                 mGroups = getGroups();
-                setupInvitesPage();
+//                setupInvitesPage();
                 break;
         }
 
@@ -124,6 +124,7 @@ public class CreateEventSwipe extends Fragment {
             @Override protected void onPostExecute(ArrayList<Friend> friends) {
                 super.onPostExecute(friends);
                 mFriends = friends;
+                setupInvitesPage();
             }
 
             @Override
@@ -158,7 +159,7 @@ public class CreateEventSwipe extends Fragment {
         items.add(new Group("Adam, Paydon, Whitney, Sean", "Climbing Buddies"));
 
         return items;
-    } // end of function getGroups()
+    } // end of function getGroups()/home/afsmith
 
     /**
      * Setup the UI and everything needed for the create event details page
