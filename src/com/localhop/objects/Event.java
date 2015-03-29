@@ -131,16 +131,21 @@ public class Event implements Serializable{
     public List<NameValuePair> toNameValuePair() {
         List<NameValuePair> data = new ArrayList<NameValuePair>() ;
 
+        // Format the date for MySQL
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String start = sdf.format(this.startDateTime);
+        String end = sdf.format(this.endDateTime);
+
         data.add(new BasicNameValuePair("name", this.name));
         data.add(new BasicNameValuePair("description", this.description));
         data.add(new BasicNameValuePair("location", this.location));
         data.add(new BasicNameValuePair("inviteSetting", Integer.toString(this.inviteSetting)));
-        data.add(new BasicNameValuePair("start", this.startDateTime.toString()));
-        data.add(new BasicNameValuePair("end", this.endDateTime.toString()));
+        data.add(new BasicNameValuePair("start", start));
+        data.add(new BasicNameValuePair("end", end));
         data.add(new BasicNameValuePair("userID", Integer.toString(this.organizer)));
 
         return data;
-    }
+    } // end of function toNameValuePair()
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //    Getters and Setters

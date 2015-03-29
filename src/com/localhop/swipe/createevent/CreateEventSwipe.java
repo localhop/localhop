@@ -46,19 +46,15 @@ public class CreateEventSwipe extends Fragment {
 
     // UI Components
     private View mCreateEventView;
-    private EditText mEventNameEditText;
-    private DateTime mStartDateTime;
-    private DateTime mEndDateTime;
+    public DateTime mStartDateTime;
+    public DateTime mEndDateTime;
     private Button mStartDateButton;
     private Button mEndDateButton;
     private Button mStartTimeButton;
     private Button mEndTimeButton;
-    private Switch mAllDaySwitch;
-    private EditText mDescriptionEditText;
     private EditText mLocationEditText;
     private ExpandableListView mInviteELV;
     private Spinner mInviteSettingsSpinner;
-    private ImageButton mCreateEventImageButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,9 +128,6 @@ public class CreateEventSwipe extends Fragment {
      */
     private void setupDetailsPage() {
 
-        // Event Name
-        mEventNameEditText = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_name);
-
         // Start Date/Time
         mStartDateTime = new DateTime(mCreateEventView.getContext(), Calendar.getInstance());
         mStartDateTime.setTimeToNextHalfHour(); // Need to set the startDateTime to the nearest half hour.
@@ -144,10 +137,10 @@ public class CreateEventSwipe extends Fragment {
         mEndDateTime.setTimeToNextHalfHour();
 
         // Initialize Date/Time Picker Buttons
-        mStartDateButton = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_date_from);
-        mEndDateButton = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_date_to);
-        mStartTimeButton = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_time_from);
-        mEndTimeButton = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_time_to);
+        mStartDateButton = ViewUtils.findViewById(mCreateEventView, R.id.b_create_event_date_from);
+        mEndDateButton = ViewUtils.findViewById(mCreateEventView, R.id.b_create_event_date_to);
+        mStartTimeButton = ViewUtils.findViewById(mCreateEventView, R.id.b_create_event_time_from);
+        mEndTimeButton = ViewUtils.findViewById(mCreateEventView, R.id.b_create_event_time_to);
         updateDateTimeButtons();
 
         // Setup Date/Time Picker Dialogs
@@ -155,12 +148,6 @@ public class CreateEventSwipe extends Fragment {
         setupEndDatePickerDialog();
         setupStartTimePickerDialog();
         setupEndTimePickerDialog();
-
-        // All Day Switch
-        mAllDaySwitch = ViewUtils.findViewById(mCreateEventView, R.id.sw_create_event_all_day);
-
-        // Event Details
-        mDescriptionEditText = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_details);
 
         // Event Location
         mLocationEditText = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_location);
@@ -185,7 +172,9 @@ public class CreateEventSwipe extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                //TODO: Do Something
+                //TODO: Do Something to save the state of which items are clicked
+                //TODO: If you select an item then scroll out of view, it will not be selected
+                //TODO: when you return to view. Ask Zach for details if this is confusing
 
                 return false;
             }
@@ -195,68 +184,8 @@ public class CreateEventSwipe extends Fragment {
         mInviteSettingsSpinner = ViewUtils.findViewById(mCreateEventView, R.id.spin_create_event_invite_settings);
         mInviteSettingsSpinner.setSelection(0);
 
-        // Create Event Button
-        mCreateEventImageButton = ViewUtils.findViewById(mCreateEventView, R.id.ib_create_event);
-        mCreateEventImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: Validate all data
-                if(mEventNameEditText == null || mEventNameEditText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(getActivity(), R.string.missing_event_name_error, Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-
-
-                    Event event = new Event(Event.EventType.Future,
-                                            mEventNameEditText.getText().toString(),
-                                            mDescriptionEditText.getText().toString(),
-                                            mLocationEditText.getText().toString(),
-                                            new Date(mStartDateButton.getText().toString()),
-                                            new Date(mEndDateButton.getText().toString()),
-                                            new ArrayList<Integer>(),
-                                            (int)mInviteSettingsSpinner.getSelectedItemId(), // TODO: make a boolean instead
-                                            2,// organizerID
-                                            0 // notification count. why?
-                    );
-                    submitEvent(event.toNameValuePair());
-                }
-            }
-        });
-
     } // end of function setupInvitesPage()
 
-    /**
-     * Pushes a new event to the server
-     */
-    private void submitEvent(List<NameValuePair> eventData) {
-
-        new HttpServerRequest<Activity, String>(getActivity(), HttpRequest.POST, eventData) {
-
-            @Override
-            protected String onResponse(final String response) {
-//                try {
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    return null; // TODO: null voodoo
-//                }
-                return "";
-            }
-
-            @Override
-            protected void onPostExecute(String response) {
-                super.onPostExecute(response);
-            }
-
-            @Override
-            protected void onCancelled() {
-
-            }
-
-        }.execute("http://24.124.60.119/event/add");
-    } // end of function createEvent()
 
     /**
      * Update the Date/Time Buttons with the current/selected dates/times
