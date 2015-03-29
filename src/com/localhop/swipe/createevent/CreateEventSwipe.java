@@ -27,6 +27,9 @@ import com.localhop.objects.Friend;
 import com.localhop.objects.Group;
 import com.localhop.utils.ViewUtils;
 import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -80,9 +83,9 @@ public class CreateEventSwipe extends Fragment {
                 break;
             case 1:
                 mCreateEventView = inflater.inflate(R.layout.tab_create_event_invite, container, false);
-                mFriends = getFriends();
+                getFriends();
                 mGroups = getGroups();
-                setupInvitesPage();
+//                setupInvitesPage();
                 break;
         }
 
@@ -93,18 +96,49 @@ public class CreateEventSwipe extends Fragment {
      * Retrieve the Friends for a particular user
      * @return
      */
-    private ArrayList<Friend> getFriends() {
+    private void getFriends() {
 
-        //TODO: Replace with DB query
+        new HttpServerRequest<Activity, ArrayList<Friend>>(getActivity(), HttpRequest.GET, null) {
 
-        ArrayList<Friend> items = new ArrayList<Friend>();
-        items.add(new Friend("Adam Smith"));
-        items.add(new Friend("Kendal Harland"));
-        items.add(new Friend("Michelle Perz"));
-        items.add(new Friend("Ryan Scott"));
-        items.add(new Friend("Zach Flies"));
+            @Override protected ArrayList<Friend> onResponse(final String response) {
+                try {
+                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
 
-        return items;
+                    ArrayList<Friend> friends = new ArrayList<Friend>();
+                    for (int i = 0; i < arr.length(); ++i) {
+                        final JSONObject obj = arr.getJSONObject(i);
+                        friends.add(Friend.fromJSON(obj));
+                    }
+
+                    return friends;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null; // TODO: null voodoo
+                }
+            }
+
+            @Override protected void onPostExecute(ArrayList<Friend> friends) {
+                super.onPostExecute(friends);
+                mFriends = friends;
+                setupInvitesPage();
+            }
+
+            @Override
+            protected void onCancelled() {
+
+            }
+
+        }.execute("http://24.124.60.119/user/friends/2");
+
+
+
+//        items.add(new Friend("Adam Smith"));
+//        items.add(new Friend("Kendal Harland"));
+//        items.add(new Friend("Michelle Perz"));
+//        items.add(new Friend("Ryan Scott"));
+//        items.add(new Friend("Zach Flies"));
+
+        return;
     } // end of function getFriends()
 
     /**
@@ -121,7 +155,7 @@ public class CreateEventSwipe extends Fragment {
         items.add(new Group("Adam, Paydon, Whitney, Sean", "Climbing Buddies"));
 
         return items;
-    } // end of function getGroups()
+    } // end of function getGroups()/home/afsmith
 
     /**
      * Setup the UI and everything needed for the create event details page
