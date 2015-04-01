@@ -1,6 +1,7 @@
 package com.localhop.activities.event;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.localhop.activities.ActivityMain;
 import com.localhop.network.HttpRequest;
 import com.localhop.network.HttpServerRequest;
 import com.localhop.objects.DateTime;
@@ -32,6 +34,7 @@ import java.util.List;
 public class ActivityTabCreateEvent extends FragmentActivity {
 
     private ViewPager mViewPager;
+    private Event mNewEvent;
     private CreateEventSwipeAdapter mViewPagerAdapter;
 
     @Override
@@ -138,7 +141,7 @@ public class ActivityTabCreateEvent extends FragmentActivity {
 
             // TODO: Need to conditional check if the event should be All Day from the spinner
             // TODO: If so, we need to alter this event's dates, or do something else?
-            Event event = new Event(Event.EventType.Future,
+            mNewEvent = new Event(Event.EventType.Future,
                     eventNameEditText.getText().toString(),
                     descriptionEditText.getText().toString(),
                     locationEditText.getText().toString(),
@@ -149,7 +152,7 @@ public class ActivityTabCreateEvent extends FragmentActivity {
                     2,// organizerID                                // TODO: User current user's ID
                     0 // notification count.                        // TODO: what is this for exactly?
             );
-            submitEvent(event.toNameValuePair());
+            submitEvent(mNewEvent.toNameValuePair());
         }
         else
         {
@@ -173,14 +176,20 @@ public class ActivityTabCreateEvent extends FragmentActivity {
             protected void onPostExecute(String response) {
 
                 super.onPostExecute(response);
-                // TODO: Send the user to the newly created event
-                // TODO: As of now, we need to make sure the events list is pushed first
-                // TODO:  so that if the user uses the back button on the newly created event,
-                // TODO:  it will send them to the events list.
 
-                // TODO: We may need to refresh the event list while we are at it
+                // As of now, we need to make sure the events list is pushed first
+                //  so that if the user uses the back button on the newly created event,
+                //  it will send them to the events list.
+                Intent eventMain = new Intent(mViewPager.getContext(), ActivityMain.class);
+                eventMain.putExtra("position", 1);
+                startActivity(eventMain);
 
-                // TODO: We also need to reset all UI on the Create Event Page
+                // Send the user to the newly created event
+                Intent eventSelection = new Intent(mViewPager.getContext(), ActivityEventSelection.class);
+                eventSelection.putExtra("event", mNewEvent);
+                startActivity(eventSelection);
+
+                finish();
             }
 
             @Override

@@ -13,6 +13,7 @@ import com.localhop.R;
 import com.localhop.activities.account.ActivityAccountLogin;
 import com.localhop.activities.event.ActivityTabCreateEvent;
 import com.localhop.activities.event.ActivityTabEventList;
+import com.localhop.objects.Event;
 import com.localhop.prefs.Prefs;
 import com.localhop.prefs.PrefsActivity;
 import com.localhop.utils.ActivityUtils;
@@ -20,6 +21,7 @@ import com.localhop.utils.ActivityUtils;
 
 public class ActivityMain extends TabActivity {
 
+    private int mTabPosition;
 
     /**
      * Called when the activity is first created.
@@ -28,6 +30,11 @@ public class ActivityMain extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+
+        // Get the selected event
+        Intent eventListIntent = getIntent();
+        this.mTabPosition = eventListIntent.getIntExtra("position", 0);
 
         Prefs.initPrefs(this);
         createMainNavigationTabs(); // Creates the main navigation TabHost
@@ -79,6 +86,8 @@ public class ActivityMain extends TabActivity {
         tabHost.addTab(tabEventList);
         tabHost.addTab(tabUserManage);
         tabHost.addTab(tabMap);
+
+        tabHost.setCurrentTab(mTabPosition);
     } // end of function createMainNavigationTabs()
 
 } // end of class MainActivity
