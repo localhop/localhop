@@ -37,6 +37,13 @@ public class DateTime {
     /**
      * Constructor
      */
+    public DateTime(Context context, String date) {
+        this(context, new Date(date));
+    } // end of Constructor DateTime()
+
+    /**
+     * Constructor
+     */
     public DateTime(Context context, Calendar cal){
 
         mDate = cal;

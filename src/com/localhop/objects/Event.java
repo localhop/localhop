@@ -1,12 +1,17 @@
 package com.localhop.objects;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.jar.Attributes;
 
 /**
  * This object class contains all the information associated with an event
@@ -31,7 +36,7 @@ public class Event implements Serializable{
     private Date startDateTime;     //< Event's start Date/Time
     private Date endDateTime;       //< Event's end Date/Time
     private int organizer;          //< Event's organizer id (needed to derive name)
-    private String attendees;       //< Event attendees (also derived)
+    private List<Integer> attendees;//< Event's attendee ids
     private int notificationCount;  //< Number of notifications associated for this event for a user
 
 
@@ -49,7 +54,7 @@ public class Event implements Serializable{
      * @param notificationCount
      */
     public Event(EventType type, String name, String description, String location,
-                 Date startDateTime, Date endDateTime, String attendees,
+                 Date startDateTime, Date endDateTime, List<Integer> attendees,
                  int inviteSetting, int organizer, int notificationCount) {
 
         super();
@@ -109,7 +114,7 @@ public class Event implements Serializable{
             }
 
             return new Event(type, name, description, location, startDateTime,
-                    endDateTime, "", inviteSetting, organizer, 0);
+                    endDateTime, new ArrayList<Integer>(), inviteSetting, organizer, 0);
         } catch (JSONException e) {
             e.printStackTrace();
             return null; // TODO: evil null voodoo
@@ -119,14 +124,37 @@ public class Event implements Serializable{
         }
     }
 
+    /**
+     * Serializes an Event object into a URL encoded form entity
+     * @return String
+     */
+    public List<NameValuePair> toNameValuePair() {
+        List<NameValuePair> data = new ArrayList<NameValuePair>() ;
+
+        // Format the date for MySQL
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String start = sdf.format(this.startDateTime);
+        String end = sdf.format(this.endDateTime);
+
+        data.add(new BasicNameValuePair("name", this.name));
+        data.add(new BasicNameValuePair("description", this.description));
+        data.add(new BasicNameValuePair("location", this.location));
+        data.add(new BasicNameValuePair("inviteSetting", Integer.toString(this.inviteSetting)));
+        data.add(new BasicNameValuePair("start", start));
+        data.add(new BasicNameValuePair("end", end));
+        data.add(new BasicNameValuePair("userID", Integer.toString(this.organizer)));
+
+        return data;
+    } // end of function toNameValuePair()
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //    Getters and Setters
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    public String getAttendees() {
+    public List<Integer> getAttendees() {
         return attendees;
     }
-    public void setAttendees(String attendees) {
+    public void setAttendees(List<Integer> attendees) {
         this.attendees = attendees;
     }
 

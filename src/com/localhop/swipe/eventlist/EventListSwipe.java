@@ -69,7 +69,7 @@ public class EventListSwipe extends Fragment {
 
         // TODO: Extract this query into its own class of queries
         // TODO: Note, onPostExecute may run into issues. Be Creative (:
-            new HttpServerRequest<Activity, ArrayList<Event>>(getActivity(), HttpRequest.GET) {
+            new HttpServerRequest<Activity, ArrayList<Event>>(getActivity(), HttpRequest.GET, null) {
 
                 @Override protected ArrayList<Event> onResponse(final String response) {
                     try {

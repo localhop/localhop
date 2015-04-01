@@ -115,16 +115,25 @@ UI for the details page when creating an event
                 android:layout_alignRight="@+id/ll_create_event_date_time_to"
                 android:layout_alignEnd="@+id/ll_create_event_date_time_to">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text=""
+                    android:id="@+id/tv_create_event_date_from_datafield"
+                    android:visibility="invisible"
+                    android:layout_weight="0" />
+
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:id="@+id/et_create_event_date_from"
+                    android:id="@+id/b_create_event_date_from"
                     android:layout_below="@+id/tv_create_event_date_from_label"
                     android:layout_alignLeft="@+id/tv_create_event_date_from_label"
                     android:layout_alignStart="@+id/tv_create_event_date_from_label"
-                    android:layout_toStartOf="@+id/et_create_event_time_from"
+                    android:layout_toStartOf="@+id/b_create_event_time_from"
                     android:inputType="date" />
 
                 <Button
@@ -133,12 +142,12 @@ UI for the details page when creating an event
                     android:layout_height="wrap_content"
                     android:inputType="time"
                     android:ems="10"
-                    android:id="@+id/et_create_event_time_from"
+                    android:id="@+id/b_create_event_time_from"
                     android:layout_below="@+id/tv_create_event_date_from_label"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_toRightOf="@+id/et_create_event_date_to"
-                    android:layout_toEndOf="@+id/et_create_event_date_to" />
+                    android:layout_toRightOf="@+id/b_create_event_date_to"
+                    android:layout_toEndOf="@+id/b_create_event_date_to" />
 
 
             </LinearLayout>
@@ -153,13 +162,22 @@ UI for the details page when creating an event
                 android:layout_toRightOf="@+id/tv_create_event_date_to_label"
                 android:layout_toEndOf="@+id/tv_create_event_date_to_label">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/tv_create_event_date_to_datafield"
+                    android:visibility="invisible"
+                    android:layout_weight="0" />
+
                 <Button
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:inputType="date"
                     android:ems="10"
-                    android:id="@+id/et_create_event_date_to"
+                    android:id="@+id/b_create_event_date_to"
                     android:layout_below="@+id/tv_create_event_date_to_label"
                     android:layout_alignLeft="@+id/tv_create_event_date_to_label"
                     android:layout_alignStart="@+id/tv_create_event_date_to_label" />
@@ -170,10 +188,10 @@ UI for the details page when creating an event
                     android:layout_height="wrap_content"
                     android:inputType="time"
                     android:ems="10"
-                    android:id="@+id/et_create_event_time_to"
-                    android:layout_alignTop="@+id/et_create_event_date_to"
-                    android:layout_toEndOf="@+id/et_create_event_date_to"
-                    android:layout_toRightOf="@+id/et_create_event_date_to" />
+                    android:id="@+id/b_create_event_time_to"
+                    android:layout_alignTop="@+id/b_create_event_date_to"
+                    android:layout_toEndOf="@+id/b_create_event_date_to"
+                    android:layout_toRightOf="@+id/b_create_event_date_to" />
             </LinearLayout>
 
             <Switch

@@ -1,5 +1,6 @@
 package com.localhop.swipe.createevent;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -14,17 +15,27 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.localhop.R;
+import com.localhop.network.HttpRequest;
+import com.localhop.network.HttpServerRequest;
 import com.localhop.objects.DateTime;
+import com.localhop.objects.Event;
 import com.localhop.objects.Friend;
 import com.localhop.objects.Group;
 import com.localhop.utils.ViewUtils;
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Controls the custom Swipe View on the Events List tab.  The user will be given the ability
@@ -39,19 +50,17 @@ public class CreateEventSwipe extends Fragment {
 
     // UI Components
     private View mCreateEventView;
-    private EditText mEventNameEditText;
     private DateTime mStartDateTime;
     private DateTime mEndDateTime;
+    private TextView mStartDateTimeDataTextView;
+    private TextView mEndDateTimeDataTextView;
     private Button mStartDateButton;
     private Button mEndDateButton;
     private Button mStartTimeButton;
     private Button mEndTimeButton;
-    private Switch mAllDaySwitch;
-    private EditText mDescriptionEditText;
     private EditText mLocationEditText;
     private ExpandableListView mInviteELV;
     private Spinner mInviteSettingsSpinner;
-    private ImageButton mCreateEventImageButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,32 +86,62 @@ public class CreateEventSwipe extends Fragment {
                 break;
             case 1:
                 mCreateEventView = inflater.inflate(R.layout.tab_create_event_invite, container, false);
-                mFriends = getFriends();
+                getFriends();
                 mGroups = getGroups();
-                setupInvitesPage();
+//                setupInvitesPage();
                 break;
         }
 
         return mCreateEventView;
     } // end of function onCreateView()
 
-
     /**
      * Retrieve the Friends for a particular user
      * @return
      */
-    private ArrayList<Friend> getFriends() {
+    private void getFriends() {
 
-        //TODO: Replace with DB query
+        new HttpServerRequest<Activity, ArrayList<Friend>>(getActivity(), HttpRequest.GET, null) {
 
-        ArrayList<Friend> items = new ArrayList<Friend>();
-        items.add(new Friend("Adam Smith"));
-        items.add(new Friend("Kendal Harland"));
-        items.add(new Friend("Michelle Perz"));
-        items.add(new Friend("Ryan Scott"));
-        items.add(new Friend("Zach Flies"));
+            @Override protected ArrayList<Friend> onResponse(final String response) {
+                try {
+                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
 
-        return items;
+                    ArrayList<Friend> friends = new ArrayList<Friend>();
+                    for (int i = 0; i < arr.length(); ++i) {
+                        final JSONObject obj = arr.getJSONObject(i);
+                        friends.add(Friend.fromJSON(obj));
+                    }
+
+                    return friends;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null; // TODO: null voodoo
+                }
+            }
+
+            @Override protected void onPostExecute(ArrayList<Friend> friends) {
+                super.onPostExecute(friends);
+                mFriends = friends;
+                setupInvitesPage();
+            }
+
+            @Override
+            protected void onCancelled() {
+
+            }
+
+        }.execute("http://24.124.60.119/user/friends/2");
+
+
+
+//        items.add(new Friend("Adam Smith"));
+//        items.add(new Friend("Kendal Harland"));
+//        items.add(new Friend("Michelle Perz"));
+//        items.add(new Friend("Ryan Scott"));
+//        items.add(new Friend("Zach Flies"));
+
+        return;
     } // end of function getFriends()
 
     /**
@@ -119,29 +158,28 @@ public class CreateEventSwipe extends Fragment {
         items.add(new Group("Adam, Paydon, Whitney, Sean", "Climbing Buddies"));
 
         return items;
-    } // end of function getGroups()
+    } // end of function getGroups()/home/afsmith
 
     /**
      * Setup the UI and everything needed for the create event details page
      */
     private void setupDetailsPage() {
 
-        // Event Name
-        mEventNameEditText = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_name);
-
         // Start Date/Time
         mStartDateTime = new DateTime(mCreateEventView.getContext(), Calendar.getInstance());
         mStartDateTime.setTimeToNextHalfHour(); // Need to set the startDateTime to the nearest half hour.
+        mStartDateTimeDataTextView = ViewUtils.findViewById(mCreateEventView, R.id.tv_create_event_date_from_datafield);
 
         // End Date/Time (This is set 30 minutes past the starting time)
         mEndDateTime = new DateTime(mCreateEventView.getContext(),mStartDateTime.getCalendar().getTime());
         mEndDateTime.setTimeToNextHalfHour();
+        mEndDateTimeDataTextView = ViewUtils.findViewById(mCreateEventView, R.id.tv_create_event_date_to_datafield);
 
         // Initialize Date/Time Picker Buttons
-        mStartDateButton = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_date_from);
-        mEndDateButton = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_date_to);
-        mStartTimeButton = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_time_from);
-        mEndTimeButton = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_time_to);
+        mStartDateButton = ViewUtils.findViewById(mCreateEventView, R.id.b_create_event_date_from);
+        mEndDateButton = ViewUtils.findViewById(mCreateEventView, R.id.b_create_event_date_to);
+        mStartTimeButton = ViewUtils.findViewById(mCreateEventView, R.id.b_create_event_time_from);
+        mEndTimeButton = ViewUtils.findViewById(mCreateEventView, R.id.b_create_event_time_to);
         updateDateTimeButtons();
 
         // Setup Date/Time Picker Dialogs
@@ -150,17 +188,12 @@ public class CreateEventSwipe extends Fragment {
         setupStartTimePickerDialog();
         setupEndTimePickerDialog();
 
-        // All Day Switch
-        mAllDaySwitch = ViewUtils.findViewById(mCreateEventView, R.id.sw_create_event_all_day);
-
-        // Event Details
-        mDescriptionEditText = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_details);
-
         // Event Location
         mLocationEditText = ViewUtils.findViewById(mCreateEventView, R.id.et_create_event_location);
         // TODO: Setup Google Places Search API
 
     } // end of function setupDetailsPage()
+
 
     /**
      * Sets up the UI for the create event Invites page
@@ -178,7 +211,9 @@ public class CreateEventSwipe extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                //TODO: Do Something
+                //TODO: Do Something to save the state of which items are clicked
+                //TODO: If you select an item then scroll out of view, it will not be selected
+                //TODO: when you return to view. Ask Zach for details if this is confusing
 
                 return false;
             }
@@ -187,24 +222,6 @@ public class CreateEventSwipe extends Fragment {
         // Invite Settings Spinner
         mInviteSettingsSpinner = ViewUtils.findViewById(mCreateEventView, R.id.spin_create_event_invite_settings);
         mInviteSettingsSpinner.setSelection(0);
-
-        // Create Event Button
-        mCreateEventImageButton = ViewUtils.findViewById(mCreateEventView, R.id.ib_create_event);
-        mCreateEventImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: Validate all data
-                if(mEventNameEditText == null || mEventNameEditText.getText().toString().isEmpty())
-                {
-                    Toast.makeText(getActivity(), R.string.missing_event_name_error, Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-
-                    // TODO: Create new event in DB
-                }
-            }
-        });
 
     } // end of function setupInvitesPage()
 
@@ -217,6 +234,9 @@ public class CreateEventSwipe extends Fragment {
         mEndDateButton.setText(mEndDateTime.getMonthDayYearFormat());
         mStartTimeButton.setText(mStartDateTime.getTimeFormat());
         mEndTimeButton.setText(mEndDateTime.getTimeFormat());
+        mStartDateTimeDataTextView.setText(mStartDateTime.getCalendar().getTime().toString());
+        mEndDateTimeDataTextView.setText(mEndDateTime.getCalendar().getTime().toString());
+
     } // end of function updateDateTimeButtons()
 
 
