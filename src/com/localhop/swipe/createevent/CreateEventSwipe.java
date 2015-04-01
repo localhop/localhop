@@ -15,6 +15,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -49,8 +50,10 @@ public class CreateEventSwipe extends Fragment {
 
     // UI Components
     private View mCreateEventView;
-    public DateTime mStartDateTime;
-    public DateTime mEndDateTime;
+    private DateTime mStartDateTime;
+    private DateTime mEndDateTime;
+    private TextView mStartDateTimeDataTextView;
+    private TextView mEndDateTimeDataTextView;
     private Button mStartDateButton;
     private Button mEndDateButton;
     private Button mStartTimeButton;
@@ -165,10 +168,12 @@ public class CreateEventSwipe extends Fragment {
         // Start Date/Time
         mStartDateTime = new DateTime(mCreateEventView.getContext(), Calendar.getInstance());
         mStartDateTime.setTimeToNextHalfHour(); // Need to set the startDateTime to the nearest half hour.
+        mStartDateTimeDataTextView = ViewUtils.findViewById(mCreateEventView, R.id.tv_create_event_date_from_datafield);
 
         // End Date/Time (This is set 30 minutes past the starting time)
         mEndDateTime = new DateTime(mCreateEventView.getContext(),mStartDateTime.getCalendar().getTime());
         mEndDateTime.setTimeToNextHalfHour();
+        mEndDateTimeDataTextView = ViewUtils.findViewById(mCreateEventView, R.id.tv_create_event_date_to_datafield);
 
         // Initialize Date/Time Picker Buttons
         mStartDateButton = ViewUtils.findViewById(mCreateEventView, R.id.b_create_event_date_from);
@@ -229,6 +234,9 @@ public class CreateEventSwipe extends Fragment {
         mEndDateButton.setText(mEndDateTime.getMonthDayYearFormat());
         mStartTimeButton.setText(mStartDateTime.getTimeFormat());
         mEndTimeButton.setText(mEndDateTime.getTimeFormat());
+        mStartDateTimeDataTextView.setText(mStartDateTime.getCalendar().getTime().toString());
+        mEndDateTimeDataTextView.setText(mEndDateTime.getCalendar().getTime().toString());
+
     } // end of function updateDateTimeButtons()
 
 

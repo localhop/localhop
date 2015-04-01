@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.localhop.network.HttpRequest;
@@ -23,7 +24,6 @@ import com.localhop.swipe.viewpagersupport.ZoomOutPageTransformer;
 import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -62,12 +62,10 @@ public class ActivityTabCreateEvent extends FragmentActivity {
             @Override
             public void onPageSelected(int position) {
 
-                switch (position){
-                    case 0:
-                        // TODO: We may need to control the Date/Time pickers here so that we can
-                        // TODO:  retrieve the user's current selections
-                        break;
-                    case 1:
+                // If the Invites page is shown, then handle any actions that require components
+                // from the Details page
+                if(position == 1)
+                {
                         ImageButton createEventImageButton = (ImageButton)mViewPager.findViewById(R.id.ib_create_event);
                         createEventImageButton.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -75,7 +73,6 @@ public class ActivityTabCreateEvent extends FragmentActivity {
                                 createEvent();
                             }
                         });
-                        break;
                 }
             }
 
@@ -115,26 +112,29 @@ public class ActivityTabCreateEvent extends FragmentActivity {
         if(!eventNameEditText.getText().toString().isEmpty())
         {
             // Date/Time Picker Buttons
-            DateTime startDateTime = new DateTime(mViewPager.getContext(), Calendar.getInstance());
-            startDateTime.setTimeToNextHalfHour(); // Need to set the startDateTime to the nearest half hour.
-
-            // End Date/Time (This is set 30 minutes past the starting time)
-            DateTime endDateTime = new DateTime(mViewPager.getContext(),startDateTime.getCalendar().getTime());
-            endDateTime.setTimeToNextHalfHour();
-
-            //TODO Get Current User's Selection for the start/end date/time
+            TextView startDateTimeDataTextView = (TextView)
+                    mViewPager.findViewById(R.id.tv_create_event_date_from_datafield);
+            TextView endDateTimeDataTextView = (TextView)
+                    mViewPager.findViewById(R.id.tv_create_event_date_to_datafield);
+            DateTime startDateTime = new DateTime(
+                    mViewPager.getContext(), startDateTimeDataTextView.getText().toString());
+            DateTime endDateTime = new DateTime(
+                    mViewPager.getContext(), endDateTimeDataTextView.getText().toString());
 
             // All Day Switch
             Switch allDaySwitch = (Switch)mViewPager.findViewById(R.id.sw_create_event_all_day);
 
             // Event Details
-            EditText descriptionEditText = (EditText)mViewPager.findViewById(R.id.et_create_event_details);
+            EditText descriptionEditText = (EditText)
+                    mViewPager.findViewById(R.id.et_create_event_details);
 
             // Event Location
-            EditText locationEditText = (EditText)mViewPager.findViewById(R.id.et_create_event_location);
+            EditText locationEditText = (EditText)
+                    mViewPager.findViewById(R.id.et_create_event_location);
 
             // Invite Settings
-            Spinner inviteSettingsSpinner = (Spinner)mViewPager.findViewById(R.id.spin_create_event_invite_settings);
+            Spinner inviteSettingsSpinner = (Spinner)
+                    mViewPager.findViewById(R.id.spin_create_event_invite_settings);
 
             // TODO: Need to conditional check if the event should be All Day from the spinner
             // TODO: If so, we need to alter this event's dates, or do something else?
@@ -177,6 +177,8 @@ public class ActivityTabCreateEvent extends FragmentActivity {
                 // TODO: As of now, we need to make sure the events list is pushed first
                 // TODO:  so that if the user uses the back button on the newly created event,
                 // TODO:  it will send them to the events list.
+
+                // TODO: We may need to refresh the event list while we are at it
 
                 // TODO: We also need to reset all UI on the Create Event Page
             }
