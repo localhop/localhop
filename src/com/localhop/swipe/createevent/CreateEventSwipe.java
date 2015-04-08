@@ -32,10 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Controls the custom Swipe View on the Events List tab.  The user will be given the ability
@@ -87,7 +84,7 @@ public class CreateEventSwipe extends Fragment {
             case 1:
                 mCreateEventView = inflater.inflate(R.layout.tab_create_event_invite, container, false);
                 getFriends();
-                mGroups = getGroups();
+                getGroups();
 //                setupInvitesPage();
                 break;
         }
@@ -123,7 +120,7 @@ public class CreateEventSwipe extends Fragment {
             @Override protected void onPostExecute(ArrayList<Friend> friends) {
                 super.onPostExecute(friends);
                 mFriends = friends;
-                setupInvitesPage();
+//                setupInvitesPage();
             }
 
             @Override
@@ -148,16 +145,51 @@ public class CreateEventSwipe extends Fragment {
      * Retrieve the Groups for a particular user
      * @return
      */
-    private ArrayList<Group> getGroups() {
+    private void getGroups() {
 
-        //TODO: Replace with DB query
+        new HttpServerRequest<Activity, ArrayList<Group>>(getActivity(), HttpRequest.GET, null) {
 
-        ArrayList<Group> items = new ArrayList<Group>();
-        items.add(new Group("Adam, Kendal, Michelle, Ryan, Zach", "Senior Design Group"));
-        items.add(new Group("Adam, Connor, Ryan, Orion", "Food Group"));
-        items.add(new Group("Adam, Paydon, Whitney, Sean", "Climbing Buddies"));
+            @Override protected ArrayList<Group> onResponse(final String response) {
+                try {
+                    final JSONObject o = new JSONObject(response).getJSONObject("text");
 
-        return items;
+                    Iterator<?> keys = o.keys();
+
+                    ArrayList<Group> groups = new ArrayList<Group>();
+                    while( keys.hasNext() ) {
+                        String key = (String)keys.next();
+                        if ( o.get(key) instanceof JSONObject ) {
+                            groups.add(Group.fromJSON(o.getJSONObject(key)));
+                        }
+                    }
+
+                    return groups;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null; // TODO: null voodoo
+                }
+            }
+
+            @Override protected void onPostExecute(ArrayList<Group> groups) {
+                super.onPostExecute(groups);
+                mGroups = groups;
+                setupInvitesPage();
+            }
+
+            @Override
+            protected void onCancelled() {
+
+            }
+
+        }.execute("http://24.124.60.119/user/groups/2");
+
+//        ArrayList<Group> items = new ArrayList<Group>();
+//        items.add(new Group("Adam, Kendal, Michelle, Ryan, Zach", "Senior Design Group"));
+//        items.add(new Group("Adam, Connor, Ryan, Orion", "Food Group"));
+//        items.add(new Group("Adam, Paydon, Whitney, Sean", "Climbing Buddies"));
+
+//        return items;
+        return;
     } // end of function getGroups()/home/afsmith
 
     /**

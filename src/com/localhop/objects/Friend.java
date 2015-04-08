@@ -33,7 +33,7 @@ public class Friend {
     }
 
     /**
-     * Collects Event objects from the DB
+     * Collects Friend objects from the DB
      * @param o
      * @return
      */
