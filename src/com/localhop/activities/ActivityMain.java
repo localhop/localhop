@@ -9,11 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.Toast;
+
 import com.localhop.R;
 import com.localhop.activities.account.ActivityAccountLogin;
 import com.localhop.activities.event.ActivityTabCreateEvent;
 import com.localhop.activities.event.ActivityTabEventList;
-import com.localhop.objects.Event;
+import com.localhop.network.GPSTracker;
 import com.localhop.prefs.Prefs;
 import com.localhop.prefs.PrefsActivity;
 import com.localhop.utils.ActivityUtils;
@@ -31,13 +33,27 @@ public class ActivityMain extends TabActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-
         // Get the selected event
         Intent eventListIntent = getIntent();
         this.mTabPosition = eventListIntent.getIntExtra("position", 0);
 
         Prefs.initPrefs(this);
         createMainNavigationTabs(); // Creates the main navigation TabHost
+
+        // TODO: Check if gps location is turned on or requested from the prefs
+        GPSTracker gps = new GPSTracker(ActivityMain.this);
+
+        if(gps.canGetLocation()){
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+        }else{
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            Toast.makeText(getApplicationContext(), "No Location", Toast.LENGTH_LONG).show();
+
+            gps.showSettingsAlert();
+        }
 
     }
 
