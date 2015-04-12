@@ -1,6 +1,7 @@
 package com.localhop.network;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -13,9 +14,20 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.localhop.activities.ActivityMain;
+import com.localhop.activities.event.ActivityEventSelection;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GPSTracker extends Service implements LocationListener {
 
+    private final Activity mActivity;
     private final Context mContext;
 
     private boolean mIsGPSEnabled = false;
@@ -32,22 +44,22 @@ public class GPSTracker extends Service implements LocationListener {
     private static final long MIN_UPDATE_DISTANCE = 10; // 10 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_UPDATE_TIME = 1000 * 60 * 10; // 1 minute
+    private static final long MIN_UPDATE_TIME = 1000 * 60 * 1; // 1 minute
 
     /**
      * Constructor
-     * @param context
+     * @param activity
      */
-    public GPSTracker(Context context) {
-        this.mContext = context;
-        getLocation();
+    public GPSTracker(Activity activity) {
+        this.mActivity = activity;
+        this.mContext = activity;
     } // end of constructor
 
     /**
-     * Retrieve the user's current location
+     * Activate gps tracking for the user
      * @return
      */
-    public Location getLocation() {
+    public void startGPSTracking() {
         try {
             mLocationManager = (LocationManager) mContext
                     .getSystemService(LOCATION_SERVICE);
@@ -94,6 +106,7 @@ public class GPSTracker extends Service implements LocationListener {
                             if (mLocation != null) {
                                 mLatitude = mLocation.getLatitude();
                                 mLongitude = mLocation.getLongitude();
+                                updateUserLocation();
                             }
                         }
                     }
@@ -104,18 +117,17 @@ public class GPSTracker extends Service implements LocationListener {
             e.printStackTrace();
         }
 
-        return mLocation;
     } // end of function getLocation()
 
     /**
      * Stop using GPS listener
      * Calling this function will stop using GPS in your app
      * */
-    public void stopUsingGPS(){
+    public void stopGPSTracking(){
         if(mLocationManager != null){
             mLocationManager.removeUpdates(GPSTracker.this);
         }
-    } // end of function stopUsingGPS()
+    } // end of function stopGPSTracking()
 
     /**
      * Function to get Latitude
@@ -180,6 +192,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        updateUserLocation();
     }
 
     @Override
@@ -198,5 +211,64 @@ public class GPSTracker extends Service implements LocationListener {
     public IBinder onBind(Intent arg0) {
         return null;
     }
+
+    /**
+     * Serializes an Event object into a URL encoded form entity
+     * @return String
+     */
+    private List<NameValuePair> toNameValuePair() {
+        List<NameValuePair> data = new ArrayList<NameValuePair>() ;
+
+        data.add(new BasicNameValuePair("userID", Integer.toString(2)));
+        data.add(new BasicNameValuePair("latitude", Double.toString(this.mLatitude)));
+        data.add(new BasicNameValuePair("longitude", Double.toString(this.mLongitude)));
+
+        return data;
+    } // end of function toNameValuePair()
+
+
+    /**
+     * Updates the user's location into the DB
+     */
+    public void updateUserLocation() {
+
+        if (canGetLocation()) {
+            mLatitude = getLatitude();
+            mLongitude = getLongitude();
+            Toast.makeText(mContext, "Your Location is - \nLat: " + mLatitude + "\nLong: " + mLongitude, Toast.LENGTH_LONG).show();
+
+            List<NameValuePair> locationData = toNameValuePair();
+
+            new HttpServerRequest<Activity, String>(mActivity, HttpRequest.POST, locationData) {
+
+                @Override
+                protected String onResponse(final String response) {
+                    return "";
+                }
+
+                @Override
+                protected void onPostExecute(String response) {
+
+                    super.onPostExecute(response);
+
+                }
+
+                @Override
+                protected void onCancelled() {
+
+                }
+            }.execute("http://24.124.60.119/user/location");
+
+
+        } else {
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            Toast.makeText(getApplicationContext(), "No Location", Toast.LENGTH_LONG).show();
+
+            showSettingsAlert();
+        }
+
+
+    } // end of function updateUserLocation()
 
 } // end of class GPSTracker

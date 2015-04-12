@@ -40,21 +40,9 @@ public class ActivityMain extends TabActivity {
         Prefs.initPrefs(this);
         createMainNavigationTabs(); // Creates the main navigation TabHost
 
-        // TODO: Check if gps location is turned on or requested from the prefs
-        GPSTracker gps = new GPSTracker(ActivityMain.this);
-
-        if(gps.canGetLocation()){
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-        }else{
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
-            Toast.makeText(getApplicationContext(), "No Location", Toast.LENGTH_LONG).show();
-
-            gps.showSettingsAlert();
-        }
-
+        // TODO: Check if gps location is turned on or requested from the prefs before we activate gps
+        GPSTracker gps = new GPSTracker(this);
+        gps.startGPSTracking();
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
