@@ -59,6 +59,9 @@
     <string name="groups">Groups</string>
     <string name="friends">Friends</string>
 
+    <!-- Maps -->
+    <string name="map">Map</string>
+
     <!-- SharedPreferences -->
     <string name="pref_test_rest">TEST_THE_REST</string>
 </resources>

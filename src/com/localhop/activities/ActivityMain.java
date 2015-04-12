@@ -16,6 +16,8 @@ import com.localhop.activities.account.ActivityAccountLogin;
 import com.localhop.activities.event.ActivityTabCreateEvent;
 import com.localhop.activities.event.ActivityTabEventList;
 import com.localhop.network.GPSTracker;
+import com.localhop.activities.map.MapWibble;
+import com.localhop.objects.Event;
 import com.localhop.prefs.Prefs;
 import com.localhop.prefs.PrefsActivity;
 import com.localhop.utils.ActivityUtils;
@@ -54,6 +56,8 @@ public class ActivityMain extends TabActivity {
         switch (item.getItemId()) {
             case R.id.login:
                 return ActivityUtils.startActivityFromClass(this, ActivityAccountLogin.class);
+            case R.id.map:
+                return ActivityUtils.startActivityFromClass(this, MapWibble.class);
             case R.id.settings:
                 return ActivityUtils.startActivityFromClass(this, PrefsActivity.class);
             default:
