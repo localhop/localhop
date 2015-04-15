@@ -26,6 +26,7 @@ import com.localhop.utils.ActivityUtils;
 public class ActivityMain extends TabActivity {
 
     private int mTabPosition;
+    private GPSTracker mGPS;
 
     /**
      * Called when the activity is first created.
@@ -43,8 +44,8 @@ public class ActivityMain extends TabActivity {
         createMainNavigationTabs(); // Creates the main navigation TabHost
 
         // TODO: Check if gps location is turned on or requested from the prefs before we activate gps
-        GPSTracker gps = new GPSTracker(this);
-        gps.startGPSTracking();
+        mGPS = new GPSTracker(this);
+        mGPS.startGPSTracking();
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {

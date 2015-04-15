@@ -159,6 +159,33 @@ public class DateTime {
     } // end of function getDayOfWeekSting
 
     /**
+     * Gets the age from two dates in a string format
+     * @return
+     */
+    public String getLastKnownUpdateString(Date dateToCompare)
+    {
+       Date newDate = new Date();
+
+        long timeDiff = newDate.getTime() - dateToCompare.getTime(); //milliseconds
+        timeDiff = timeDiff / 1000 / 60; // minutes
+
+        int hours = (int)(timeDiff / 60);
+        int minutes = (int)(timeDiff % 60);
+
+        String lastKnownUpdate;
+        if (hours > 0)
+        {
+            lastKnownUpdate = "Last updated " + minutes + " min ago";
+        }
+        else
+        {
+            lastKnownUpdate = "Last updated " + hours + " hr " + minutes + " min ago";
+        }
+
+        return lastKnownUpdate;
+    }
+
+    /**
      * Return the date in the format Day/Month/Year
      * @return
      */

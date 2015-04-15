@@ -8,6 +8,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,15 +17,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.localhop.R;
+import com.localhop.network.GPSTracker;
 import com.localhop.objects.DateTime;
 import com.localhop.objects.Event;
 import com.localhop.utils.ActivityUtils;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -34,6 +46,8 @@ import java.util.Date;
 public class ActivityEventSelection extends TabActivity {
 
     private Event event;
+    private GoogleMap mMap;
+    private DateTime mDateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +65,7 @@ public class ActivityEventSelection extends TabActivity {
         // Set the UI and data for each tab
         setEventDetails();
         // TODO: setEventChat();
-        // TODO: setEventMap();
+        setEventMap();
 
     } // end of function onCreate()
 
@@ -182,6 +196,47 @@ public class ActivityEventSelection extends TabActivity {
         });
 
     } // end of function setEventDetails()
+
+
+    /**
+     * Sets the Map tab for a selected event.
+     */
+    public void setEventMap() {
+
+        Switch swBroadcastLocation = ActivityUtils.findViewById(this, R.id.sw_event_select_broadcast_location);
+
+        // Get the User's Last known location
+        // TODO: Once Google Places API is linked with the create event pages, we should probably
+        // TODO:  use the event lat/long instead of the user's position.
+
+        LatLng locUser = new LatLng(38.957598, -95.252742); // Eaton Hall (:
+
+        LocationManager locationManager = (LocationManager)this.getSystemService(LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        mDateTime = new DateTime(this, new Date());
+        String lastKnownUpdate = "";
+        if (location != null) {
+            locUser = new LatLng(location.getLatitude(), location.getLongitude());
+            lastKnownUpdate = mDateTime.getLastKnownUpdateString(new Date(location.getTime()));
+        }
+
+        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapEventMap)).getMap();
+        //final Marker markerUser = mMap.addMarker(new MarkerOptions().position(locUser).title("You"));
+
+        // Set the user's location marker
+        final Marker markerUser = mMap.addMarker(new MarkerOptions()
+                .position(locUser)
+                .title("You")
+                .snippet(lastKnownUpdate));
+//                .icon(BitmapDescriptorFactory
+//                        .fromResource(R.drawable.ic_launcher))); // This allows you use a custom marker icon
+        markerUser.showInfoWindow(); // Show the info window of this marker
+
+        // Center and Zoom and camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locUser, 15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(17), 2000, null); // Zoom level 17
+
+    } // end of function setEventMap()
 
     /**
      * Link and setup the UI components for this Activity
