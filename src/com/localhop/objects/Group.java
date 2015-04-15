@@ -36,13 +36,13 @@ public class Group {
     }
 
     public String getsMembersString() {
-        String strList = "";
+        StringBuilder strList = new StringBuilder();
         for (int i=0; i<sMembers.size()-1; i++) {
-            strList += sMembers.get(i).getsName().toString() + ", ";
+            strList.append(sMembers.get(i).getsName() + ", ");
         }
-        strList += sMembers.get(sMembers.size()-1);
+        strList.append(sMembers.get(sMembers.size()-1).getsName());
 
-        return strList;
+        return strList.toString();
     }
 
     public void setsMembers(ArrayList<Friend> sMembers) {
