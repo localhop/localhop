@@ -11,6 +11,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -34,9 +35,11 @@ import com.localhop.R;
 import com.localhop.network.GPSTracker;
 import com.localhop.objects.DateTime;
 import com.localhop.objects.Event;
+import com.localhop.objects.Friend;
 import com.localhop.utils.ActivityUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Activity for a specific Event selected from the Events List tab.
@@ -211,8 +214,10 @@ public class ActivityEventSelection extends TabActivity {
 
         LatLng locUser = new LatLng(38.957598, -95.252742); // Eaton Hall (:
 
+        // Get User's last known location
         LocationManager locationManager = (LocationManager)this.getSystemService(LOCATION_SERVICE);
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        //TODO: request updates to location
         mDateTime = new DateTime(this, new Date());
         String lastKnownUpdate = "";
         if (location != null) {
@@ -231,6 +236,20 @@ public class ActivityEventSelection extends TabActivity {
 //                .icon(BitmapDescriptorFactory
 //                        .fromResource(R.drawable.ic_launcher))); // This allows you use a custom marker icon
         markerUser.showInfoWindow(); // Show the info window of this marker
+
+        // TODO: Get event attendees who are also broadcasting their location
+        List<Friend> attendees = event.getAttendees();
+        LatLng attendeeLoc;
+        int attendeeID;
+        for (int i = 0; i < attendees.size(); i++)
+        {
+//            if(attendees.get(i).second)
+//            {
+//                // TODO: Get attendee's last known location and create a marker
+//                attendeeID = attendees.get(i).first;
+//                //attendeeLoc = event.getAttendeeLocation(this, attendeeID);
+//            }
+        }
 
         // Center and Zoom and camera
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locUser, 15));

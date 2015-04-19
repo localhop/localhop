@@ -1,7 +1,16 @@
 package com.localhop.objects;
 
+import android.app.Activity;
+import android.content.Context;
+import android.util.Pair;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.localhop.network.HttpRequest;
+import com.localhop.network.HttpServerRequest;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.jar.Attributes;
 
 /**
@@ -28,6 +38,7 @@ public class Event implements Serializable{
     }
 
     // Event variables
+    private int id;                 //< Event id
     private EventType type;         //< Event Type (i.e. today, past, or future)
     private String name;            //< Event name
     private String description;     //< Event description
@@ -36,12 +47,45 @@ public class Event implements Serializable{
     private Date startDateTime;     //< Event's start Date/Time
     private Date endDateTime;       //< Event's end Date/Time
     private int organizer;          //< Event's organizer id (needed to derive name)
-    private List<Integer> attendees;//< Event's attendee ids
+    private List<Friend> attendees;//< Event's attendee ids and their location broadcast status
     private int notificationCount;  //< Number of notifications associated for this event for a user
 
 
     /**
      * Constructor - Set all event variables
+     * @param id
+     * @param type
+     * @param name
+     * @param description
+     * @param location
+     * @param attendees
+     * @param startDateTime
+     * @param endDateTime
+     * @param inviteSetting
+     * @param organizer
+     * @param notificationCount
+     */
+    public Event(int id, EventType type, String name, String description, String location,
+                 Date startDateTime, Date endDateTime, List<Friend> attendees,
+                 int inviteSetting, int organizer, int notificationCount) {
+
+        super();
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.attendees = attendees;
+        this.inviteSetting = inviteSetting;
+        this.organizer = organizer;
+        this.notificationCount = notificationCount;
+
+    } // end of constructor
+
+    /**
+     * Constructor - Set all event variables, excluding the event id
      * @param type
      * @param name
      * @param description
@@ -54,7 +98,7 @@ public class Event implements Serializable{
      * @param notificationCount
      */
     public Event(EventType type, String name, String description, String location,
-                 Date startDateTime, Date endDateTime, List<Integer> attendees,
+                 Date startDateTime, Date endDateTime, List<Friend> attendees,
                  int inviteSetting, int organizer, int notificationCount) {
 
         super();
@@ -81,6 +125,7 @@ public class Event implements Serializable{
         try {
             final SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+            final int id               = o.getInt("id");
             final String name          = o.getString("name");
             final String description   = o.getString("description");
             final String location      = o.getString("location");
@@ -93,6 +138,8 @@ public class Event implements Serializable{
             Date endDateTime = newFormat.parse(temp);
 
             // TODO: figure out attendees
+
+            List<Pair<Integer, Boolean>> attendeesList;
 
             final int    inviteSetting = o.getJSONArray("invite_setting").getInt(0);
             final int    organizer     = o.getInt("org_user_id");
@@ -113,8 +160,8 @@ public class Event implements Serializable{
                 type = EventType.Future;
             }
 
-            return new Event(type, name, description, location, startDateTime,
-                    endDateTime, new ArrayList<Integer>(), inviteSetting, organizer, 0);
+            return new Event(id, type, name, description, location, startDateTime,
+                    endDateTime, new ArrayList<Friend>(), inviteSetting, organizer, 0);
         } catch (JSONException e) {
             e.printStackTrace();
             return null; // TODO: evil null voodoo
@@ -147,14 +194,55 @@ public class Event implements Serializable{
         return data;
     } // end of function toNameValuePair()
 
+    /**
+     * returns the last location of an attendee
+     * @param attendeeID
+     * @return
+     */
+    public LatLng getAttendeeLocation(Activity activity, int attendeeID) {
+
+        LatLng location = new LatLng(0,0);
+
+//        new HttpServerRequest<Activity, ArrayList<Event>>(activity, HttpRequest.GET, null) {
+//
+//            @Override protected ArrayList<Event> onResponse(final String response) {
+//                try {
+//                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
+//
+//                    ArrayList<Event> events = new ArrayList<Event>();
+//                    for (int i = 0; i < arr.length(); ++i) {
+//                        final JSONObject obj = arr.getJSONObject(i);
+//                        events.add(Event.fromJSON(obj));
+//                    }
+//
+//                    return events;
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    return null; // TODO: null voodoo
+//                }
+//            }
+//
+//            @Override protected void onPostExecute(ArrayList<Event> events) {
+//                super.onPostExecute(events);
+//
+//            }
+//
+//            @Override protected void onCancelled() {
+//            }
+//
+//        }.execute("http://24.124.60.119/event/users/" + id); // all attendees will be returned
+
+        return location;
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //    Getters and Setters
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    public List<Integer> getAttendees() {
+    public List<Friend> getAttendees() {
         return attendees;
     }
-    public void setAttendees(List<Integer> attendees) {
+    public void setAttendees(List<Friend> attendees) {
         this.attendees = attendees;
     }
 
