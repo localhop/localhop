@@ -137,7 +137,7 @@ public class AdapterExpandFriendGroupList extends BaseExpandableListAdapter {
             TextView tvFriendName = (TextView) rowView.findViewById(R.id.friend_list_item_friend_name);
 
             // Set the UI components
-            tvFriendName.setText(mFriendItems.get(childPosition).getsName());
+            tvFriendName.setText(mFriendItems.get(childPosition).getFullName());
         }
 
         // Return the item

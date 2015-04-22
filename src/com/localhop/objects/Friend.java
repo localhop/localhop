@@ -4,35 +4,52 @@ package com.localhop.objects;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 public class Friend {
 
     // Variables subject to change once
     // DB integration starts
-    private String sName;
+    private String mFullName;
+    private String mFirstName;
+    private String mLastName;
+    private int mID;
+    private int mBroadcast;
+    private int mAttendStatus;
 
     public Friend(String sName) {
 
         super();
-        this.sName = sName;
+        this.mFullName = sName;
+
+    } // end of constructor
+
+    public Friend(int id, String firstName, String lastName, int broadcast, int attendStatus) {
+
+        super();
+        this.mFullName = firstName + " " + lastName;
+        this.mFirstName = firstName;
+        this.mLastName = lastName;
+        this.mID = id;
+        this.mBroadcast = broadcast;
+        this.mAttendStatus = attendStatus;
 
     } // end of constructor
 
 
-    public String getsName() {
-        return sName;
+    public String getFullName() {
+        return mFullName;
     }
 
-    public void setsName(String sName) {
-        this.sName = sName;
+    public int getBroadcast() { return mBroadcast; }
+    public int getAttendStatus() { return mAttendStatus; }
+    public int getID() { return mID; }
+
+
+    public void setFullName(String mFullName) {
+        this.mFullName = mFullName;
     }
 
     /**
-     * Collects Event objects from the DB
+     * Collects Friend objects from the DB
      * @param o
      * @return
      */
@@ -41,6 +58,26 @@ public class Friend {
             final String name          = o.getString("name_first") + " " + o.getString("name_last");
 
             return new Friend(name);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null; // TODO: evil null voodoo
+        }
+    }
+
+    /**
+     * Collects Friend objects from the DB
+     * @param o
+     * @return
+     */
+    public static Friend fromJSON(JSONObject o, String override) {
+        try {
+            final String firstName = o.getString("name_first");
+            final String lastName = o.getString("name_last");
+            final int id = o.getInt("id");
+            final int broadcast = o.getInt("broadcast");
+            final int attendStatus = o.getInt("attend_status");
+
+            return new Friend(id, firstName, lastName, broadcast, attendStatus);
         } catch (JSONException e) {
             e.printStackTrace();
             return null; // TODO: evil null voodoo

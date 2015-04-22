@@ -18,6 +18,7 @@ import com.localhop.network.HttpRequest;
 import com.localhop.network.HttpServerRequest;
 import com.localhop.objects.Event;
 import com.localhop.R;
+import com.localhop.objects.Friend;
 import com.localhop.utils.ViewUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,7 @@ public class EventListSwipe extends Fragment {
 
     private int mCurrentPage;                  //< The current view of the swipe tabs
     private ArrayList<Event> mEvents;          //< All events associated to a user (Past, Today, and Future)
+    private ArrayList<Friend> mAttendeeList;   //< The people associated with a particular event
     private View mEventListView;               //< The event list view for the swipe view
     private SwipeRefreshLayout mRefreshLayout; // Swipe to refresh the events, ooooh, aaaah...
 
@@ -67,18 +69,19 @@ public class EventListSwipe extends Fragment {
      */
     private void getAllUserEvents() {
 
-        // TODO: Extract this query into its own class of queries
-        // TODO: Note, onPostExecute may run into issues. Be Creative (:
-            new HttpServerRequest<Activity, ArrayList<Event>>(getActivity(), HttpRequest.GET, null) {
+        final Activity activity = getActivity();
+            new HttpServerRequest<Activity, ArrayList<Event>>(activity, HttpRequest.GET, null) {
+
 
                 @Override protected ArrayList<Event> onResponse(final String response) {
                     try {
                         final JSONArray arr = new JSONObject(response).getJSONArray("text");
-
                         ArrayList<Event> events = new ArrayList<Event>();
                         for (int i = 0; i < arr.length(); ++i) {
                             final JSONObject obj = arr.getJSONObject(i);
-                            events.add(Event.fromJSON(obj));
+                            events.add(Event.fromJSON(obj, activity));
+                            getEventAttendees(events.get(i).getEventID());
+                            events.get(i).setAttendees(mAttendeeList);
                         }
 
                         return events;
@@ -94,7 +97,7 @@ public class EventListSwipe extends Fragment {
                     layoutFragment();
                     mRefreshLayout.setRefreshing(false);
                 }
-                
+
                 @Override protected void onCancelled() {
                     mRefreshLayout.setRefreshing(false);
                 }
@@ -102,6 +105,39 @@ public class EventListSwipe extends Fragment {
             }.execute("http://24.124.60.119/user/events/2");
 
     } // end of function getAllUserEvents()
+
+    /**
+     * Returns all people invited to an event
+     */
+    public void getEventAttendees(int eventID) {
+
+        new HttpServerRequest<Activity, ArrayList<Friend>>(getActivity(), HttpRequest.GET, null) {
+
+            @Override protected ArrayList<Friend> onResponse(final String response) {
+                try {
+                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
+                    ArrayList<Friend> attendeeList = new ArrayList<Friend>();
+                    for (int i = 0; i < arr.length(); ++i) {
+                        final JSONObject obj = arr.getJSONObject(i);
+                        attendeeList.add(Friend.fromJSON(obj, ""));
+                    }
+
+                    return attendeeList;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null; // TODO: null voodoo
+                }
+            }
+
+            @Override protected void onPostExecute(ArrayList<Friend> attendeeList) {
+                super.onPostExecute(attendeeList);
+                setAttendeeList(attendeeList);
+            }
+
+            @Override protected void onCancelled() {
+            }
+        }.execute("http://24.124.60.119/event/users/" + eventID); // all attendees will be returned for event id
+    } // end of function getEventAttendees()
 
 
     /**
@@ -155,6 +191,11 @@ public class EventListSwipe extends Fragment {
 
     private void setEvents(final ArrayList<Event> events) {
         mEvents = events;
+    }
+
+    private void setAttendeeList(final ArrayList<Friend> attendees)
+    {
+        mAttendeeList = attendees;
     }
 
     /**

@@ -38,7 +38,7 @@ public class Event implements Serializable{
     }
 
     // Event variables
-    private int id;                 //< Event id
+    private static int eventID;                 //< Event id
     private EventType type;         //< Event Type (i.e. today, past, or future)
     private String name;            //< Event name
     private String description;     //< Event description
@@ -47,7 +47,7 @@ public class Event implements Serializable{
     private Date startDateTime;     //< Event's start Date/Time
     private Date endDateTime;       //< Event's end Date/Time
     private int organizer;          //< Event's organizer id (needed to derive name)
-    private List<Friend> attendees;//< Event's attendee ids and their location broadcast status
+    private static ArrayList<Friend> attendees;//< Event's attendee ids and their location broadcast status
     private int notificationCount;  //< Number of notifications associated for this event for a user
 
 
@@ -66,11 +66,11 @@ public class Event implements Serializable{
      * @param notificationCount
      */
     public Event(int id, EventType type, String name, String description, String location,
-                 Date startDateTime, Date endDateTime, List<Friend> attendees,
+                 Date startDateTime, Date endDateTime, ArrayList<Friend> attendees,
                  int inviteSetting, int organizer, int notificationCount) {
 
         super();
-        this.id = id;
+        this.eventID = id;
         this.type = type;
         this.name = name;
         this.description = description;
@@ -98,7 +98,7 @@ public class Event implements Serializable{
      * @param notificationCount
      */
     public Event(EventType type, String name, String description, String location,
-                 Date startDateTime, Date endDateTime, List<Friend> attendees,
+                 Date startDateTime, Date endDateTime, ArrayList<Friend> attendees,
                  int inviteSetting, int organizer, int notificationCount) {
 
         super();
@@ -121,11 +121,12 @@ public class Event implements Serializable{
      * @param o
      * @return
      */
-    public static Event fromJSON(JSONObject o) {
+    public static Event fromJSON(JSONObject o, Activity activity) {
         try {
             final SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             final int id               = o.getInt("id");
+            eventID = id;
             final String name          = o.getString("name");
             final String description   = o.getString("description");
             final String location      = o.getString("location");
@@ -136,10 +137,6 @@ public class Event implements Serializable{
             temp = o.getString("end");
             temp = temp.substring(0, 10) + " " + temp.substring(11, 19);
             Date endDateTime = newFormat.parse(temp);
-
-            // TODO: figure out attendees
-
-            List<Pair<Integer, Boolean>> attendeesList;
 
             final int    inviteSetting = o.getJSONArray("invite_setting").getInt(0);
             final int    organizer     = o.getInt("org_user_id");
@@ -160,8 +157,13 @@ public class Event implements Serializable{
                 type = EventType.Future;
             }
 
-            return new Event(id, type, name, description, location, startDateTime,
+            // As of now, the attendees will be null. Due to static reference issues, we will have
+            //  to call getAttendees() outside of this class.
+            Event newEvent = new Event(id, type, name, description, location, startDateTime,
                     endDateTime, new ArrayList<Friend>(), inviteSetting, organizer, 0);
+
+            return newEvent;
+
         } catch (JSONException e) {
             e.printStackTrace();
             return null; // TODO: evil null voodoo
@@ -194,6 +196,8 @@ public class Event implements Serializable{
         return data;
     } // end of function toNameValuePair()
 
+
+
     /**
      * returns the last location of an attendee
      * @param attendeeID
@@ -209,10 +213,10 @@ public class Event implements Serializable{
 //                try {
 //                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
 //
-//                    ArrayList<Event> events = new ArrayList<Event>();
+//                    ArrayList<Friend> attendeeList = new ArrayList<Friend>();
 //                    for (int i = 0; i < arr.length(); ++i) {
 //                        final JSONObject obj = arr.getJSONObject(i);
-//                        events.add(Event.fromJSON(obj));
+//                        attendeeList.add(Friend.fromJSON(obj, ""));
 //                    }
 //
 //                    return events;
@@ -222,15 +226,16 @@ public class Event implements Serializable{
 //                }
 //            }
 //
-//            @Override protected void onPostExecute(ArrayList<Event> events) {
-//                super.onPostExecute(events);
+//            @Override protected void onPostExecute(ArrayList<Friend> attendeeList) {
+//                super.onPostExecute(attendeeList);
+//                this.attendees = attendeeList;
 //
 //            }
 //
 //            @Override protected void onCancelled() {
 //            }
 //
-//        }.execute("http://24.124.60.119/event/users/" + id); // all attendees will be returned
+//        }.execute("http://24.124.60.119/event/users/" + id); // all attendees will be returned for event id
 
         return location;
     }
@@ -239,10 +244,10 @@ public class Event implements Serializable{
     //    Getters and Setters
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    public List<Friend> getAttendees() {
+    public ArrayList<Friend> getAttendees() {
         return attendees;
     }
-    public void setAttendees(List<Friend> attendees) {
+    public void setAttendees(final ArrayList<Friend> attendees) {
         this.attendees = attendees;
     }
 
@@ -257,6 +262,8 @@ public class Event implements Serializable{
     public void setEndDateTime(Date endDateTime) {
         this.endDateTime = endDateTime;
     }
+
+    public int getEventID(){return eventID;}
 
     public String getEventName() {
         return name;

@@ -38,6 +38,7 @@ import com.localhop.objects.Event;
 import com.localhop.objects.Friend;
 import com.localhop.utils.ActivityUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -238,17 +239,17 @@ public class ActivityEventSelection extends TabActivity {
         markerUser.showInfoWindow(); // Show the info window of this marker
 
         // TODO: Get event attendees who are also broadcasting their location
-        List<Friend> attendees = event.getAttendees();
+        ArrayList<Friend> attendees = event.getAttendees();
         LatLng attendeeLoc;
         int attendeeID;
         for (int i = 0; i < attendees.size(); i++)
         {
-//            if(attendees.get(i).second)
-//            {
-//                // TODO: Get attendee's last known location and create a marker
-//                attendeeID = attendees.get(i).first;
-//                //attendeeLoc = event.getAttendeeLocation(this, attendeeID);
-//            }
+            if(attendees.get(i).getBroadcast() == 1)
+            {
+                // TODO: Get attendee's last known location and create a marker
+                attendeeID = attendees.get(i).getID();
+                //attendeeLoc = event.getAttendeeLocation(this, attendeeID);
+            }
         }
 
         // Center and Zoom and camera
