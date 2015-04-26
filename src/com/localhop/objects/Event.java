@@ -121,7 +121,7 @@ public class Event implements Serializable{
      * @param o
      * @return
      */
-    public static Event fromJSON(JSONObject o, Activity activity) {
+    public static Event fromJSON(JSONObject o) {
         try {
             final SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

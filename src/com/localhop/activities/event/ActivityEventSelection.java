@@ -102,13 +102,22 @@ public class ActivityEventSelection extends TabActivity {
         rlEventDetails.setBackgroundDrawable(rectShapeDrawable);
 
         //Temp Data TODO: Delete after DB integration is done
-        final CharSequence attendees[] = {"Michelle Perz", "Ryan Scott", "Zach Flies"};
-        final CharSequence invited[] = {"Adam Smith", "Kendal Harland"};
+        final ArrayList<String> attendees = new ArrayList<String>();
+        final ArrayList<String> invited = new ArrayList<String>();
 
         // Add Attending/Invited buttons and setup corresponding dialogs
-        // TODO: Modify list items once DB integration is done
         ibEventAttending.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
-        ibEventAttending.setText("3");
+        ArrayList<Friend> attendeeList = event.getAttendees();
+        for(int i = 0; i < attendeeList.size(); i++){
+            Friend attendee = attendeeList.get(i);
+            invited.add(attendee.getFullName());
+            if(attendeeList.get(i).getAttendStatus() == 1)
+            {
+                attendees.add(attendee.getFullName());
+            }
+        }
+
+        ibEventAttending.setText(String.valueOf(attendees.size()));
         ibEventAttending.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -122,7 +131,7 @@ public class ActivityEventSelection extends TabActivity {
                                 dialog.cancel();
                             }
                         })
-                        .setItems(attendees, new DialogInterface.OnClickListener() {
+                        .setItems(attendees.toArray(new CharSequence[attendees.size()]), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // TODO: What option do we want to give the user when they select a name from the list?
@@ -136,7 +145,7 @@ public class ActivityEventSelection extends TabActivity {
         });
         // TODO: Modify list items once DB integration is done
         ibEventInvited.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
-        ibEventInvited.setText("2");
+        ibEventInvited.setText(String.valueOf(invited.size()));
         ibEventInvited.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -150,14 +159,14 @@ public class ActivityEventSelection extends TabActivity {
                                 dialog.cancel();
                             }
                         })
-                        .setItems(invited, new DialogInterface.OnClickListener() {
+                        .setItems(invited.toArray(new CharSequence[invited.size()]), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // TODO: What option do we want to give the user when they select a name from the list?
                                 ibEventInvited.setEnabled(true);
                             }
                         })
-                        .show();
+                                .show();
                 return false;
             }
         });

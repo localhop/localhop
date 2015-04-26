@@ -34,7 +34,9 @@ public class Friend {
 
     } // end of constructor
 
-
+    public String getFirstName() {
+        return mFirstName;
+    }
     public String getFullName() {
         return mFullName;
     }
