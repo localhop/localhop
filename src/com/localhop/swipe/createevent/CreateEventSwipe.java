@@ -3,6 +3,7 @@ package com.localhop.swipe.createevent;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -101,6 +102,10 @@ public class CreateEventSwipe extends Fragment {
      */
     private void getFriends() {
 
+        // TODO: Update shared preference string
+        //SharedPreferences preferences = mCreateEventView.getContext().getSharedPreferences("", 0);
+        //int userID = preferences.getInt("userID", 0);
+
         new HttpServerRequest<Activity, ArrayList<Friend>>(getActivity(), HttpRequest.GET, null) {
 
             @Override protected ArrayList<Friend> onResponse(final String response) {
@@ -131,7 +136,7 @@ public class CreateEventSwipe extends Fragment {
 
             }
 
-        }.execute("http://24.124.60.119/user/friends/2");
+        }.execute("http://24.124.60.119/user/friends/2"); //+ userID);
 
 
 
