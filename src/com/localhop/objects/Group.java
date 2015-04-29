@@ -1,14 +1,20 @@
 package com.localhop.objects;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class Group {
 
     // Variables subject to change once
     // DB integration starts
-    private String sMembers;
+    private ArrayList<Friend> sMembers;
     private String sName;
 
-    public Group(String sMembers, String sName) {
+    public Group(ArrayList<Friend> sMembers, String sName) {
 
         super();
         this.sMembers = sMembers;
@@ -25,12 +31,51 @@ public class Group {
         this.sName = sName;
     }
 
-    public String getsMembers() {
+    public ArrayList<Friend> getsMembers() {
         return sMembers;
     }
 
-    public void setsMembers(String sMembers) {
+    public String getsMembersString() {
+        int lastMemberListed=5;
+        if (sMembers.size()-1<lastMemberListed){
+            lastMemberListed=sMembers.size();
+        }
+        StringBuilder strList = new StringBuilder();
+        for (int i=0; i<lastMemberListed; i++) {
+            strList.append(sMembers.get(i).getsName() + ", ");
+        }
+        if (sMembers.size()<7){
+            strList.append(sMembers.get(sMembers.size()-1).getsName());
+        }
+        else {
+            strList.append(sMembers.get(lastMemberListed).getsName() + "...");
+        }
+
+        return strList.toString();
+    }
+
+    public void setsMembers(ArrayList<Friend> sMembers) {
         this.sMembers = sMembers;
+    }
+
+    /**
+     * Collects Group objects from the DB
+     * @param o
+     * @return
+     */
+    public static Group fromJSON(JSONObject o) {
+        try {
+            final String name          = o.getString("name");
+            final JSONArray jsonFriends = o.getJSONArray("members");
+            ArrayList<Friend> friends = new ArrayList<Friend>();
+            for (int i=0; i< jsonFriends.length(); i++) {
+                friends.add(new Friend(jsonFriends.getJSONObject(i).getString("name_first") + " " + jsonFriends.getJSONObject(i).getString("name_last")));
+            }
+            return new Group(friends, name);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null; // TODO: evil null voodoo
+        }
     }
 
 } // end of class Event
