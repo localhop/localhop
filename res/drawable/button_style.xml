@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
     <shape xmlns:android="http://schemas.android.com/apk/res/android">
         <solid android:color="@color/vpi__bright_foreground_disabled_holo_light"/>
-        <stroke android:width="3dip"
-                android:color="@color/vpi__bright_foreground_disabled_holo_dark" />
+        <stroke android:width="3dip" android:color="@color/vpi__bright_foreground_disabled_holo_dark" />
         <corners android:radius="30dip"/>
-        <padding android:left="0dip"
-                 android:top="0dip"
-                 android:right="0dip"
-                 android:bottom="0dip" />
+        <padding android:left="0dip" android:top="0dip" android:right="0dip" android:bottom="0dip" />
     </shape>
