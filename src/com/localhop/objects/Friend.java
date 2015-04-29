@@ -14,6 +14,7 @@ public class Friend {
     private int mID;
     private int mBroadcast;
     private int mAttendStatus;
+    private UserLocation mLocation;
 
     public Friend(String sName) {
 
@@ -44,11 +45,13 @@ public class Friend {
     public int getBroadcast() { return mBroadcast; }
     public int getAttendStatus() { return mAttendStatus; }
     public int getID() { return mID; }
+    public UserLocation getLocation(){return  mLocation;}
 
 
     public void setFullName(String mFullName) {
         this.mFullName = mFullName;
     }
+    public void setLocation(UserLocation location){this.mLocation = location;}
 
     /**
      * Collects Friend objects from the DB

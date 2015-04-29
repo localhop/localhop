@@ -1,5 +1,6 @@
 package com.localhop.activities.event;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.DialogInterface;
@@ -11,7 +12,6 @@ import android.graphics.drawable.ShapeDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,25 +22,28 @@ import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.localhop.R;
-import com.localhop.network.GPSTracker;
+import com.localhop.network.HttpRequest;
+import com.localhop.network.HttpServerRequest;
 import com.localhop.objects.DateTime;
 import com.localhop.objects.Event;
 import com.localhop.objects.Friend;
+import com.localhop.objects.UserLocation;
 import com.localhop.utils.ActivityUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Activity for a specific Event selected from the Events List tab.
@@ -52,6 +55,8 @@ public class ActivityEventSelection extends TabActivity {
     private Event event;
     private GoogleMap mMap;
     private DateTime mDateTime;
+    private UserLocation mAttendeeLocation; //< A particular attendee's location
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,15 +254,13 @@ public class ActivityEventSelection extends TabActivity {
 
         // TODO: Get event attendees who are also broadcasting their location
         ArrayList<Friend> attendees = event.getAttendees();
-        LatLng attendeeLoc;
         int attendeeID;
         for (int i = 0; i < attendees.size(); i++)
         {
-            if(attendees.get(i).getBroadcast() == 1)
+            if(attendees.get(i).getBroadcast() == 1)//TODO Add check to filter current user's id
             {
                 // TODO: Get attendee's last known location and create a marker
-                attendeeID = attendees.get(i).getID();
-                //attendeeLoc = event.getAttendeeLocation(this, attendeeID);
+                requestAttendeeLastKnownLocation(attendees.get(i));
             }
         }
 
@@ -311,5 +314,59 @@ public class ActivityEventSelection extends TabActivity {
         tabHost.addTab(tabMap);
 
     } // end of function setUI()
+
+    /**
+     * returns the last location of an attendee
+     * @return
+     */
+    public void requestAttendeeLastKnownLocation(final Friend attendee) {
+
+        new HttpServerRequest<Activity, UserLocation>(this, HttpRequest.GET, null) {
+
+            @Override protected UserLocation onResponse(final String response) {
+                try {
+                    JSONObject o = new JSONObject(response).getJSONObject("text");
+
+                    double lat = o.getDouble("location_last_lat");
+                    double lng = o.getDouble("location_last_long");
+
+                    final SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String temp = o.getString("location_last_update");
+                    temp = temp.substring(0, 10) + " " + temp.substring(11, 19);
+                    Date lastUpdate = newFormat.parse(temp);
+
+                    return new UserLocation(lat, lng, lastUpdate);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null; // TODO: null voodoo
+                }catch (ParseException e) {
+                    e.printStackTrace();
+                    return null; // TODO: evil null voodoo
+                }
+            }
+
+            @Override protected void onPostExecute(UserLocation location) {
+                super.onPostExecute(location);
+                updateAttendeeLocation(location);
+
+                final Marker attendeeMarker = mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(mAttendeeLocation.getLat(), mAttendeeLocation.getLong()))
+                                .title(attendee.getFullName())
+                );
+            }
+
+            @Override protected void onCancelled() {
+            }
+
+        }.execute("http://24.124.60.119/user/location/" + attendee.getID());
+
+    } // end of function requestAttendeeLastKnownLocation()
+
+    private void updateAttendeeLocation(UserLocation location) {
+        mAttendeeLocation = location;
+
+
+    }
 
 } // end of class ActivityEventSelection

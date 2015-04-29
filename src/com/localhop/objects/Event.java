@@ -1,16 +1,12 @@
 package com.localhop.objects;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Pair;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.localhop.network.HttpRequest;
 import com.localhop.network.HttpServerRequest;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,8 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.jar.Attributes;
 
 /**
  * This object class contains all the information associated with an event
@@ -49,7 +43,6 @@ public class Event implements Serializable{
     private int organizer;          //< Event's organizer id (needed to derive name)
     private static ArrayList<Friend> attendees;//< Event's attendee ids and their location broadcast status
     private int notificationCount;  //< Number of notifications associated for this event for a user
-
 
     /**
      * Constructor - Set all event variables
@@ -196,49 +189,6 @@ public class Event implements Serializable{
         return data;
     } // end of function toNameValuePair()
 
-
-
-    /**
-     * returns the last location of an attendee
-     * @param attendeeID
-     * @return
-     */
-    public LatLng getAttendeeLocation(Activity activity, int attendeeID) {
-
-        LatLng location = new LatLng(0,0);
-
-//        new HttpServerRequest<Activity, ArrayList<Event>>(activity, HttpRequest.GET, null) {
-//
-//            @Override protected ArrayList<Event> onResponse(final String response) {
-//                try {
-//                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
-//
-//                    ArrayList<Friend> attendeeList = new ArrayList<Friend>();
-//                    for (int i = 0; i < arr.length(); ++i) {
-//                        final JSONObject obj = arr.getJSONObject(i);
-//                        attendeeList.add(Friend.fromJSON(obj, ""));
-//                    }
-//
-//                    return events;
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    return null; // TODO: null voodoo
-//                }
-//            }
-//
-//            @Override protected void onPostExecute(ArrayList<Friend> attendeeList) {
-//                super.onPostExecute(attendeeList);
-//                this.attendees = attendeeList;
-//
-//            }
-//
-//            @Override protected void onCancelled() {
-//            }
-//
-//        }.execute("http://24.124.60.119/event/users/" + id); // all attendees will be returned for event id
-
-        return location;
-    }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
     //    Getters and Setters
