@@ -61,4 +61,5 @@
 
     <!-- SharedPreferences -->
     <string name="pref_test_rest">TEST_THE_REST</string>
+    <string name="localhop_pref">localhop_pref</string>
 </resources>
