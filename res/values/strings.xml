@@ -29,8 +29,8 @@
 
     <!-- Account login -->
     <string name="login">Login</string>
-    <string name="login_title">Log In to Local Hop</string>
-    <string name="login_email_hint">E-mail address</string>
+    <string name="login_title">Local Hop</string>
+    <string name="login_phone_hint">Phone</string>
     <string name="login_password_hint">Password</string>
     <string name="login_button">Log In</string>
     <string name="new_account">New Account</string>

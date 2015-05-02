@@ -40,7 +40,7 @@ public class ActivityAccountLogin extends BaseActivity {
         setContentView(R.layout.account_login);
 
         /* Set up text fields */
-        final EditText mEmailField = findView(R.id.et_login_email);
+        final EditText mPhoneField = findView(R.id.et_login_phone);
         final EditText mPasswordField = findView(R.id.et_login_password);
 
         final Button newAccount = findView(R.id.b_new_account);
@@ -56,7 +56,7 @@ public class ActivityAccountLogin extends BaseActivity {
             @Override
             public void onClick(View v) {
                 List<NameValuePair> credentials = new ArrayList<NameValuePair>();
-                credentials.add(new BasicNameValuePair("phoneNumber",mEmailField.getText().toString()));
+                credentials.add(new BasicNameValuePair("phoneNumber",mPhoneField.getText().toString()));
                 credentials.add(new BasicNameValuePair("password",   mPasswordField.getText().toString()));
                 attemptLogin(credentials);
             }
