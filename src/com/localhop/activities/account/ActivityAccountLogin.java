@@ -2,6 +2,7 @@ package com.localhop.activities.account;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,6 +19,9 @@ import com.localhop.utils.ViewUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.w3c.dom.Text;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,10 @@ public class ActivityAccountLogin extends BaseActivity {
 
     private View mLoginView;
     private Button mLoginButton;
+
+    private void toast(String message) {
+        Toast.makeText(ActivityAccountLogin.this, message, Toast.LENGTH_LONG).show();
+    }
 
     @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +71,22 @@ public class ActivityAccountLogin extends BaseActivity {
             }
             @Override protected void onPostExecute(String response) {
                 super.onPostExecute(response);
-                Toast.makeText(ActivityAccountLogin.this, response, Toast.LENGTH_LONG).show();
+                try {
+                    JSONObject jresponse = new JSONObject(new JSONTokener(response));
+                    if (jresponse.getString("text").length() == 0) {
+                      toast(jresponse.getString("error"));
+                      return;
+                    }
+
+                    toast("logging in...");
+                    JSONObject user = jresponse.getJSONObject("user");
+                    SharedPreferences preferences = getApplicationContext()
+                      .getSharedPreferences(String.valueOf(R.string.localhop_pref), 0);
+                    preferences.edit().putInt("userID", user.getInt("id"));
+                }
+                catch (JSONException err) {
+                    System.out.println(err.getMessage());
+                }
             }
             @Override protected void onCancelled() {}
         }.execute("http://24.124.60.119/user/login");
