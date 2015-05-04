@@ -1,6 +1,7 @@
 package com.localhop.activities.account;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,15 +24,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityAccountLogin extends BaseActivity {
+
+    private Context context;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_login);
 
+
         final EditText phoneTextField = findView(R.id.et_login_phone);
         final EditText passTextField = findView(R.id.et_login_password);
         final Button registerButton = findView(R.id.b_new_account);
         final Button loginButton = findView(R.id.b_login);
+
+        context = getApplicationContext();
 
         registerButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -45,9 +52,9 @@ public class ActivityAccountLogin extends BaseActivity {
             public void onClick(View v) {
                 List<NameValuePair> credentials = new ArrayList<NameValuePair>();
                 credentials.add(new BasicNameValuePair("phoneNumber",
-                        phoneTextField.getText().toString()));
+                  phoneTextField.getText().toString()));
                 credentials.add(new BasicNameValuePair("password",
-                        passTextField.getText().toString()));
+                  passTextField.getText().toString()));
                 attemptLogin(credentials);
             }
         });
@@ -74,9 +81,11 @@ public class ActivityAccountLogin extends BaseActivity {
                         toast(jresponse.getString("error"));
                     } else {
                         JSONObject user = jresponse.getJSONObject("text");
-                        SharedPreferences preferences = getApplicationContext()
-                                .getSharedPreferences(String.valueOf(R.string.localhop_pref), 0);
-                        preferences.edit().putInt("userID", user.getInt("id"));
+                        SharedPreferences preferences = context.getSharedPreferences(
+                            getString(R.string.localhop_pref), Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putInt(getString(R.string.user_id_key), user.getInt("id"));
+                        editor.commit();
                         startActivityFromClass(ActivityMain.class);
                     }
                 }
