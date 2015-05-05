@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -26,10 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 /**
  * Controls the custom Swipe View on the Events List tab.  The user will be given the ability
@@ -60,6 +57,9 @@ public class EventListSwipe extends Fragment {
         mRefreshLayout = ViewUtils.findViewById(mEventListView, R.id.srl_events);
 
         // Get all events for a user and split them up based on type of event?
+        //TODO: Efficiency fix: This currently gets called three times because of the swipe view.
+        //TODO:   We need to move this call to another class and pass this class the events needed.
+        //TODO:   To clarify, this class will have an instance created for Past, Today, and Future events.
         getAllUserEvents();
 
         return mEventListView;
@@ -95,7 +95,6 @@ public class EventListSwipe extends Fragment {
             @Override protected void onPostExecute(ArrayList<Event> events) {
                 super.onPostExecute(events);
                 setEvents(events);
-                setEventAttendees();
                 layoutFragment();
                 mRefreshLayout.setRefreshing(false);
             }
@@ -141,14 +140,7 @@ public class EventListSwipe extends Fragment {
         }.execute("http://24.124.60.119/event/users/" + eventID); // all attendees will be returned for event id
     } // end of function getEventAttendees()
 
-    public void setEventAttendees(){
 
-        // Get the attendees for each event
-        for(int i = 0; i < mEvents.size(); i++){
-            getEventAttendees(mEvents.get(i).getEventID(), i);
-        }
-
-    }
     /**
      * Layouts the view for the fragment
      */
@@ -156,6 +148,11 @@ public class EventListSwipe extends Fragment {
 
         if( mEvents != null )
         {
+            // Get the attendees for each event
+            for(int i = 0; i < mEvents.size(); i++){
+                getEventAttendees(mEvents.get(i).getEventID(), i);
+            }
+
             // Split up the events based on Event Type (i.e. Past, Today, or Future)
             ArrayList<Event> pastEvents = new ArrayList<Event>();
             ArrayList<Event> todayEvents = new ArrayList<Event>();
