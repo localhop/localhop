@@ -34,6 +34,8 @@ Custom List Item for displaying a specific group
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Adam, Kendal, Michelle, Ryan, Zach"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:id="@+id/group_list_item_group_members" android:layout_below="@+id/group_list_item_group_name" android:layout_toRightOf="@+id/group_list_item_checkbox"
             android:layout_toEndOf="@+id/group_list_item_checkbox" android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" android:paddingLeft="10dp" android:paddingBottom="10dp"

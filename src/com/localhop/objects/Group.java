@@ -36,20 +36,11 @@ public class Group {
     }
 
     public String getsMembersString() {
-        int lastMemberListed=5;
-        if (sMembers.size()-1<lastMemberListed){
-            lastMemberListed=sMembers.size();
-        }
         StringBuilder strList = new StringBuilder();
-        for (int i=0; i<lastMemberListed; i++) {
-            strList.append(sMembers.get(i).getFullName() + ", ");
+        for (int i=0; i<sMembers.size()-1; i++) {
+            strList.append(sMembers.get(i).getsName() + ", ");
         }
-        if (sMembers.size()<7){
-            strList.append(sMembers.get(sMembers.size()-1).getFullName());
-        }
-        else {
-            strList.append(sMembers.get(lastMemberListed).getFullName() + "...");
-        }
+        strList.append(sMembers.get(sMembers.size()-1).getsName());
 
         return strList.toString();
     }
