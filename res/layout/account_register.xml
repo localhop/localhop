@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/holo_blue_light">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/rel1"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/tv_register_title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:weightSum="1">
+
+        <TextView
+            style="@style/RegisterSubtitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_subtitle"
+            android:id="@+id/tv_register_subtitle"
+            android:layout_below="@+id/tv_register_title"/>
+
+        <EditText
+            android:id="@+id/et_register_firstname"
+            style="@style/RegisterEditTextStyle"
+            android:hint="@string/register_firstname_hint"
+            android:inputType="text"
+            android:layout_below="@+id/tv_register_subtitle"/>
+
+        <EditText
+            android:id="@+id/et_register_lastname"
+            style="@style/RegisterEditTextStyle"
+            android:hint="@string/register_lastname_hint"
+            android:inputType="text"
+            android:layout_below="@+id/et_register_firstname"/>
+
+        <EditText
+            android:id="@+id/et_register_phone"
+            style="@style/RegisterEditTextStyle"
+            android:hint="@string/register_phone_hint"
+            android:inputType="text|phone"
+            android:layout_below="@+id/et_register_lastname"/>
+
+        <EditText
+            android:id="@+id/et_register_password"
+            style="@style/RegisterEditTextStyle"
+            android:hint="@string/register_password_hint"
+            android:inputType="textPassword"
+            android:layout_below="@+id/et_register_phone"/>
+
+        <EditText
+            android:id="@+id/et_register_confirm_password"
+            style="@style/RegisterEditTextStyle"
+            android:hint="@string/register_confirm_password_hint"
+            android:inputType="textPassword"
+            android:layout_below="@+id/et_register_password"/>
+
+        <Button
+            android:id="@+id/b_register"
+            style="@style/RegisterButtonStyle"
+            android:text="@string/register_button"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/et_register_confirm_password"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:weightSum="1">
+
+        <Button
+            style="@style/RegisterHelperButtonStyle"
+            android:layout_height="wrap_content"
+            android:text="@string/back_to_login"
+            android:id="@+id/b_back_to_login"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
