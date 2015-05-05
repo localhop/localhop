@@ -43,7 +43,7 @@ public class ActivityAccountLogin extends BaseActivity {
         registerButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(final View v) {
-                startActivityFromClass(ActivityAccountName.class);
+                startActivityFromClass(ActivityAccountRegister.class);
             }
         });
 
