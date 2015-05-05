@@ -1,7 +1,9 @@
 package com.localhop.swipe.eventlist;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -67,6 +69,10 @@ public class EventListSwipe extends Fragment {
      */
     private void getAllUserEvents() {
 
+        SharedPreferences preferences = getActivity().getSharedPreferences(
+                getString(R.string.localhop_pref), Context.MODE_PRIVATE);
+        int userID = preferences.getInt(getString(R.string.user_id_key), -1);
+
         // TODO: Extract this query into its own class of queries
         // TODO: Note, onPostExecute may run into issues. Be Creative (:
             new HttpServerRequest<Activity, ArrayList<Event>>(getActivity(), HttpRequest.GET, null) {
@@ -99,7 +105,7 @@ public class EventListSwipe extends Fragment {
                     mRefreshLayout.setRefreshing(false);
                 }
 
-            }.execute("http://24.124.60.119/user/events/2");
+            }.execute("http://24.124.60.119/user/events/" + Integer.toString(userID));
 
     } // end of function getAllUserEvents()
 
