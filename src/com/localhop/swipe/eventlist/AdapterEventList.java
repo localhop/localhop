@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.localhop.R;
 import com.localhop.objects.DateTime;
 import com.localhop.objects.Event;
+import com.localhop.objects.Friend;
 import com.localhop.utils.ViewUtils;
 
 import java.util.ArrayList;
@@ -101,7 +102,33 @@ public class AdapterEventList extends ArrayAdapter<Event> {
 
         // Set the remaining UI components
         tvName.setText(mEventNameSpacing + event.getEventName());
-        tvAttendees.setText(event.getAttendees().toString());
+
+        // Set the attendees
+        ArrayList<Friend> attendeeList = event.getAttendees();
+        int attendeeCount = 0;
+
+        String attendees = "";
+        if(attendeeList.size() > 0){
+            attendees += "Attending:  ";
+        }
+        for(int i = 0; i < attendeeList.size(); i++){
+            Friend attendee = attendeeList.get(i);
+
+            // Check if attendee is attending
+            if(attendee.getAttendStatus() == 1){
+
+                // Add a comma if there is an attendee preceding the next one
+                if(attendeeCount > 0) {
+                    attendees += ", ";
+                }
+
+                attendees += attendee.getFirstName();
+                attendeeCount++;
+            }
+
+        }
+        tvAttendees.setText(attendees);
+
         tvDirection.setText(event.getLocation());
         ibDirection.setBackgroundResource(R.drawable.ic_directions_selector);
         ibDirection.setOnClickListener(new ImageButton.OnClickListener() {

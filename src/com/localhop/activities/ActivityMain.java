@@ -11,10 +11,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.Toast;
+
 import com.localhop.R;
 import com.localhop.activities.account.ActivityAccountLogin;
 import com.localhop.activities.event.ActivityTabCreateEvent;
 import com.localhop.activities.event.ActivityTabEventList;
+import com.localhop.network.GPSTracker;
+import com.localhop.activities.map.MapWibble;
+import com.localhop.objects.Event;
 import com.localhop.prefs.Prefs;
 import com.localhop.prefs.PrefsActivity;
 import com.localhop.utils.ActivityUtils;
@@ -23,6 +28,8 @@ import com.localhop.utils.ActivityUtils;
 public class ActivityMain extends TabActivity {
 
     private int mTabPosition;
+    private GPSTracker mGPS;
+
     private Context context;
     private final int NO_USER = -1;
 
@@ -59,6 +66,10 @@ public class ActivityMain extends TabActivity {
 
         Prefs.initPrefs(this);
         createMainNavigationTabs(); // Creates the main navigation TabHost
+
+        // TODO: Check if gps location is turned on or requested from the prefs before we activate gps
+        mGPS = new GPSTracker(this);
+        mGPS.startGPSTracking();
     }
 
     @Override

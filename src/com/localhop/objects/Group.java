@@ -42,13 +42,13 @@ public class Group {
         }
         StringBuilder strList = new StringBuilder();
         for (int i=0; i<lastMemberListed; i++) {
-            strList.append(sMembers.get(i).getsName() + ", ");
+            strList.append(sMembers.get(i).getFullName() + ", ");
         }
         if (sMembers.size()<7){
-            strList.append(sMembers.get(sMembers.size()-1).getsName());
+            strList.append(sMembers.get(sMembers.size()-1).getFullName());
         }
         else {
-            strList.append(sMembers.get(lastMemberListed).getsName() + "...");
+            strList.append(sMembers.get(lastMemberListed).getFullName() + "...");
         }
 
         return strList.toString();

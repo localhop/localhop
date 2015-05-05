@@ -61,6 +61,9 @@
     <string name="groups">Groups</string>
     <string name="friends">Friends</string>
 
+    <!-- Maps -->
+    <string name="map">Map</string>
+
     <!-- SharedPreferences -->
     <string name="pref_test_rest">TEST_THE_REST</string>
     <string name="localhop_pref">localhop_pref</string>
