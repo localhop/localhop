@@ -38,9 +38,9 @@ public class Group {
     public String getsMembersString() {
         StringBuilder strList = new StringBuilder();
         for (int i=0; i<sMembers.size()-1; i++) {
-            strList.append(sMembers.get(i).getsName() + ", ");
+            strList.append(sMembers.get(i).getFullName() + ", ");
         }
-        strList.append(sMembers.get(sMembers.size()-1).getsName());
+        strList.append(sMembers.get(sMembers.size()-1).getFullName());
 
         return strList.toString();
     }
