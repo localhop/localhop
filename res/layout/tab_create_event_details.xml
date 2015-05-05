@@ -6,8 +6,324 @@ UI for the details page when creating an event
 
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/tab_create_event_details"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+
+        <!-- Event Name -->
+        <RelativeLayout
+            android:id="@+id/rlCreateEvent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:hint="@string/event_name_hint"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textSize="25dp"
+                android:gravity="bottom"
+                android:id="@+id/et_create_event_name"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/blueBar1"
+            android:layout_width="fill_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/default_action_bar_background_color">
+        </LinearLayout>
+
+        <!-- Date Time -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_create_event_date"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/date_time_from"
+                android:textSize="15dp"
+                android:textColor="@color/default_faded_text_color"
+                android:id="@+id/tv_create_event_date_from_label"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/iv_create_event_date_time"
+                android:layout_toEndOf="@+id/iv_create_event_date_time" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/date_time_to"
+                android:id="@+id/tv_create_event_date_to_label"
+                android:paddingTop="5dp"
+                android:textSize="15dp"
+                android:textColor="@color/default_faded_text_color"
+                android:layout_below="@+id/ll_create_event_date_time_from"
+                android:layout_alignLeft="@+id/tv_create_event_date_from_label"
+                android:layout_alignStart="@+id/tv_create_event_date_from_label" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_create_event_date_time"
+                android:src="@drawable/ic_event_date_time_selector"
+                android:paddingRight="10dp"
+                android:contentDescription="@string/date_time_from"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_above="@+id/tv_create_event_date_to_label"
+                android:layout_alignTop="@+id/ll_create_event_date_time_from" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_create_event_date_time_from"
+                android:layout_below="@+id/tv_create_event_date_from_label"
+                android:layout_toRightOf="@+id/tv_create_event_date_to_label"
+                android:layout_alignRight="@+id/ll_create_event_date_time_to"
+                android:layout_alignEnd="@+id/ll_create_event_date_time_to">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text=""
+                    android:id="@+id/tv_create_event_date_from_datafield"
+                    android:visibility="invisible"
+                    android:layout_weight="0" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/b_create_event_date_from"
+                    android:layout_below="@+id/tv_create_event_date_from_label"
+                    android:layout_alignLeft="@+id/tv_create_event_date_from_label"
+                    android:layout_alignStart="@+id/tv_create_event_date_from_label"
+                    android:layout_toStartOf="@+id/b_create_event_time_from"
+                    android:inputType="date" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:inputType="time"
+                    android:ems="10"
+                    android:id="@+id/b_create_event_time_from"
+                    android:layout_below="@+id/tv_create_event_date_from_label"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/b_create_event_date_to"
+                    android:layout_toEndOf="@+id/b_create_event_date_to" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/ll_create_event_date_time_to"
+                android:layout_below="@+id/tv_create_event_date_to_label"
+                android:layout_toRightOf="@+id/tv_create_event_date_to_label"
+                android:layout_toEndOf="@+id/tv_create_event_date_to_label">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/tv_create_event_date_to_datafield"
+                    android:visibility="invisible"
+                    android:layout_weight="0" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:ems="10"
+                    android:id="@+id/b_create_event_date_to"
+                    android:layout_below="@+id/tv_create_event_date_to_label"
+                    android:layout_alignLeft="@+id/tv_create_event_date_to_label"
+                    android:layout_alignStart="@+id/tv_create_event_date_to_label" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:inputType="time"
+                    android:ems="10"
+                    android:id="@+id/b_create_event_time_to"
+                    android:layout_alignTop="@+id/b_create_event_date_to"
+                    android:layout_toEndOf="@+id/b_create_event_date_to"
+                    android:layout_toRightOf="@+id/b_create_event_date_to" />
+            </LinearLayout>
+
+            <Switch
+                android:layout_width="337dp"
+                android:layout_height="wrap_content"
+                android:text="@string/date_time_all_day"
+                android:paddingTop="10dp"
+                android:paddingLeft="5dp"
+                android:id="@+id/sw_create_event_all_day"
+                android:checked="false"
+                android:layout_below="@+id/ll_create_event_date_time_to"
+                android:layout_alignRight="@+id/ll_create_event_date_time_to"
+                android:layout_alignEnd="@+id/ll_create_event_date_time_to"
+                android:layout_toEndOf="@+id/tv_create_event_date_from_label"
+                android:layout_alignLeft="@+id/ll_create_event_date_time_to"
+                android:layout_alignStart="@+id/ll_create_event_date_time_to" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/blueBar2"
+            android:layout_width="fill_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/default_action_bar_background_color">
+        </LinearLayout>
+
+        <!-- Event Details -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/optional"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"
+            android:textColor="@color/default_underline_indicator_selected_color"
+            android:id="@+id/tv_create_event_option" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/rl_create_event_details"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_weight="1.93">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/et_create_event_details"
+                android:hint="@string/event_description_hint"
+                android:maxLines="5"
+                android:gravity="top"
+                android:scrollbars="vertical"
+                android:fadeScrollbars="false"
+                android:paddingBottom="5dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toRightOf="@+id/iv_create_event_details"
+                android:layout_toEndOf="@+id/iv_create_event_details" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_create_event_details"
+                android:src="@drawable/ic_event_details_info_selector"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="10dp"
+                android:contentDescription="@string/event_description_hint"/>
+
+        </RelativeLayout>
+
+        <!-- Event Location -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_create_event_location"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/et_create_event_location"
+                android:hint="@string/event_location_hint"
+                android:gravity="top"
+                android:maxLines="4"
+                android:scrollbars="vertical"
+                android:fadeScrollbars="true"
+                android:layout_alignTop="@+id/iv_create_event_location"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/iv_create_event_location" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_create_event_location"
+                android:src="@drawable/ic_event_location_pin_selector"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:paddingRight="10dp"
+                android:contentDescription="@string/event_location_hint"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/blueBar4"
+            android:layout_width="fill_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentLeft="true"
+            android:background="@color/default_action_bar_background_color">
+        </LinearLayout>
+
+        </LinearLayout>
+</ScrollView>
 

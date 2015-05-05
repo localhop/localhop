@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">localhop</string>
+    <string name="app_name">Local Hop</string>
     <string name="settings">Settings</string>
+
+    <!-- Date/Time-->
     <string name="sunday">Sunday</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
@@ -9,8 +11,6 @@
     <string name="thursday">Thursday</string>
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
-
-    <!-- Date/Time-->
     <string-array
         name="days_of_week">
         <item>@string/sunday</item>
@@ -23,21 +23,48 @@
     </string-array>
     <string name="am">AM</string>
     <string name="pm">PM</string>
+    <string name="date_time_from">From</string>
+    <string name="date_time_to">To</string>
+    <string name="date_time_all_day">All Day</string>
 
     <!-- Account login -->
     <string name="login">Login</string>
-    <string name="login_title">Log in to Local Hop</string>
-    <string name="login_email_hint">E-mail address</string>
+    <string name="logout">Logout</string>
+    <string name="login_title">Local Hop</string>
+    <string name="login_phone_hint">Phone</string>
     <string name="login_password_hint">Password</string>
-    <string name="login_button">Log in for great justice</string>
-    <string name="new_account">New account</string>
-    <string name="login_forgot_button">Forgot something?</string>
+    <string name="login_button">Log In</string>
+    <string name="new_account">New Account</string>
+    <string name="login_forgot_button">Forgot Something?</string>
+    <string name="user_id_key">userID</string>
 
     <!-- Account creation -->
     <string name="your_name_title">Your name</string>
     <string name="your_name_hint">Name</string>
     <string name="your_name_disclaimer">This name is displayed to other users who search for you.</string>
 
+    <!-- Events -->
+    <string name="event_description_hint">Event Details</string>
+    <string name="event_location_hint">Event Location</string>
+    <string name="create">Create</string>
+    <string name="optional">Optional</string>
+    <string name="event_name_hint">Event Name</string>
+    <string name="missing_event_name_error">This event needs a name</string>
+    <string name="invite_setting_open_invite">Open Invite</string>
+    <string name="invite_setting_closed_invite">Closed Invite</string>
+    <string-array name="invite_settings">
+        <item>@string/invite_setting_closed_invite</item>
+        <item>@string/invite_setting_open_invite</item>
+    </string-array>
+
+    <!-- Groups/Friends -->
+    <string name="groups">Groups</string>
+    <string name="friends">Friends</string>
+
+    <!-- Maps -->
+    <string name="map">Map</string>
+
     <!-- SharedPreferences -->
     <string name="pref_test_rest">TEST_THE_REST</string>
+    <string name="localhop_pref">localhop_pref</string>
 </resources>

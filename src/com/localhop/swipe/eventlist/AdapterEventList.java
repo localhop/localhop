@@ -1,7 +1,6 @@
 package com.localhop.swipe.eventlist;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,10 @@ import android.widget.TextView;
 import com.localhop.R;
 import com.localhop.objects.DateTime;
 import com.localhop.objects.Event;
+import com.localhop.objects.Friend;
 import com.localhop.utils.ViewUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -103,7 +102,33 @@ public class AdapterEventList extends ArrayAdapter<Event> {
 
         // Set the remaining UI components
         tvName.setText(mEventNameSpacing + event.getEventName());
-        tvAttendees.setText(event.getAttendees());
+
+        // Set the attendees
+        ArrayList<Friend> attendeeList = event.getAttendees();
+        int attendeeCount = 0;
+
+        String attendees = "";
+        if(attendeeList.size() > 0){
+            attendees += "Attending:  ";
+        }
+        for(int i = 0; i < attendeeList.size(); i++){
+            Friend attendee = attendeeList.get(i);
+
+            // Check if attendee is attending
+            if(attendee.getAttendStatus() == 1){
+
+                // Add a comma if there is an attendee preceding the next one
+                if(attendeeCount > 0) {
+                    attendees += ", ";
+                }
+
+                attendees += attendee.getFirstName();
+                attendeeCount++;
+            }
+
+        }
+        tvAttendees.setText(attendees);
+
         tvDirection.setText(event.getLocation());
         ibDirection.setBackgroundResource(R.drawable.ic_directions_selector);
         ibDirection.setOnClickListener(new ImageButton.OnClickListener() {
@@ -119,15 +144,31 @@ public class AdapterEventList extends ArrayAdapter<Event> {
         tvNotification.setText(sNotificationCount);
 
         // Add Date delimiter UI if the event is not today
-        if(event.getType() != Event.EventType.Today &&
-                ((position > 0 && mEventListItems.get(position).getStartDateTime()
-                        .compareTo(mEventListItems.get(position - 1).getStartDateTime()) != 0) ||
-                        position <= 0)) {
-            TextView tvEventListDateDelimiter = ViewUtils.findViewById(rowView, R.id.tvEventListDateDelimiter);
-            // Set the date into the format DayOfWeek, Month/Day, Year
-                tvEventListDateDelimiter.setText(
-                        datetime.getDayOfWeekString() + ", " +
-                                datetime.getMonthDayYearFormat());
+        if(event.getType() != Event.EventType.Today)
+        {
+          if(position > 0)
+          {
+              DateTime dateTime = new DateTime(mContext, new Date());
+
+              if(!dateTime.compareAreDatesSameDay(mEventListItems.get(position).getStartDateTime(),
+                      mEventListItems.get(position - 1).getStartDateTime()))
+              {
+                  TextView tvEventListDateDelimiter = ViewUtils.findViewById(rowView, R.id.tvEventListDateDelimiter);
+                  // Set the date into the format DayOfWeek, Month/Day, Year
+                  tvEventListDateDelimiter.setText(
+                          datetime.getDayOfWeekString() + ", " +
+                                  datetime.getMonthDayYearFormat());
+              }
+          }
+          else
+          {
+              TextView tvEventListDateDelimiter = ViewUtils.findViewById(rowView, R.id.tvEventListDateDelimiter);
+              // Set the date into the format DayOfWeek, Month/Day, Year
+              tvEventListDateDelimiter.setText(
+                      datetime.getDayOfWeekString() + ", " +
+                              datetime.getMonthDayYearFormat());
+          }
+
         }
 
     } // end of function setItemView()
@@ -146,11 +187,24 @@ public class AdapterEventList extends ArrayAdapter<Event> {
 
         int layout = R.layout.list_item_event;
 
-        if (type != Event.EventType.Today &&
-                ((position > 0 && mEventListItems.get(position).getStartDateTime()
-                        .compareTo(mEventListItems.get(position - 1).getStartDateTime()) != 0) ||
-                position <= 0)) {
-            layout = R.layout.list_item_event_with_date_delimiter;
+        // If the event is not today, there isn't already an event listed on the same day, post this
+        // event with the date delimiter layout
+        if (type != Event.EventType.Today)
+        {
+            if( position > 0 )
+            {
+                DateTime dateTime = new DateTime(mContext, new Date());
+
+                if(!dateTime.compareAreDatesSameDay(mEventListItems.get(position).getStartDateTime(),
+                        mEventListItems.get(position - 1).getStartDateTime()))
+                {
+                    layout = R.layout.list_item_event_with_date_delimiter;
+                }
+            }
+            else
+            {
+                layout = R.layout.list_item_event_with_date_delimiter;
+            }
         }
 
         View rowView = inflater.inflate(layout, parent, false);
@@ -158,4 +212,4 @@ public class AdapterEventList extends ArrayAdapter<Event> {
         return rowView;
     } // end of function setViewLayout()
 
-} // end of class Adapter_EventList.java
+} // end of class AdapterEventList.java

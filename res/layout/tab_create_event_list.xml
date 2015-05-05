@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--  tab_create_event_list.xml
+<!--  tab_create_event_detail_inviteil_invite.xml
 
 UI for the Favorite/Recent events list when creating an event
 
@@ -9,4 +9,9 @@ UI for the Favorite/Recent events list when creating an event
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
+              android:layout_height="match_parent">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    </RelativeLayout>
+</LinearLayout>

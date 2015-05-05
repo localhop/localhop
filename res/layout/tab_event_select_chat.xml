@@ -9,4 +9,40 @@ UI for a specific event's chat page
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tab_event_select_chat"
     android:orientation="vertical" android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
+              android:layout_height="match_parent">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_gravity="center_horizontal">
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send"
+                android:id="@+id/buttonSendMessage"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/button_style"
+                android:layout_margin="5dp"/>
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/editText"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/buttonSendMessage"
+                android:layout_alignTop="@+id/buttonSendMessage"
+                android:layout_alignBottom="@+id/buttonSendMessage"
+                android:layout_toStartOf="@+id/buttonSendMessage"
+                android:background="@drawable/curved_corners"
+                android:layout_margin="5dp"/>
+        <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/listView2"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/buttonSendMessage"/>
+    </RelativeLayout>
+</LinearLayout>

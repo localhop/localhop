@@ -45,7 +45,7 @@ public class PrefsActivity extends PreferenceActivity {
         }
 
         private HttpServerRequest<Activity, String> newGetRequest() {
-            return new HttpServerRequest<Activity, String>(getActivity(), HttpRequest.GET) {
+            return new HttpServerRequest<Activity, String>(getActivity(), HttpRequest.GET, null) {
                 @Override protected String onResponse(final String response) {
                     try {
                         return new JSONObject(response).getString("ip");

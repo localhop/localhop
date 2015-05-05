@@ -3,15 +3,14 @@ package com.localhop.network;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
+import java.util.List;
 
 import android.app.Activity;
 import android.widget.Toast;
-import org.apache.http.HttpException;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NoHttpResponseException;
+import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -33,6 +32,7 @@ public abstract class HttpServerRequest<A extends Activity, Result> extends Asyn
     public static String DUMMY_URL = "http://ip.jsontest.com/";
     private HttpRequest mRequest;
     private String mErrorMessage;
+    private List<NameValuePair> mData;
 
     /**
      * Constructs a new instance. The constructor is not the place to put any input
@@ -41,9 +41,10 @@ public abstract class HttpServerRequest<A extends Activity, Result> extends Asyn
      *
      * @param console reference to the current console.
      */
-    public HttpServerRequest(A activity, HttpRequest request) {
+    public HttpServerRequest(A activity, HttpRequest request, List<NameValuePair> data) {
         super(activity);
         mRequest = request;
+        mData = data;
     }
 
     @Override
@@ -56,6 +57,7 @@ public abstract class HttpServerRequest<A extends Activity, Result> extends Asyn
         HttpClient httpClient = null;
         HttpResponse httpResponse = null;
         String responseStr = null;
+        final String url = params[0];
 
         try {
             final HttpParams httpParams = new BasicHttpParams();
@@ -65,17 +67,14 @@ public abstract class HttpServerRequest<A extends Activity, Result> extends Asyn
             httpClient = new DefaultHttpClient(httpParams);
             HttpUriRequest request = null;
             if (mRequest.equals(HttpRequest.GET)) {
-                request = new HttpGet(params[0]);
+                request = new HttpGet(url);
             } else if (mRequest.equals(HttpRequest.POST)) {
-                final HttpPost httpPost = new HttpPost(params[0]);
-                if (params.length > 1) {
-                    httpPost.setHeader("content-type", "application/json");
-                    if (params[1] != null && !params[1].isEmpty()) {
-                        try {
-                            httpPost.setEntity(new StringEntity(params[1]));
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
+                final HttpPost httpPost = new HttpPost(url);
+                if (mData != null) {
+                    try {
+                        httpPost.setEntity(new UrlEncodedFormEntity(mData, "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
                     }
                 }
                 request = httpPost;

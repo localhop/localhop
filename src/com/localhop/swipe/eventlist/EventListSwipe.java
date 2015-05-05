@@ -1,7 +1,9 @@
 package com.localhop.swipe.eventlist;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -17,6 +20,7 @@ import com.localhop.network.HttpRequest;
 import com.localhop.network.HttpServerRequest;
 import com.localhop.objects.Event;
 import com.localhop.R;
+import com.localhop.objects.Friend;
 import com.localhop.utils.ViewUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +28,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -65,43 +70,85 @@ public class EventListSwipe extends Fragment {
      */
     private void getAllUserEvents() {
 
-        // TODO: Extract this query into its own class of queries
-        // TODO: Note, onPostExecute may run into issues. Be Creative (:
-            new HttpServerRequest<Activity, ArrayList<Event>>(getActivity(), HttpRequest.GET) {
+        SharedPreferences preferences = getActivity().getSharedPreferences(
+                getString(R.string.localhop_pref), Context.MODE_PRIVATE);
+        int userID = preferences.getInt(getString(R.string.user_id_key), -1);
 
-                @Override protected ArrayList<Event> onResponse(final String response) {
-                    try {
-                        final JSONArray arr = new JSONObject(response).getJSONArray("text");
+        new HttpServerRequest<Activity, ArrayList<Event>>(getActivity(), HttpRequest.GET, null) {
 
-                        ArrayList<Event> events = new ArrayList<Event>();
-                        for (int i = 0; i < arr.length(); ++i) {
-                            final JSONObject obj = arr.getJSONObject(i);
-                            events.add(Event.fromJSON(obj));
-                        }
-
-                        return events;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        return null; // TODO: null voodoo
+            @Override protected ArrayList<Event> onResponse(final String response) {
+                try {
+                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
+                    ArrayList<Event> events = new ArrayList<Event>();
+                    for (int i = 0; i < arr.length(); ++i) {
+                        final JSONObject obj = arr.getJSONObject(i);
+                        events.add(Event.fromJSON(obj));
                     }
-                }
 
-                @Override protected void onPostExecute(ArrayList<Event> events) {
-                    super.onPostExecute(events);
-                    setEvents(events);
-                    layoutFragment();
-                    mRefreshLayout.setRefreshing(false);
+                    return events;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null; // TODO: null voodoo
                 }
-                
-                @Override protected void onCancelled() {
-                    mRefreshLayout.setRefreshing(false);
-                }
+            }
 
-            }.execute("http://24.124.60.119/get/user/events/2");
+            @Override protected void onPostExecute(ArrayList<Event> events) {
+                super.onPostExecute(events);
+                setEvents(events);
+                setEventAttendees();
+                layoutFragment();
+                mRefreshLayout.setRefreshing(false);
+            }
+
+            @Override protected void onCancelled() {
+                mRefreshLayout.setRefreshing(false);
+            }
+
+        }.execute("http://24.124.60.119/user/events/" + Integer.toString(userID));
 
     } // end of function getAllUserEvents()
 
+    /**
+     * Returns all people invited to an event
+     */
+    public void getEventAttendees(int eventID, final int eventIndex) {
 
+        new HttpServerRequest<Activity, ArrayList<Friend>>(getActivity(), HttpRequest.GET, null) {
+
+            @Override protected ArrayList<Friend> onResponse(final String response) {
+                try {
+                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
+                    ArrayList<Friend> attendeeList = new ArrayList<Friend>();
+                    for (int i = 0; i < arr.length(); ++i) {
+                        final JSONObject obj = arr.getJSONObject(i);
+                        attendeeList.add(Friend.fromJSON(obj, ""));
+                    }
+
+                    return attendeeList;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null; // TODO: null voodoo
+                }
+            }
+
+            @Override protected void onPostExecute(ArrayList<Friend> attendeeList) {
+                super.onPostExecute(attendeeList);
+                mEvents.get(eventIndex).setAttendees(attendeeList);
+            }
+
+            @Override protected void onCancelled() {
+            }
+        }.execute("http://24.124.60.119/event/users/" + eventID); // all attendees will be returned for event id
+    } // end of function getEventAttendees()
+
+    public void setEventAttendees(){
+
+        // Get the attendees for each event
+        for(int i = 0; i < mEvents.size(); i++){
+            getEventAttendees(mEvents.get(i).getEventID(), i);
+        }
+
+    }
     /**
      * Layouts the view for the fragment
      */
@@ -134,6 +181,8 @@ public class EventListSwipe extends Fragment {
             switch (mCurrentPage) {
                 case 0:
                     // Past Events
+                    // Sort the events in DESC order (latest event first)
+                    Collections.reverse(pastEvents);
                     setupEventSelection(pastEvents);
                     break;
                 case 1:
@@ -159,7 +208,6 @@ public class EventListSwipe extends Fragment {
     private void searchEvents(){
 
         SearchView sv = ViewUtils.findViewById(mEventListView, R.id.svEventList);
-
     }
 
     /**

@@ -38,4 +38,4 @@ public class ActivityTabEventList extends FragmentActivity {
 
     } // end of function onCreate()
 
-} // end of class TabEventListActivity
+} // end of class ActivityTabEventList
