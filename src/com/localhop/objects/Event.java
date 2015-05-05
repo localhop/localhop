@@ -32,7 +32,7 @@ public class Event implements Serializable{
     }
 
     // Event variables
-    private static int eventID;                 //< Event id
+    private int eventID;                 //< Event id
     private EventType type;         //< Event Type (i.e. today, past, or future)
     private String name;            //< Event name
     private String description;     //< Event description
@@ -119,7 +119,6 @@ public class Event implements Serializable{
             final SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             final int id               = o.getInt("id");
-            eventID = id;
             final String name          = o.getString("name");
             final String description   = o.getString("description");
             final String location      = o.getString("location");

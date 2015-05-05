@@ -3,8 +3,10 @@ package com.localhop.activities.event;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -94,24 +96,28 @@ public class ActivityEventSelection extends TabActivity {
         ImageButton ibEventLocation   = ActivityUtils.findViewById(this, R.id.ibEventLocation);
         final Button ibEventInvited   = ActivityUtils.findViewById(this, R.id.ibEventInvited);
         final Button ibEventAttending = ActivityUtils.findViewById(this, R.id.ibEventAttending);
-        RelativeLayout rlEventRSPV    = ActivityUtils.findViewById(this, R.id.rlEventRSPV);
-        RelativeLayout rlEventDetails = ActivityUtils.findViewById(this, R.id.rlEventDetails);
+//        RelativeLayout rlEventDateTime    = ActivityUtils.findViewById(this, R.id.rlEventDateTime);
+//        RelativeLayout rlEventRSPV    = ActivityUtils.findViewById(this, R.id.rlEventRSPV);
+//        RelativeLayout rlEventDetails = ActivityUtils.findViewById(this, R.id.rlEventDetails);
+//        RelativeLayout rlEventLocation = ActivityUtils.findViewById(this, R.id.rlEventLocation);
 
         // Add Border lines between sections of the Details Page
-        ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
-        Paint paint = rectShapeDrawable.getPaint();
-        paint.setColor(Color.GRAY);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(5);
-        rlEventRSPV.setBackgroundDrawable(rectShapeDrawable);
-        rlEventDetails.setBackgroundDrawable(rectShapeDrawable);
+//        ShapeDrawable rectShapeDrawable = new ShapeDrawable(); // pre defined class
+//        Paint paint = rectShapeDrawable.getPaint();
+//        paint.setColor(Color.GRAY);
+//        paint.setStyle(Paint.Style.STROKE);
+//        paint.setStrokeWidth(5);
+//        rlEventDateTime.setBackgroundDrawable(rectShapeDrawable);
+//        rlEventRSPV.setBackgroundDrawable(rectShapeDrawable);
+//        rlEventDetails.setBackgroundDrawable(rectShapeDrawable);
+//        rlEventLocation.setBackgroundDrawable(rectShapeDrawable);
 
         //Temp Data TODO: Delete after DB integration is done
         final ArrayList<String> attendees = new ArrayList<String>();
         final ArrayList<String> invited = new ArrayList<String>();
 
         // Add Attending/Invited buttons and setup corresponding dialogs
-        ibEventAttending.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
+       // ibEventAttending.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
         ArrayList<Friend> attendeeList = event.getAttendees();
         for(int i = 0; i < attendeeList.size(); i++){
             Friend attendee = attendeeList.get(i);
@@ -149,7 +155,7 @@ public class ActivityEventSelection extends TabActivity {
             }
         });
         // TODO: Modify list items once DB integration is done
-        ibEventInvited.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
+        //ibEventInvited.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
         ibEventInvited.setText(String.valueOf(invited.size()));
         ibEventInvited.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -254,11 +260,14 @@ public class ActivityEventSelection extends TabActivity {
             markerUser.showInfoWindow(); // Show the info window of this marker
 
             // TODO: Get event attendees who are also broadcasting their location
+            SharedPreferences preferences = this.getSharedPreferences(
+                    getString(R.string.localhop_pref), Context.MODE_PRIVATE);
+            int userID = preferences.getInt(getString(R.string.user_id_key), -1);
+
             ArrayList<Friend> attendees = event.getAttendees();
-            int attendeeID;
             for (int i = 0; i < attendees.size(); i++)
             {
-                if(attendees.get(i).getBroadcast() == 1)//TODO Add check to filter current user's id
+                if(attendees.get(i).getBroadcast() == 1 && attendees.get(i).getID() != userID)//TODO Add check to filter current user's id
                 {
                     // TODO: Get attendee's last known location and create a marker
                     requestAttendeeLastKnownLocation(attendees.get(i));

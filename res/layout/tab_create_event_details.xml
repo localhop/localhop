@@ -65,8 +65,7 @@ UI for the details page when creating an event
             android:layout_height="wrap_content"
             android:id="@+id/rl_create_event_date"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp">
+            android:paddingRight="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -125,6 +124,7 @@ UI for the details page when creating an event
                     android:layout_weight="0" />
 
                 <Button
+                    style="@style/DateTimePickerColor"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -137,6 +137,7 @@ UI for the details page when creating an event
                     android:inputType="date" />
 
                 <Button
+                    style="@style/DateTimePickerColor"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -172,6 +173,7 @@ UI for the details page when creating an event
                     android:layout_weight="0" />
 
                 <Button
+                    style="@style/DateTimePickerColor"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -183,6 +185,7 @@ UI for the details page when creating an event
                     android:layout_alignStart="@+id/tv_create_event_date_to_label" />
 
                 <Button
+                    style="@style/DateTimePickerColor"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
