@@ -126,7 +126,7 @@ public class AdapterExpandFriendGroupList extends BaseExpandableListAdapter {
 
             // Set the UI components
             tvGroupName.setText(mGroupItems.get(childPosition).getsName());
-            tvGroupList.setText(mGroupItems.get(childPosition).getsMembers());
+            tvGroupList.setText(mGroupItems.get(childPosition).getsMembersString());
         }
         else if( groupPosition == 1 && mFriendItems != null)
         {
