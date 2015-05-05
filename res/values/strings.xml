@@ -39,13 +39,15 @@
     <string name="user_id_key">userID</string>
 
     <!-- Account registration -->
+    <string name="register_button">register</string>
     <string name="register_title">Local Hop</string>
-    <string name="register_subtitle">Create and account</string>
+    <string name="register_subtitle">Create an account</string>
     <string name="register_firstname_hint">First name</string>
     <string name="register_lastname_hint">Last name</string>
     <string name="register_phone_hint">Phone</string>
     <string name="register_password_hint">Password</string>
     <string name="register_confirm_password_hint">Confirm password</string>
+    <string name="back_to_login">Back to login</string>
     <string name="your_name_disclaimer">This name is displayed to other users who search for you.</string>
 
     <!-- Events -->

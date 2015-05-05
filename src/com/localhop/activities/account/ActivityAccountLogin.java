@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.localhop.R;
 import com.localhop.activities.ActivityMain;
+import com.localhop.activities.account.ActivityAccountRegister;
 import com.localhop.activities.BaseActivity;
 import com.localhop.network.HttpRequest;
 import com.localhop.network.HttpServerRequest;

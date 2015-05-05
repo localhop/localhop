@@ -71,14 +71,13 @@
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_alignParentStart">true</item>
-        <item name="android:layout_marginTop">100dp</item>
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_marginStart">10dp</item>
     </style>
 
     <style name="RegisterSubtitleStyle" parent="@android:style/Widget.TextView">
-        <item name="android:textSize">30dp</item>
+        <item name="android:textSize">25dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">#fff</item>
@@ -86,7 +85,6 @@
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_alignParentStart">true</item>
-        <item name="android:layout_marginTop">100dp</item>
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_marginStart">10dp</item>

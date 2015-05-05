@@ -29,12 +29,13 @@ public class ActivityAccountRegister extends BaseActivity {
     private final int ERR_MISSING_FIELD = 1<<2;
     private final int ERR_PASS_NO_MATCH = 1<<3;
     private Context context;
-    final EditText firstNameTextField = findView(R.id.et_register_firstname);
-    final EditText lastNameTextField = findView(R.id.et_register_lastname);
-    final EditText phoneTextField = findView(R.id.et_register_phone);
-    final EditText passTextField = findView(R.id.et_register_password);
-    final EditText confirmPassTextField = findView(R.id.et_register_confirm_password);
-    final Button registerButton = findView(R.id.b_new_account);
+    EditText firstNameTextField;
+    EditText lastNameTextField;
+    EditText phoneTextField;
+    EditText passTextField;
+    EditText confirmPassTextField;
+    Button registerButton;
+    Button backToLoginButton;
     String firstName;
     String lastName;
     String phone;
@@ -45,11 +46,11 @@ public class ActivityAccountRegister extends BaseActivity {
      * Ensure all fields set by the user are valid
      */
     private int validateFields() {
-        int status = 0;
+        int errors = 0;
 
         firstName = firstNameTextField.getText().toString();
         lastName = lastNameTextField.getText().toString();
-        phone = lastNameTextField.getText().toString();
+        phone = phoneTextField.getText().toString();
         password = passTextField.getText().toString();
         confirmPassword = confirmPassTextField.getText().toString();
 
@@ -58,16 +59,16 @@ public class ActivityAccountRegister extends BaseActivity {
             ||  phone == null || phone.isEmpty()
             ||  password == null || password.isEmpty()
             ||  confirmPassword == null || confirmPassword.isEmpty()) {
-            status |= ERR_MISSING_FIELD;
+            errors |= ERR_MISSING_FIELD;
         }
         if (!password.equals(confirmPassword)) {
-            status |= ERR_PASS_NO_MATCH;
+            errors |= ERR_PASS_NO_MATCH;
         }
-        if (phone.length() < 10) {
-            status |= ERR_INVALID_PHONE;
+        if (phone == null || phone.length() < 10) {
+            errors |= ERR_INVALID_PHONE;
         }
 
-        return status;
+        return errors;
     }
 
     private void toast(String message) {
@@ -75,22 +76,33 @@ public class ActivityAccountRegister extends BaseActivity {
     }
 
     private void toastInputErrors(int errors) {
+        String messages = "";
         if ((errors & ERR_INVALID_PHONE) != 0) {
-            toast("Please enter a valid phone number");
+            messages += "- Please enter a valid phone number\n";
         }
         if ((errors & ERR_MISSING_FIELD) != 0) {
-            toast("Please fill in all fields");
+            messages += "- Please fill in all fields\n";
         }
         if ((errors & ERR_PASS_NO_MATCH) != 0) {
-            toast("Passwords do not match");
+            messages += "- Passwords do not match\n";
         }
+        messages = messages.substring(0, messages.length()-1);
+        toast(messages);
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.account_login);
+        setContentView(R.layout.account_register);
         context = getApplicationContext();
+
+        firstNameTextField = findView(R.id.et_register_firstname);
+        lastNameTextField = findView(R.id.et_register_lastname);
+        phoneTextField = findView(R.id.et_register_phone);
+        passTextField = findView(R.id.et_register_password);
+        confirmPassTextField = findView(R.id.et_register_confirm_password);
+        registerButton = findView(R.id.b_register);
+        backToLoginButton = findView(R.id.b_back_to_login);
 
         registerButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -104,6 +116,7 @@ public class ActivityAccountRegister extends BaseActivity {
                             lastNameTextField.getText().toString()));
                     credentials.add(new BasicNameValuePair("phoneNumber",
                             phoneTextField.getText().toString()));
+                    toast(phoneTextField.getText().toString());
                     credentials.add(new BasicNameValuePair("password",
                             passTextField.getText().toString()));
                     attemptRegister(credentials);
@@ -112,42 +125,47 @@ public class ActivityAccountRegister extends BaseActivity {
                 }
             }
         });
+
+        if (backToLoginButton != null) {
+            backToLoginButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivityFromClass(ActivityAccountLogin.class);
+                }
+            });
+        }
     }
 
     private void attemptRegister(List<NameValuePair> credentials) {
-        toast("All fields are valid. Registering ...");
-//        new HttpServerRequest<Activity, String>(this, HttpRequest.POST, credentials) {
-//            @Override
-//            protected String onResponse(final String response) {
-//                return response;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(String response) {
-//                super.onPostExecute(response);
-//                try {
-//                    JSONObject jresponse = new JSONObject(new JSONTokener(response));
-//
-//                    if (jresponse.getString("text").isEmpty()) {
-//                        toast(jresponse.getString("error"));
-//                    } else {
-//                        JSONObject user = jresponse.getJSONObject("text");
-//                        SharedPreferences preferences = context.getSharedPreferences(
-//                                getString(R.string.localhop_pref), Context.MODE_PRIVATE);
-//                        SharedPreferences.Editor editor = preferences.edit();
-//                        editor.putInt(getString(R.string.user_id_key), user.getInt("id"));
-//                        editor.commit();
-//                        startActivityFromClass(ActivityMain.class);
-//                    }
-//                }
-//                catch (JSONException err) {
-//                    System.out.println(err.getMessage());
-//                }
-//            }
-//
-//            @Override
-//            protected void onCancelled() {}
-//        }.execute("http://24.124.60.119/user/login");
+        new HttpServerRequest<Activity, String>(this, HttpRequest.POST, credentials) {
+            @Override
+            protected String onResponse(final String response) {
+                return response;
+            }
+
+            @Override
+            protected void onPostExecute(String response) {
+                super.onPostExecute(response);
+                try {
+                    JSONObject jresponse = new JSONObject(new JSONTokener(response));
+
+                    if (!jresponse.getString("text").isEmpty() &&
+                        jresponse.getString("text").equals("success")) {
+                        startActivityFromClass(ActivityAccountLogin.class);
+                    } else if (!jresponse.getString("error").isEmpty()){
+                        toast(jresponse.getString("error"));
+                    } else {
+                        toast("An unexpected error occurred. Please try again later");
+                    }
+                }
+                catch (JSONException err) {
+                    System.out.println(err.getMessage());
+                }
+            }
+
+            @Override
+            protected void onCancelled() {}
+        }.execute("http://24.124.60.119/user/");
     }
 }
 
