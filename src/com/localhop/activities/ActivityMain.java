@@ -9,10 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.Toast;
+
 import com.localhop.R;
 import com.localhop.activities.account.ActivityAccountLogin;
 import com.localhop.activities.event.ActivityTabCreateEvent;
 import com.localhop.activities.event.ActivityTabEventList;
+import com.localhop.network.GPSTracker;
+import com.localhop.activities.map.MapWibble;
 import com.localhop.objects.Event;
 import com.localhop.prefs.Prefs;
 import com.localhop.prefs.PrefsActivity;
@@ -22,6 +26,7 @@ import com.localhop.utils.ActivityUtils;
 public class ActivityMain extends TabActivity {
 
     private int mTabPosition;
+    private GPSTracker mGPS;
 
     /**
      * Called when the activity is first created.
@@ -31,7 +36,6 @@ public class ActivityMain extends TabActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-
         // Get the selected event
         Intent eventListIntent = getIntent();
         this.mTabPosition = eventListIntent.getIntExtra("position", 0);
@@ -39,6 +43,9 @@ public class ActivityMain extends TabActivity {
         Prefs.initPrefs(this);
         createMainNavigationTabs(); // Creates the main navigation TabHost
 
+        // TODO: Check if gps location is turned on or requested from the prefs before we activate gps
+        mGPS = new GPSTracker(this);
+        mGPS.startGPSTracking();
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,6 +57,8 @@ public class ActivityMain extends TabActivity {
         switch (item.getItemId()) {
             case R.id.login:
                 return ActivityUtils.startActivityFromClass(this, ActivityAccountLogin.class);
+            case R.id.map:
+                return ActivityUtils.startActivityFromClass(this, MapWibble.class);
             case R.id.settings:
                 return ActivityUtils.startActivityFromClass(this, PrefsActivity.class);
             default:

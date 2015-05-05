@@ -6,9 +6,46 @@ UI for a specific event's tab_map page
 
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tab_event_select_map"
 
     android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
+              android:layout_height="match_parent">
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:id="@+id/sw_event_select_broadcast_location"
+        android:checked="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingBottom="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="15sp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:text="Broadcast my location for this event"
+        android:id="@+id/tvBroadcastLocation"
+        android:layout_alignBottom="@+id/sw_event_select_broadcast_location"
+        android:layout_toRightOf="@+id/sw_event_select_broadcast_location"
+        android:layout_toEndOf="@+id/sw_event_select_broadcast_location" />
+
+    <fragment
+        android:id="@+id/mapEventMap"
+
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/sw_event_select_broadcast_location"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        class="com.google.android.gms.maps.MapFragment" />
+
+</RelativeLayout>

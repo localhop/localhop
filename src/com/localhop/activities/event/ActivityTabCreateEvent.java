@@ -19,6 +19,7 @@ import com.localhop.network.HttpRequest;
 import com.localhop.network.HttpServerRequest;
 import com.localhop.objects.DateTime;
 import com.localhop.objects.Event;
+import com.localhop.objects.Friend;
 import com.localhop.swipe.createevent.CreateEventSwipeAdapter;
 import com.localhop.R;
 import com.localhop.swipe.viewpagersupport.ZoomOutPageTransformer;
@@ -147,7 +148,7 @@ public class ActivityTabCreateEvent extends FragmentActivity {
                     locationEditText.getText().toString(),
                     startDateTime.getCalendar().getTime(),
                     endDateTime.getCalendar().getTime(),
-                    new ArrayList<Integer>(),
+                    new ArrayList<Friend>(),
                     (int)inviteSettingsSpinner.getSelectedItemId(), // TODO: make a boolean instead
                     2,// organizerID                                // TODO: User current user's ID
                     0 // notification count.                        // TODO: what is this for exactly?

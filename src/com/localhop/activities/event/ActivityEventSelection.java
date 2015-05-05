@@ -1,5 +1,6 @@
 package com.localhop.activities.event;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.DialogInterface;
@@ -8,6 +9,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,15 +18,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.localhop.R;
+import com.localhop.network.HttpRequest;
+import com.localhop.network.HttpServerRequest;
 import com.localhop.objects.DateTime;
 import com.localhop.objects.Event;
+import com.localhop.objects.Friend;
+import com.localhop.objects.UserLocation;
 import com.localhop.utils.ActivityUtils;
 
-import java.util.Calendar;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -34,6 +53,10 @@ import java.util.Date;
 public class ActivityEventSelection extends TabActivity {
 
     private Event event;
+    private GoogleMap mMap;
+    private DateTime mDateTime;
+    private UserLocation mAttendeeLocation; //< A particular attendee's location
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +74,7 @@ public class ActivityEventSelection extends TabActivity {
         // Set the UI and data for each tab
         setEventDetails();
         // TODO: setEventChat();
-        // TODO: setEventMap();
+        setEventMap();
 
     } // end of function onCreate()
 
@@ -84,13 +107,22 @@ public class ActivityEventSelection extends TabActivity {
         rlEventDetails.setBackgroundDrawable(rectShapeDrawable);
 
         //Temp Data TODO: Delete after DB integration is done
-        final CharSequence attendees[] = {"Michelle Perz", "Ryan Scott", "Zach Flies"};
-        final CharSequence invited[] = {"Adam Smith", "Kendal Harland"};
+        final ArrayList<String> attendees = new ArrayList<String>();
+        final ArrayList<String> invited = new ArrayList<String>();
 
         // Add Attending/Invited buttons and setup corresponding dialogs
-        // TODO: Modify list items once DB integration is done
         ibEventAttending.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
-        ibEventAttending.setText("3");
+        ArrayList<Friend> attendeeList = event.getAttendees();
+        for(int i = 0; i < attendeeList.size(); i++){
+            Friend attendee = attendeeList.get(i);
+            invited.add(attendee.getFullName());
+            if(attendeeList.get(i).getAttendStatus() == 1)
+            {
+                attendees.add(attendee.getFullName());
+            }
+        }
+
+        ibEventAttending.setText(String.valueOf(attendees.size()));
         ibEventAttending.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -104,7 +136,7 @@ public class ActivityEventSelection extends TabActivity {
                                 dialog.cancel();
                             }
                         })
-                        .setItems(attendees, new DialogInterface.OnClickListener() {
+                        .setItems(attendees.toArray(new CharSequence[attendees.size()]), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // TODO: What option do we want to give the user when they select a name from the list?
@@ -118,7 +150,7 @@ public class ActivityEventSelection extends TabActivity {
         });
         // TODO: Modify list items once DB integration is done
         ibEventInvited.setBackgroundResource(R.drawable.ic_notification_circle_black_36dp);
-        ibEventInvited.setText("2");
+        ibEventInvited.setText(String.valueOf(invited.size()));
         ibEventInvited.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -132,14 +164,14 @@ public class ActivityEventSelection extends TabActivity {
                                 dialog.cancel();
                             }
                         })
-                        .setItems(invited, new DialogInterface.OnClickListener() {
+                        .setItems(invited.toArray(new CharSequence[invited.size()]), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // TODO: What option do we want to give the user when they select a name from the list?
                                 ibEventInvited.setEnabled(true);
                             }
                         })
-                        .show();
+                                .show();
                 return false;
             }
         });
@@ -182,6 +214,61 @@ public class ActivityEventSelection extends TabActivity {
         });
 
     } // end of function setEventDetails()
+
+
+    /**
+     * Sets the Map tab for a selected event.
+     */
+    public void setEventMap() {
+
+        Switch swBroadcastLocation = ActivityUtils.findViewById(this, R.id.sw_event_select_broadcast_location);
+
+        // Get the User's Last known location
+        // TODO: Once Google Places API is linked with the create event pages, we should probably
+        // TODO:  use the event lat/long instead of the user's position.
+
+        LatLng locUser = new LatLng(38.957598, -95.252742); // Eaton Hall (:
+
+        // Get User's last known location
+        LocationManager locationManager = (LocationManager)this.getSystemService(LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        //TODO: request updates to location
+        mDateTime = new DateTime(this, new Date());
+        String lastKnownUpdate = "";
+        if (location != null) {
+            locUser = new LatLng(location.getLatitude(), location.getLongitude());
+            lastKnownUpdate = mDateTime.getLastKnownUpdateString(new Date(location.getTime()));
+        }
+
+        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapEventMap)).getMap();
+        //final Marker markerUser = mMap.addMarker(new MarkerOptions().position(locUser).title("You"));
+
+        // Set the user's location marker
+        final Marker markerUser = mMap.addMarker(new MarkerOptions()
+                .position(locUser)
+                .title("You")
+                .snippet(lastKnownUpdate));
+//                .icon(BitmapDescriptorFactory
+//                        .fromResource(R.drawable.ic_launcher))); // This allows you use a custom marker icon
+        markerUser.showInfoWindow(); // Show the info window of this marker
+
+        // TODO: Get event attendees who are also broadcasting their location
+        ArrayList<Friend> attendees = event.getAttendees();
+        int attendeeID;
+        for (int i = 0; i < attendees.size(); i++)
+        {
+            if(attendees.get(i).getBroadcast() == 1)//TODO Add check to filter current user's id
+            {
+                // TODO: Get attendee's last known location and create a marker
+                requestAttendeeLastKnownLocation(attendees.get(i));
+            }
+        }
+
+        // Center and Zoom and camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locUser, 15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(17), 2000, null); // Zoom level 17
+
+    } // end of function setEventMap()
 
     /**
      * Link and setup the UI components for this Activity
@@ -227,5 +314,59 @@ public class ActivityEventSelection extends TabActivity {
         tabHost.addTab(tabMap);
 
     } // end of function setUI()
+
+    /**
+     * returns the last location of an attendee
+     * @return
+     */
+    public void requestAttendeeLastKnownLocation(final Friend attendee) {
+
+        new HttpServerRequest<Activity, UserLocation>(this, HttpRequest.GET, null) {
+
+            @Override protected UserLocation onResponse(final String response) {
+                try {
+                    JSONObject o = new JSONObject(response).getJSONObject("text");
+
+                    double lat = o.getDouble("location_last_lat");
+                    double lng = o.getDouble("location_last_long");
+
+                    final SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String temp = o.getString("location_last_update");
+                    temp = temp.substring(0, 10) + " " + temp.substring(11, 19);
+                    Date lastUpdate = newFormat.parse(temp);
+
+                    return new UserLocation(lat, lng, lastUpdate);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null; // TODO: null voodoo
+                }catch (ParseException e) {
+                    e.printStackTrace();
+                    return null; // TODO: evil null voodoo
+                }
+            }
+
+            @Override protected void onPostExecute(UserLocation location) {
+                super.onPostExecute(location);
+                updateAttendeeLocation(location);
+
+                final Marker attendeeMarker = mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(mAttendeeLocation.getLat(), mAttendeeLocation.getLong()))
+                                .title(attendee.getFullName())
+                );
+            }
+
+            @Override protected void onCancelled() {
+            }
+
+        }.execute("http://24.124.60.119/user/location/" + attendee.getID());
+
+    } // end of function requestAttendeeLastKnownLocation()
+
+    private void updateAttendeeLocation(UserLocation location) {
+        mAttendeeLocation = location;
+
+
+    }
 
 } // end of class ActivityEventSelection
