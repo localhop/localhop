@@ -29,12 +29,14 @@
 
     <!-- Account login -->
     <string name="login">Login</string>
-    <string name="login_title">Log In to Local Hop</string>
-    <string name="login_email_hint">E-mail address</string>
+    <string name="logout">Logout</string>
+    <string name="login_title">Local Hop</string>
+    <string name="login_phone_hint">Phone</string>
     <string name="login_password_hint">Password</string>
     <string name="login_button">Log In</string>
     <string name="new_account">New Account</string>
     <string name="login_forgot_button">Forgot Something?</string>
+    <string name="user_id_key">userID</string>
 
     <!-- Account creation -->
     <string name="your_name_title">Your name</string>
@@ -64,4 +66,5 @@
 
     <!-- SharedPreferences -->
     <string name="pref_test_rest">TEST_THE_REST</string>
+    <string name="localhop_pref">localhop_pref</string>
 </resources>

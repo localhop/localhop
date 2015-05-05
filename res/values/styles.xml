@@ -7,4 +7,59 @@
     <style name="MyActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@color/default_action_bar_background_color</item>
     </style>
+
+    <style name="LoginTitleStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">40dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_marginTop">100dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+    </style>
+
+    <style name="LoginEditTextStyle" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">#777</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:background">#fff</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">10</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+    </style>
+
+    <style name="LoginButtonStyle" parent="@android:style/Widget.Button">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:background">#fff47006</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
+    </style>
+
+    <style name="LoginHelperButtonStyle" parent="@android:style/Widget.Button">
+        <item name="android:textColor">#fff</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">0.5</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
 </resources>

@@ -3,6 +3,8 @@ package com.localhop.swipe.createevent;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -98,6 +100,10 @@ public class CreateEventSwipe extends Fragment {
      */
     private void getFriends() {
 
+        SharedPreferences preferences = getActivity().getSharedPreferences(
+                getString(R.string.localhop_pref), Context.MODE_PRIVATE);
+        int userID = preferences.getInt(getString(R.string.user_id_key), -1);
+
         new HttpServerRequest<Activity, ArrayList<Friend>>(getActivity(), HttpRequest.GET, null) {
 
             @Override protected ArrayList<Friend> onResponse(final String response) {
@@ -128,7 +134,7 @@ public class CreateEventSwipe extends Fragment {
 
             }
 
-        }.execute("http://24.124.60.119/user/friends/2");
+        }.execute("http://24.124.60.119/user/friends/" + Integer.toString(userID));
 
 
 
@@ -146,6 +152,10 @@ public class CreateEventSwipe extends Fragment {
      * @return
      */
     private void getGroups() {
+
+        SharedPreferences preferences = getActivity().getSharedPreferences(
+                getString(R.string.localhop_pref), Context.MODE_PRIVATE);
+        int userID = preferences.getInt(getString(R.string.user_id_key), -1);
 
         new HttpServerRequest<Activity, ArrayList<Group>>(getActivity(), HttpRequest.GET, null) {
 
@@ -181,7 +191,7 @@ public class CreateEventSwipe extends Fragment {
 
             }
 
-        }.execute("http://24.124.60.119/user/groups/2");
+        }.execute("http://24.124.60.119/user/groups/" + Integer.toString(userID));
 
 //        ArrayList<Group> items = new ArrayList<Group>();
 //        items.add(new Group("Adam, Kendal, Michelle, Ryan, Zach", "Senior Design Group"));

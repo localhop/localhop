@@ -1,7 +1,9 @@
 package com.localhop.swipe.eventlist;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -68,37 +70,41 @@ public class EventListSwipe extends Fragment {
      */
     private void getAllUserEvents() {
 
-            new HttpServerRequest<Activity, ArrayList<Event>>(getActivity(), HttpRequest.GET, null) {
+        SharedPreferences preferences = getActivity().getSharedPreferences(
+                getString(R.string.localhop_pref), Context.MODE_PRIVATE);
+        int userID = preferences.getInt(getString(R.string.user_id_key), -1);
 
-                @Override protected ArrayList<Event> onResponse(final String response) {
-                    try {
-                        final JSONArray arr = new JSONObject(response).getJSONArray("text");
-                        ArrayList<Event> events = new ArrayList<Event>();
-                        for (int i = 0; i < arr.length(); ++i) {
-                            final JSONObject obj = arr.getJSONObject(i);
-                            events.add(Event.fromJSON(obj));
-                        }
+        new HttpServerRequest<Activity, ArrayList<Event>>(getActivity(), HttpRequest.GET, null) {
 
-                        return events;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        return null; // TODO: null voodoo
+            @Override protected ArrayList<Event> onResponse(final String response) {
+                try {
+                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
+                    ArrayList<Event> events = new ArrayList<Event>();
+                    for (int i = 0; i < arr.length(); ++i) {
+                        final JSONObject obj = arr.getJSONObject(i);
+                        events.add(Event.fromJSON(obj));
                     }
-                }
 
-                @Override protected void onPostExecute(ArrayList<Event> events) {
-                    super.onPostExecute(events);
-                    setEvents(events);
-                    setEventAttendees();
-                    layoutFragment();
-                    mRefreshLayout.setRefreshing(false);
+                    return events;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null; // TODO: null voodoo
                 }
+            }
 
-                @Override protected void onCancelled() {
-                    mRefreshLayout.setRefreshing(false);
-                }
+            @Override protected void onPostExecute(ArrayList<Event> events) {
+                super.onPostExecute(events);
+                setEvents(events);
+                setEventAttendees();
+                layoutFragment();
+                mRefreshLayout.setRefreshing(false);
+            }
 
-            }.execute("http://24.124.60.119/user/events/2");
+            @Override protected void onCancelled() {
+                mRefreshLayout.setRefreshing(false);
+            }
+
+        }.execute("http://24.124.60.119/user/events/" + Integer.toString(userID));
 
     } // end of function getAllUserEvents()
 

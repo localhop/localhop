@@ -3,7 +3,9 @@ package com.localhop.activities;
 /* Native Java libs ---------------------------------------------------------*/
 
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +30,27 @@ public class ActivityMain extends TabActivity {
     private int mTabPosition;
     private GPSTracker mGPS;
 
+    private Context context;
+    private final int NO_USER = -1;
+
+    private void logout() {
+        SharedPreferences preferences = context.getSharedPreferences(
+            getString(R.string.localhop_pref), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(getString(R.string.user_id_key), NO_USER);
+        editor.commit();
+    }
+    /**
+     * Sets the look of the localhop_menu based on the user's authentication status.
+     */
+    private void setMenuAuthState(Menu menu) {
+        SharedPreferences preferences = context.getSharedPreferences(
+            getString(R.string.localhop_pref), Context.MODE_PRIVATE);
+        boolean userLoggedIn = preferences.getInt(getString(R.string.user_id_key), NO_USER) >= 0;
+        menu.findItem(R.id.login).setVisible(!userLoggedIn);
+        menu.findItem(R.id.logout).setVisible(userLoggedIn);
+    }
+
     /**
      * Called when the activity is first created.
      */
@@ -35,6 +58,7 @@ public class ActivityMain extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        context = getApplicationContext();
 
         // Get the selected event
         Intent eventListIntent = getIntent();
@@ -48,8 +72,18 @@ public class ActivityMain extends TabActivity {
         mGPS.startGPSTracking();
     }
 
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.localhop_menu, menu);
+        setMenuAuthState(menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        setMenuAuthState(menu);
         return true;
     }
 
@@ -57,8 +91,10 @@ public class ActivityMain extends TabActivity {
         switch (item.getItemId()) {
             case R.id.login:
                 return ActivityUtils.startActivityFromClass(this, ActivityAccountLogin.class);
-            case R.id.map:
-                return ActivityUtils.startActivityFromClass(this, MapWibble.class);
+            case R.id.logout: {
+                logout();
+                return ActivityUtils.startActivityFromClass(this, ActivityAccountLogin.class);
+            }
             case R.id.settings:
                 return ActivityUtils.startActivityFromClass(this, PrefsActivity.class);
             default:

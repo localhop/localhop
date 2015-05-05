@@ -221,52 +221,54 @@ public class ActivityEventSelection extends TabActivity {
      */
     public void setEventMap() {
 
-        Switch swBroadcastLocation = ActivityUtils.findViewById(this, R.id.sw_event_select_broadcast_location);
-
-        // Get the User's Last known location
-        // TODO: Once Google Places API is linked with the create event pages, we should probably
-        // TODO:  use the event lat/long instead of the user's position.
-
-        LatLng locUser = new LatLng(38.957598, -95.252742); // Eaton Hall (:
-
-        // Get User's last known location
-        LocationManager locationManager = (LocationManager)this.getSystemService(LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        //TODO: request updates to location
-        mDateTime = new DateTime(this, new Date());
-        String lastKnownUpdate = "";
-        if (location != null) {
-            locUser = new LatLng(location.getLatitude(), location.getLongitude());
-            lastKnownUpdate = mDateTime.getLastKnownUpdateString(new Date(location.getTime()));
-        }
-
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapEventMap)).getMap();
-        //final Marker markerUser = mMap.addMarker(new MarkerOptions().position(locUser).title("You"));
 
-        // Set the user's location marker
-        final Marker markerUser = mMap.addMarker(new MarkerOptions()
-                .position(locUser)
-                .title("You")
-                .snippet(lastKnownUpdate));
+        if(mMap != null)
+        {
+            Switch swBroadcastLocation = ActivityUtils.findViewById(this, R.id.sw_event_select_broadcast_location);
+
+            // Get the User's Last known location
+            // TODO: Once Google Places API is linked with the create event pages, we should probably
+            // TODO:  use the event lat/long instead of the user's position.
+
+            LatLng locUser = new LatLng(38.957598, -95.252742); // Eaton Hall (:
+
+            // Get User's last known location
+            LocationManager locationManager = (LocationManager)this.getSystemService(LOCATION_SERVICE);
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            //TODO: request updates to location
+            mDateTime = new DateTime(this, new Date());
+            String lastKnownUpdate = "";
+            if (location != null) {
+                locUser = new LatLng(location.getLatitude(), location.getLongitude());
+                lastKnownUpdate = mDateTime.getLastKnownUpdateString(new Date(location.getTime()));
+            }
+
+            // Set the user's location marker
+            final Marker markerUser = mMap.addMarker(new MarkerOptions()
+                    .position(locUser)
+                    .title("You")
+                    .snippet(lastKnownUpdate));
 //                .icon(BitmapDescriptorFactory
 //                        .fromResource(R.drawable.ic_launcher))); // This allows you use a custom marker icon
-        markerUser.showInfoWindow(); // Show the info window of this marker
+            markerUser.showInfoWindow(); // Show the info window of this marker
 
-        // TODO: Get event attendees who are also broadcasting their location
-        ArrayList<Friend> attendees = event.getAttendees();
-        int attendeeID;
-        for (int i = 0; i < attendees.size(); i++)
-        {
-            if(attendees.get(i).getBroadcast() == 1)//TODO Add check to filter current user's id
+            // TODO: Get event attendees who are also broadcasting their location
+            ArrayList<Friend> attendees = event.getAttendees();
+            int attendeeID;
+            for (int i = 0; i < attendees.size(); i++)
             {
-                // TODO: Get attendee's last known location and create a marker
-                requestAttendeeLastKnownLocation(attendees.get(i));
+                if(attendees.get(i).getBroadcast() == 1)//TODO Add check to filter current user's id
+                {
+                    // TODO: Get attendee's last known location and create a marker
+                    requestAttendeeLastKnownLocation(attendees.get(i));
+                }
             }
-        }
 
-        // Center and Zoom and camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locUser, 15));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(17), 2000, null); // Zoom level 17
+            // Center and Zoom and camera
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locUser, 15));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(17), 2000, null); // Zoom level 17
+        }
 
     } // end of function setEventMap()
 
@@ -348,12 +350,15 @@ public class ActivityEventSelection extends TabActivity {
 
             @Override protected void onPostExecute(UserLocation location) {
                 super.onPostExecute(location);
+
                 updateAttendeeLocation(location);
 
-                final Marker attendeeMarker = mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(mAttendeeLocation.getLat(), mAttendeeLocation.getLong()))
-                                .title(attendee.getFullName())
-                );
+                if(mAttendeeLocation != null) {
+                    final Marker attendeeMarker = mMap.addMarker(new MarkerOptions()
+                                    .position(new LatLng(mAttendeeLocation.getLat(), mAttendeeLocation.getLong()))
+                                    .title(attendee.getFullName())
+                    );
+                }
             }
 
             @Override protected void onCancelled() {
