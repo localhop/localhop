@@ -7,6 +7,7 @@ import com.localhop.network.HttpServerRequest;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -196,6 +197,7 @@ public class Event implements Serializable{
     public ArrayList<Friend> getAttendees() {
         return attendees;
     }
+
     public void setAttendees(final ArrayList<Friend> attendees) {
         this.attendees = attendees;
     }

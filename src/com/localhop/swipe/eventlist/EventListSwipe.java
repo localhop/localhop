@@ -107,40 +107,40 @@ public class EventListSwipe extends Fragment {
 
     } // end of function getAllUserEvents()
 
-    /**
-     * Returns all people invited to an event
-     */
-    public void getEventAttendees(int eventID, final int eventIndex) {
-
-        new HttpServerRequest<Activity, ArrayList<Friend>>(getActivity(), HttpRequest.GET, null) {
-
-            @Override protected ArrayList<Friend> onResponse(final String response) {
-                try {
-                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
-                    ArrayList<Friend> attendeeList = new ArrayList<Friend>();
-                    for (int i = 0; i < arr.length(); ++i) {
-                        final JSONObject obj = arr.getJSONObject(i);
-                        attendeeList.add(Friend.fromJSON(obj, ""));
-                    }
-
-                    return attendeeList;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    return null; // TODO: null voodoo
-                }
-            }
-
-            @Override protected void onPostExecute(ArrayList<Friend> attendeeList) {
-                super.onPostExecute(attendeeList);
-                if(mEvents != null) {
-                    mEvents.get(eventIndex).setAttendees(attendeeList);
-                }
-            }
-
-            @Override protected void onCancelled() {
-            }
-        }.execute("http://24.124.60.119/event/users/" + eventID); // all attendees will be returned for event id
-    } // end of function getEventAttendees()
+//    /**
+//     * Returns all people invited to an event
+//     */
+//    public void getEventAttendees(int eventID, final int eventIndex) {
+//
+//        new HttpServerRequest<Activity, ArrayList<Friend>>(getActivity(), HttpRequest.GET, null) {
+//
+//            @Override protected ArrayList<Friend> onResponse(final String response) {
+//                try {
+//                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
+//                    ArrayList<Friend> attendeeList = new ArrayList<Friend>();
+//                    for (int i = 0; i < arr.length(); ++i) {
+//                        final JSONObject obj = arr.getJSONObject(i);
+//                        attendeeList.add(Friend.fromJSON(obj, ""));
+//                    }
+//
+//                    return attendeeList;
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    return null; // TODO: null voodoo
+//                }
+//            }
+//
+//            @Override protected void onPostExecute(ArrayList<Friend> attendeeList) {
+//                super.onPostExecute(attendeeList);
+//                if(mEvents != null) {
+//                    mEvents.get(eventIndex).setAttendees(attendeeList);
+//                }
+//            }
+//
+//            @Override protected void onCancelled() {
+//            }
+//        }.execute("http://24.124.60.119/event/users/" + eventID); // all attendees will be returned for event id
+//    } // end of function getEventAttendees()
 
 
     /**
@@ -150,10 +150,10 @@ public class EventListSwipe extends Fragment {
 
         if( mEvents != null )
         {
-            // Get the attendees for each event
-            for(int i = 0; i < mEvents.size(); i++){
-                getEventAttendees(mEvents.get(i).getEventID(), i);
-            }
+//            // Get the attendees for each event
+//            for(int i = 0; i < mEvents.size(); i++){
+//                getEventAttendees(mEvents.get(i).getEventID(), i);
+//            }
 
             // Split up the events based on Event Type (i.e. Past, Today, or Future)
             ArrayList<Event> pastEvents = new ArrayList<Event>();

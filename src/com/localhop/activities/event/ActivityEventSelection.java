@@ -39,6 +39,7 @@ import com.localhop.objects.Friend;
 import com.localhop.objects.UserLocation;
 import com.localhop.utils.ActivityUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,15 +70,10 @@ public class ActivityEventSelection extends TabActivity {
         // Get the selected event
         Intent eventListIntent = getIntent();
         this.event = (Event)eventListIntent.getSerializableExtra("event");
+        getEventAttendees();
 
         // Set up the main UI
         setupUI();
-
-        // Set the UI and data for each tab
-        setEventDetails();
-        // TODO: setEventChat();
-        setEventMap();
-
     } // end of function onCreate()
 
 
@@ -227,6 +223,45 @@ public class ActivityEventSelection extends TabActivity {
 
 
     /**
+     * Returns all people invited to an event
+     */
+    public void getEventAttendees() {
+
+        new HttpServerRequest<Activity, ArrayList<Friend>>(this, HttpRequest.GET, null) {
+
+            @Override protected ArrayList<Friend> onResponse(final String response) {
+                try {
+                    final JSONArray arr = new JSONObject(response).getJSONArray("text");
+                    ArrayList<Friend> attendeeList = new ArrayList<Friend>();
+                    for (int i = 0; i < arr.length(); ++i) {
+                        final JSONObject obj = arr.getJSONObject(i);
+                        attendeeList.add(Friend.fromJSON(obj, ""));
+                    }
+
+                    return attendeeList;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null; // TODO: null voodoo
+                }
+            }
+
+            @Override protected void onPostExecute(ArrayList<Friend> attendeeList) {
+                super.onPostExecute(attendeeList);
+                    event.setAttendees(attendeeList);
+
+                    // Set the UI and data for each tab
+                    setEventDetails();
+                    // TODO: setEventChat();
+                    setEventMap();
+            }
+
+            @Override protected void onCancelled() {
+            }
+        }.execute("http://24.124.60.119/event/users/" + event.getEventID()); // all attendees will be returned for event id
+    } // end of function getEventAttendees()
+
+
+    /**
      * Sets the Map tab for a selected event.
      */
     public void setEventMap() {
@@ -349,9 +384,13 @@ public class ActivityEventSelection extends TabActivity {
                     double lng = o.getDouble("location_last_long");
 
                     final SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
                     String temp = o.getString("location_last_update");
-                    temp = temp.substring(0, 10) + " " + temp.substring(11, 19);
-                    Date lastUpdate = newFormat.parse(temp);
+                    Date lastUpdate = null;
+                    if(!temp.isEmpty()) {
+                        temp = temp.substring(0, 10) + " " + temp.substring(11, 19);
+                        lastUpdate = newFormat.parse(temp);
+                    }
 
                     return new UserLocation(lat, lng, lastUpdate);
 
@@ -377,9 +416,11 @@ public class ActivityEventSelection extends TabActivity {
                             .title(attendee.getFullName());
 
                     mDateTime = new DateTime(getActivity(), new Date());
-                    String lastKnownUpdate = mDateTime.getLastKnownUpdateString(
-                            new Date(mAttendeeLocation.getLastUpdate().getTime()));
-
+                    String lastKnownUpdate = "";
+                    if(mAttendeeLocation.getLastUpdate() != null) {
+                        lastKnownUpdate=mDateTime.getLastKnownUpdateString(
+                                new Date(mAttendeeLocation.getLastUpdate().getTime()));
+                    }
                     if(!lastKnownUpdate.isEmpty()){
                         marker.snippet(lastKnownUpdate);
                     }
