@@ -134,22 +134,24 @@ public class ActivityEventSelection extends TabActivity {
             public boolean onTouch(View v, MotionEvent event) {
 
                 ibEventAttending.setEnabled( false );
-                new AlertDialog.Builder(ActivityEventSelection.this)
-                        .setTitle("Attendees")
-                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                ibEventAttending.setEnabled(true);
-                                dialog.cancel();
-                            }
-                        })
-                        .setItems(attendees.toArray(new CharSequence[attendees.size()]), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO: What option do we want to give the user when they select a name from the list?
-                                ibEventAttending.setEnabled(true);
-                            }
-                        })
-                        .show();
+                if(!attendees.isEmpty()) {
+                    new AlertDialog.Builder(ActivityEventSelection.this)
+                            .setTitle("Attendees")
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ibEventAttending.setEnabled(true);
+                                    dialog.cancel();
+                                }
+                            })
+                            .setItems(attendees.toArray(new CharSequence[attendees.size()]), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // TODO: What option do we want to give the user when they select a name from the list?
+                                    ibEventAttending.setEnabled(true);
+                                }
+                            })
+                            .show();
+                }
 
                 return false;
             }
@@ -162,22 +164,24 @@ public class ActivityEventSelection extends TabActivity {
             public boolean onTouch(View v, MotionEvent event) {
 
                 ibEventInvited.setEnabled(false);
-                new AlertDialog.Builder(ActivityEventSelection.this)
-                        .setTitle("Invited")
-                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                ibEventInvited.setEnabled(true);
-                                dialog.cancel();
-                            }
-                        })
-                        .setItems(invited.toArray(new CharSequence[invited.size()]), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // TODO: What option do we want to give the user when they select a name from the list?
-                                ibEventInvited.setEnabled(true);
-                            }
-                        })
-                                .show();
+                if(!invited.isEmpty()) {
+                    new AlertDialog.Builder(ActivityEventSelection.this)
+                            .setTitle("Invited")
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ibEventInvited.setEnabled(true);
+                                    dialog.cancel();
+                                }
+                            })
+                            .setItems(invited.toArray(new CharSequence[invited.size()]), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // TODO: What option do we want to give the user when they select a name from the list?
+                                    ibEventInvited.setEnabled(true);
+                                }
+                            })
+                            .show();
+                }
                 return false;
             }
         });

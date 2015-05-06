@@ -44,6 +44,7 @@ AIzaSyB2u80u7Z4Pz-JHQ9pJKnN3hin6NRjb6Ys" />
         </activity>
         <activity android:name=".activities.account.ActivityAccountLogin"/>
         <activity android:name=".activities.account.ActivityAccountName"/>
+        <activity android:name=".activities.account.ActivityAccountRegister"/>
         <activity android:name=".prefs.PrefsActivity"/>
         <activity android:name=".activities.event.ActivityTabCreateEvent"/>
         <activity android:name=".activities.event.ActivityTabEventList"/>

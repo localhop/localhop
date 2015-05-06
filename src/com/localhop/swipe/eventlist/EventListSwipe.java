@@ -132,7 +132,9 @@ public class EventListSwipe extends Fragment {
 
             @Override protected void onPostExecute(ArrayList<Friend> attendeeList) {
                 super.onPostExecute(attendeeList);
-                mEvents.get(eventIndex).setAttendees(attendeeList);
+                if(mEvents != null) {
+                    mEvents.get(eventIndex).setAttendees(attendeeList);
+                }
             }
 
             @Override protected void onCancelled() {
