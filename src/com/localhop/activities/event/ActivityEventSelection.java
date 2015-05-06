@@ -236,7 +236,6 @@ public class ActivityEventSelection extends TabActivity {
             // Get the User's Last known location
             // TODO: Once Google Places API is linked with the create event pages, we should probably
             // TODO:  use the event lat/long instead of the user's position.
-
             LatLng locUser = new LatLng(38.957598, -95.252742); // Eaton Hall (:
 
             // Get User's last known location
@@ -251,15 +250,20 @@ public class ActivityEventSelection extends TabActivity {
             }
 
             // Set the user's location marker
-            final Marker markerUser = mMap.addMarker(new MarkerOptions()
+            MarkerOptions marker = new MarkerOptions()
                     .position(locUser)
-                    .title("You")
-                    .snippet(lastKnownUpdate));
+                    .title("You");
+
+            if(!lastKnownUpdate.isEmpty()) {
+                marker.snippet(lastKnownUpdate);
+            }
+
+            final Marker markerUser = mMap.addMarker(marker);
 //                .icon(BitmapDescriptorFactory
 //                        .fromResource(R.drawable.ic_launcher))); // This allows you use a custom marker icon
             markerUser.showInfoWindow(); // Show the info window of this marker
 
-            // TODO: Get event attendees who are also broadcasting their location
+            // Set each attendee's marker
             SharedPreferences preferences = this.getSharedPreferences(
                     getString(R.string.localhop_pref), Context.MODE_PRIVATE);
             int userID = preferences.getInt(getString(R.string.user_id_key), -1);
@@ -269,7 +273,6 @@ public class ActivityEventSelection extends TabActivity {
             {
                 if(attendees.get(i).getBroadcast() == 1 && attendees.get(i).getID() != userID)//TODO Add check to filter current user's id
                 {
-                    // TODO: Get attendee's last known location and create a marker
                     requestAttendeeLastKnownLocation(attendees.get(i));
                 }
             }
@@ -363,10 +366,20 @@ public class ActivityEventSelection extends TabActivity {
                 updateAttendeeLocation(location);
 
                 if(mAttendeeLocation != null) {
-                    final Marker attendeeMarker = mMap.addMarker(new MarkerOptions()
-                                    .position(new LatLng(mAttendeeLocation.getLat(), mAttendeeLocation.getLong()))
-                                    .title(attendee.getFullName())
-                    );
+
+                    // Create marker for attendee
+                    MarkerOptions marker = new MarkerOptions()
+                            .position(new LatLng(mAttendeeLocation.getLat(), mAttendeeLocation.getLong()))
+                            .title(attendee.getFullName());
+
+                    mDateTime = new DateTime(getActivity(), new Date());
+                    String lastKnownUpdate = mDateTime.getLastKnownUpdateString(
+                            new Date(mAttendeeLocation.getLastUpdate().getTime()));
+
+                    if(!lastKnownUpdate.isEmpty()){
+                        marker.snippet(lastKnownUpdate);
+                    }
+                    final Marker attendeeMarker = mMap.addMarker(marker);
                 }
             }
 
@@ -379,8 +392,6 @@ public class ActivityEventSelection extends TabActivity {
 
     private void updateAttendeeLocation(UserLocation location) {
         mAttendeeLocation = location;
-
-
     }
 
 } // end of class ActivityEventSelection
