@@ -173,7 +173,7 @@ public class DateTime {
         int minutes = (int)(timeDiff % 60);
 
         String lastKnownUpdate;
-        if (hours > 0)
+        if (hours == 0)
         {
             lastKnownUpdate = "Last updated " + minutes + " min ago";
         }
