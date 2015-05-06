@@ -32,6 +32,8 @@ Events List Tab.
                 android:text="Name"
                 android:textSize="22sp"
                 android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:id="@+id/tvName"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/tvStartTime"

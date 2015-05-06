@@ -18,6 +18,8 @@ Details, Chat, and Map page.
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Event Name"
         android:id="@+id/tvEventName"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="@color/local_hop_orange"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentTop="true"

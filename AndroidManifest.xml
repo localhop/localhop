@@ -35,8 +35,7 @@ AIzaSyB2u80u7Z4Pz-JHQ9pJKnN3hin6NRjb6Ys" />
 
         <activity
                 android:name=".activities.ActivityMain"
-                android:theme="@style/MyCustomTheme"
-                android:label="">
+                android:theme="@style/MyCustomTheme">
             <intent-filter>
             <action android:name="android.intent.action.MAIN"/>
             <category android:name="android.intent.category.LAUNCHER"/>
